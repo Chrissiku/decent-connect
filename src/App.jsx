@@ -1,4 +1,4 @@
-import { Web5 } from '@web5/api';
+import { Web5 } from '@web5/api/browser';
 console.log(Web5)
 export default function App() {
   return (
