@@ -2,7 +2,7 @@ import hero from "../assets/hero.jpg";
 
 const Hero = () => {
   return (
-    <div className="bg-light-gray w-full mx-auto">
+    <div className="w-full mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div className="order-2 lg:order-1">
           <div className="px-8 lg:px-20 py-8 flex flex-col items-start justify-start md:justify-center space-y-5 lg:space-y-8 text-left">
@@ -28,7 +28,7 @@ const Hero = () => {
                 className="bg-teal text-white px-5 py-3 lg:px-10 lg:py-5 text-[16px] lg:text-[20px] text-center rounded-lg"
                 type="button"
               >
-                Book your psy now
+                Schedule your appointment
               </button>
             </div>
           </div>
