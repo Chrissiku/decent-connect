@@ -74,7 +74,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          <Disclosure.Panel className="sm:hidden">
+          <Disclosure.Panel className="sm:hidden w-full">
             <div className="space-y-1 px-2 pb-3 pt-10">
               {navigation.map((item) => (
                 <Disclosure.Button
@@ -90,6 +90,14 @@ export default function Navbar() {
                   {item.name}
                 </Disclosure.Button>
               ))}
+            </div>
+            <div className="w-full">
+              <button
+                type="button"
+                className="bg-teal w-full text-white text-center py-2 px-5 lg:py-3 lg:px-10 rounded-lg"
+              >
+                Connect
+              </button>
             </div>
           </Disclosure.Panel>
         </>
