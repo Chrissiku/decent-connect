@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-.swiper-slide {
+/* .swiper-slide {
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 18px;
+} */
+
+.swiper {
+    width: 75%;
+    padding-bottom: 50px !important;
 }
+
