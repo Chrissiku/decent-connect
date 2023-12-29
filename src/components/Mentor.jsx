@@ -8,7 +8,7 @@ import { MentorData } from "./MentorData";
 const Mentor = () => {
     return (
         <div className="mb-12">
-            <h3 className='text-center font-semibold text-3xl mb-12 mt-[110px]'>Our Mentors</h3>
+            <h3 className='text-center font-semibold text-2xl md:text-3xl mb-12 mt-[110px]'>Our Mentors</h3>
             <div>
                 <Swiper
                     slidesPerView={1}
