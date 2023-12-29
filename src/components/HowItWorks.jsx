@@ -9,15 +9,15 @@ const HowItWorks = () => {
         <img className='hidden md:block md:rotate-0' src={steps} alt='Step by step bar'/>
         <div className='flex flex-col gap-y-12 gap-x-12 md:gap-y-0 md:flex-row'>
             <div>
-            <h4 className='text-[#17A398] text-xl'>Connect</h4>
+            <h4 className='text-teal text-xl'>Connect</h4>
             <p>Find a mentor in your desired profession</p>
             </div>
             <div>
-                <h4 className='text-[#17A398] text-xl'>Book a session</h4>
+                <h4 className='text-teal text-xl'>Book a session</h4>
                 <p>Schedule a session with your chosen mentor</p>
             </div>
             <div>
-                <h4 className='text-[#17A398] text-xl'>Confirm and join</h4>
+                <h4 className='text-teal text-xl'>Confirm and join</h4>
                 <p>Confirm the session details and join the video call</p>
             </div>
         </div>

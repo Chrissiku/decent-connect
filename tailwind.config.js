@@ -4,10 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        teal: "#17A398",
+        teal: "#8B7EF8",
         "dark-gray": "#393434",
         "light-gray": "#F7F8F9 ",
-        shade: "#AF3B6E",
+        shade: "#F66E49",
       },
     },
   },

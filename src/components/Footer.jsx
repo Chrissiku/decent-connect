@@ -1,7 +1,7 @@
 import logo from '../assets/logo-footer.svg'
 const Footer = () => {
   return (
-    <div className='bg-[#B9E3E0] p-8'>
+    <div className='bg-[#F3F2FE] p-8'>
         <div className="flex flex-col mx-auto w-[75%]">
         <div className="flex flex-col gap-5 justify-between md:flex-row">
             <img className='w-[150px] md:w-[200px]' src={logo} alt='company logo' />
