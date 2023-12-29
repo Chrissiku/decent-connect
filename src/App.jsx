@@ -1,9 +1,12 @@
-import { Web5 } from '@web5/api/browser';
-console.log(Web5)
+import Home from "./pages/Home";
 export default function App() {
   return (
-    <h1 className="text-3xl font-bold underline text-red-800">
-      Hello world!
-    </h1>
-  )
+    <>
+      <div>
+        <div className="w-full mx-auto flex flex-col">
+          <Home />
+        </div>
+      </div>
+    </>
+  );
 }
