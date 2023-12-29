@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import { MentorData } from "./MentorData";
+import { PsychologistData } from "./PsychologistData";
 
 const Psychologist = () => {
   return (
@@ -38,13 +38,15 @@ const Psychologist = () => {
           modules={[Autoplay, Pagination, Navigation]}
           className="mySwiper pb-[18px] w-full px-5 md:px-10 lg:px-20"
         >
-          {MentorData.map((psy) => {
+          {PsychologistData.map((psy) => {
             return (
               <SwiperSlide
                 className="w-[219px] h-[250px] rounded-xl bg-[#F3F2FE] px-3 py-8 text-center font-light"
                 key={psy.id}
               >
-                <img className="mx-auto mb-5" src={psy.image} alt={psy.name} />
+                <div className="mb-5 w-[100px] h-[100px] mx-auto flex items-center justify-center overflow-hidden">
+                  <img className="w-full h-full object-cover" src={psy.image} alt={psy.name} />
+                </div>
                 <p className="text-teal font-semibold text-base text-center">
                   {psy.name}
                 </p>
