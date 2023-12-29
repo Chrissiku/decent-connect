@@ -7,7 +7,7 @@ const HowItWorks = () => {
         <p className='text-center mb-10'>Step-by-step guide on how the platform works</p>
         <div className='flex md:flex-col'>
         <img className='hidden md:block md:rotate-0' src={steps} alt='Step by step bar'/>
-        <div className='flex flex-col gap-y-12 gap-x-12 md:gap-y-0 md:flex-row'>
+        <div className='flex flex-col gap-y-12 gap-x-12 mt-4 md:gap-y-0 md:flex-row'>
             <div>
             <h4 className='text-teal text-xl'>Connect</h4>
             <p>Find a mentor in your desired profession</p>
