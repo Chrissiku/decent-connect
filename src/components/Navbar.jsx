@@ -1,6 +1,6 @@
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.svg";
 
 const navigation = [
   { name: "Home", href: "#", current: true },
@@ -22,14 +22,13 @@ export default function Navbar() {
             <div className="flex flex-row items-center justify-between">
               <div className="flex flex-row items-center justify-between space-x-5 lg:space-x-10 text-[14px] lg:text-[18px]">
                 <div className="text-black font-bold inline-flex justify-around space-x-5 items-center">
-                  <div className="lg:w-10 lg:h-10">
+                  <div className="">
                     <img
                       className="h-full w-full"
                       src={logo}
                       alt="Decent connect logo"
                     />
                   </div>
-                  <h1 className="text-[16px] lg:text-[20px]">Decent Connect</h1>
                 </div>
                 <div className="hidden sm:block px-3">
                   <div className="inline-flex md:space-x-3 lg:space-x-5">
