@@ -33,7 +33,7 @@ const Hero = () => {
             </div>
           </div>
         </div>
-        <div className="order-1 lg:order-2 p-5 lg:p-0 lg:drop-shadow-lg lg:shadow-lg lg:shadow-teal">
+        <div className="order-1 lg:order-2 p-5 lg:p-0">
           <div className="w-full md:h-[250px] lg:h-full">
             <img
               src={hero}
