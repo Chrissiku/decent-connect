@@ -19,7 +19,7 @@ const Psychologist = () => {
                     }}
                     pagination={false}
                     breakpoints={{
-                        500: {
+                        426: {
                             slidesPerView: 2,
                             spaceBetween: 20,
                         },
@@ -34,7 +34,7 @@ const Psychologist = () => {
                     }}
                     navigation={true}
                     modules={[Autoplay, Pagination, Navigation]}
-                    className="mySwiper"
+                    className="mySwiper pb-[18px] w-full px-5 md:px-10 lg:px-20"
                 >
                     {
                         MentorData.map((mentor) => {
