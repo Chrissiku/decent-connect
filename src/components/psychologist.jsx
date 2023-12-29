@@ -5,10 +5,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { MentorData } from "./MentorData";
 
-const Mentor = () => {
+const Psychologist = () => {
     return (
         <div className="mb-12">
-            <h3 className='text-center font-semibold text-2xl md:text-3xl mb-12 mt-[110px]'>Our Mentors</h3>
+            <h3 className='text-center font-semibold text-2xl md:text-3xl mb-12 mt-[110px]'>Our Psychologists</h3>
             <div>
                 <Swiper
                     slidesPerView={1}
@@ -66,4 +66,4 @@ const Mentor = () => {
     )
 }
 
-export default Mentor
+export default Psychologist
