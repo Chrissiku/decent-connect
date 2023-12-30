@@ -17,8 +17,8 @@ function classNames(...classes) {
 const buttonConfig = [
   {
     icon: <UserIcon className="w-6 h-6 text-[#3498db]" />,
-    label: "Patient",
-    userType: "patient",
+    label: "Client",
+    userType: "client",
   },
   {
     icon: <HeartIcon className="w-6 h-6 text-[#2ecc71]" />,

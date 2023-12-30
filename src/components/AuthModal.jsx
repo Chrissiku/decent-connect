@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import { Fragment, useContext, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { AppContext } from "../context/ContextProvider";
-import Patient from "./auth/Patient";
+import Client from "./auth/Client";
 import Organization from "./auth/Organization";
 import Psychologist from "./auth/Psychologist";
 
@@ -16,7 +17,7 @@ export default function AuthModal({ isOpen, closeModal, openModal }) {
   };
 
   return (
-    <Transition.Root show={isOpen} as={Fragment}>
+    <Transition.Root appear show={isOpen} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-10"
@@ -52,15 +53,37 @@ export default function AuthModal({ isOpen, closeModal, openModal }) {
               >
                 <div className="bg-white p-4">
                   <div className="sm:flex sm:items-start">
-                    <div className="" ref={cancelButtonRef}>
-                      {userType === "patient" ? (
-                        <Patient />
+                    <div className="w-full" ref={cancelButtonRef}>
+                      {userType === "client" ? (
+                        <Client />
                       ) : userType === "organization" ? (
                         <Organization />
                       ) : userType === "psychologist" ? (
                         <Psychologist />
                       ) : (
-                        "select a valid user type"
+                        <main
+                          className="w-full mx-auto grid place-items-center 
+                        bg-white px-6 py-24 sm:py-32 lg:px-8"
+                        >
+                          <div className="text-center mx-auto">
+                            <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+                              user type not found
+                            </h1>
+                            <p className="mt-6 text-base leading-7 text-gray-600">
+                              Sorry, we couldn’t find the user type you’re
+                              looking for.
+                            </p>
+                            <div className="mt-10 flex items-center justify-center gap-x-6">
+                              <button
+                                type="button"
+                                onClick={closeModal}
+                                className="rounded-md bg-teal px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                              >
+                                Go back home
+                              </button>
+                            </div>
+                          </div>
+                        </main>
                       )}
                     </div>
                   </div>
