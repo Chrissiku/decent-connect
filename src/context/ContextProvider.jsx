@@ -1,12 +1,20 @@
 /* eslint-disable react/prop-types */
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 export const AppContext = createContext();
 
 const ContextProvider = ({ children }) => {
-  const test = "hello this is a context";
-  const value = { test };
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  const [userType, setUserType] = useState(() => {
+    return localStorage.getItem("userType") || null;
+  });
+
+  const toggleUserType = (typeName) => {
+    localStorage.setItem("userType", typeName);
+    setUserType(typeName);
+  };
+
+  const values = { userType, toggleUserType };
+  return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
 };
 
 export default ContextProvider;

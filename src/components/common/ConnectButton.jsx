@@ -1,7 +1,12 @@
 /* eslint-disable react/prop-types */
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import {
+  ChevronDownIcon,
+  UserIcon,
+  HomeModernIcon,
+  HeartIcon,
+} from "@heroicons/react/24/solid";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -17,7 +22,7 @@ const ConnectButton = ({ text, start }) => {
         >
           {text}
           <ChevronDownIcon
-            className="-mr-1 h-5 w-5 text-gray-200"
+            className="-mr-1 h-4 w-4 text-gray-200"
             aria-hidden="true"
           />
         </Menu.Button>
@@ -32,18 +37,26 @@ const ConnectButton = ({ text, start }) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="py-1">
+        <Menu.Items className="p-2 absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-lg bg-[#ebe9fd] shadow-lg outline-none">
+          <div className="py-1 space-y-2">
             <Menu.Item>
               {({ active }) => (
                 <button
                   type="button"
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "block w-full px-4 py-3 text-left text-sm"
+                    " w-full px-2 py-3 text-left text-sm inline-flex items-center justify-start space-x-3 rounded-lg"
                   )}
                 >
-                  {start} as Patient
+                  <span className="text-teal border p-2 rounded-lg  border-teal">
+                    <UserIcon className="w-6 h-6" />
+                  </span>
+                  <span className="flex flex-col items-start justify-center">
+                    <span className="text-[16px]">Patient</span>
+                    <span className="text-gray-400 text-[12px]">
+                      {start} as Patient
+                    </span>
+                  </span>
                 </button>
               )}
             </Menu.Item>
@@ -53,10 +66,18 @@ const ConnectButton = ({ text, start }) => {
                   type="button"
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "block w-full px-4 py-3 text-left text-sm"
+                    " w-full px-2 py-3 text-left text-sm inline-flex items-center justify-start space-x-3 rounded-lg"
                   )}
                 >
-                  {start} as Psychologist
+                  <span className="text-red-500 border p-2 rounded-lg  border-teal">
+                    <HeartIcon className="w-6 h-6" />
+                  </span>
+                  <span className="flex flex-col items-start justify-center">
+                    <span className="text-[16px]">Psychologist</span>
+                    <span className="text-gray-400 text-[12px]">
+                      {start} as Psychologist
+                    </span>
+                  </span>
                 </button>
               )}
             </Menu.Item>
@@ -66,10 +87,18 @@ const ConnectButton = ({ text, start }) => {
                   type="button"
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "block w-full px-4 py-3 text-left text-sm"
+                    " w-full px-2 py-3 text-left text-sm inline-flex items-center justify-start space-x-3 rounded-lg"
                   )}
                 >
-                  {start} as an Organization
+                  <span className="text-teal border p-2 rounded-lg  border-teal">
+                    <HomeModernIcon className="w-6 h-6" />
+                  </span>
+                  <span className="flex flex-col items-start justify-center">
+                    <span className="text-[16px]">Organization</span>
+                    <span className="text-gray-400 text-[12px]">
+                      {start} as an Organization
+                    </span>
+                  </span>
                 </button>
               )}
             </Menu.Item>
