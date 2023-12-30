@@ -9,10 +9,10 @@ import Psychologist from "../components/psychologist";
 import { AppContext } from "../context/ContextProvider";
 
 const Home = () => {
-  const { userType, getUserType, toggleUserType } = useContext(AppContext);
-  toggleUserType('me')
+  const { userType, toggleUserType } = useContext(AppContext);
+  // toggleUserType('me')
   console.log("Context : ", userType);
-  console.log("Storage : ", getUserType());
+
   return (
     <>
       <div className="w-full flex flex-col mx-auto">
