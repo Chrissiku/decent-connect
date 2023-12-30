@@ -1,18 +1,21 @@
 /* eslint-disable react/prop-types */
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import {
   ChevronDownIcon,
   UserIcon,
   HomeModernIcon,
   HeartIcon,
+  LockClosedIcon,
 } from "@heroicons/react/24/solid";
+import { AppContext } from "../../context/ContextProvider";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const ConnectButton = ({ text, start }) => {
+  const { logout } = useContext(AppContext);
   return (
     <Menu as="div" className="relative inline-block text-left w-full">
       <div>
@@ -95,6 +98,28 @@ const ConnectButton = ({ text, start }) => {
                   </span>
                   <span className="flex flex-col items-start justify-center">
                     <span className="text-[16px]">Organization</span>
+                    <span className="text-gray-400 text-[12px]">
+                      {start} as an Organization
+                    </span>
+                  </span>
+                </button>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <button
+                  onClick={logout}
+                  type="button"
+                  className={classNames(
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    " w-full px-2 py-3 text-left text-sm inline-flex items-center justify-start space-x-3 rounded-lg"
+                  )}
+                >
+                  <span className="text-teal border p-2 rounded-lg  border-teal">
+                    <LockClosedIcon className="w-6 h-6" />
+                  </span>
+                  <span className="flex flex-col items-start justify-center">
+                    <span className="text-[16px]">Logout</span>
                     <span className="text-gray-400 text-[12px]">
                       {start} as an Organization
                     </span>

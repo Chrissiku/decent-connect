@@ -13,7 +13,12 @@ const ContextProvider = ({ children }) => {
     setUserType(typeName);
   };
 
-  const values = { userType, toggleUserType };
+  const logout = () => {
+    localStorage.setItem("userType", null);
+    setUserType(null);
+  };
+
+  const values = { userType, toggleUserType, logout };
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
 };
 
