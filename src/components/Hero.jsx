@@ -24,7 +24,7 @@ const Hero = () => {
                 online therapy.
               </p>
             </div>
-            <div className="w-full">
+            <div className="w-full max-w-[300px] mx-auto">
               <ConnectButton text="Start your journey" start="Start" />
             </div>
           </div>
