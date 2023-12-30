@@ -87,13 +87,8 @@ export default function Navbar() {
                 </Disclosure.Button>
               ))}
             </div>
-            <div className="w-full">
-              <button
-                type="button"
-                className="bg-teal w-full text-white text-center py-2 px-5 lg:py-3 lg:px-10 rounded-lg"
-              >
-                Connect
-              </button>
+            <div className="w-full border-2">
+              <ConnectButton text="Connect" start="Connect" />
             </div>
           </Disclosure.Panel>
         </>

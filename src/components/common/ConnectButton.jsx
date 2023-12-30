@@ -9,7 +9,7 @@ function classNames(...classes) {
 
 const ConnectButton = ({ text, start }) => {
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu as="div" className="relative inline-block text-left w-full">
       <div>
         <Menu.Button
           className="inline-flex w-full justify-center items-center gap-x-2 
