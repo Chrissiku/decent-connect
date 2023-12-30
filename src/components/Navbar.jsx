@@ -52,13 +52,7 @@ export default function Navbar() {
               </div>
               <div className="inline-flex items-center justify-between">
                 <div className="hidden sm:block">
-                  {/* <button
-                    type="button"
-                    className="bg-teal text-white text-center py-2 px-5 lg:py-3 lg:px-10 rounded-lg"
-                  >
-                    Connect
-                  </button> */}
-                  <ConnectButton text="Connect"/>
+                  <ConnectButton text="Connect" start="Connect" />
                 </div>
                 <div className="flex sm:hidden items-center">
                   {/* Mobile menu button*/}

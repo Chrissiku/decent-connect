@@ -25,13 +25,7 @@ const Hero = () => {
               </p>
             </div>
             <div className="w-full">
-              <ConnectButton text="Schedule your appointment" />
-              {/* <button
-                className="bg-teal text-white px-5 py-3 lg:px-10 lg:py-5 text-[16px] lg:text-[20px] text-center rounded-lg"
-                type="button"
-              >
-                Schedule your appointment
-              </button> */}
+              <ConnectButton text="Start your journey" start="Start" />
             </div>
           </div>
         </div>

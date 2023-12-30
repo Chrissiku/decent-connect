@@ -7,7 +7,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const ConnectButton = ({ text }) => {
+const ConnectButton = ({ text, start }) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -43,7 +43,7 @@ const ConnectButton = ({ text }) => {
                     "block w-full px-4 py-3 text-left text-sm"
                   )}
                 >
-                  Connect as Patient
+                  {start} as Patient
                 </button>
               )}
             </Menu.Item>
@@ -56,7 +56,7 @@ const ConnectButton = ({ text }) => {
                     "block w-full px-4 py-3 text-left text-sm"
                   )}
                 >
-                  Connect as Psychologist
+                  {start} as Psychologist
                 </button>
               )}
             </Menu.Item>
@@ -69,7 +69,7 @@ const ConnectButton = ({ text }) => {
                     "block w-full px-4 py-3 text-left text-sm"
                   )}
                 >
-                  Connect as an Organization
+                  {start} as an Organization
                 </button>
               )}
             </Menu.Item>
