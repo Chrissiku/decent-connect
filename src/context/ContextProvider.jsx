@@ -8,9 +8,36 @@ const ContextProvider = ({ children }) => {
     return localStorage.getItem("userType") || null;
   });
 
-  const toggleUserType = (typeName) => {
-    localStorage.setItem("userType", typeName);
-    setUserType(typeName);
+  const [patient, setPatient] = useState(() => {
+    return localStorage.getItem("patient") || null;
+  });
+
+  const [psychologist, setPsychologist] = useState(() => {
+    return localStorage.getItem("psychologist") || null;
+  });
+
+  const [organization, setOrganization] = useState(() => {
+    return localStorage.getItem("organization") || null;
+  });
+
+  const toggleUserType = (value) => {
+    localStorage.setItem("userType", value);
+    setUserType(value);
+  };
+
+  const togglePatient = (value) => {
+    localStorage.setItem("patient", value);
+    setPatient(value);
+  };
+
+  const togglePsy = (value) => {
+    localStorage.setItem("psychologist", value);
+    setPsychologist(value);
+  };
+
+  const toggleOrganization = (value) => {
+    localStorage.setItem("organization", value);
+    setOrganization(value);
   };
 
   const logout = () => {
@@ -18,7 +45,17 @@ const ContextProvider = ({ children }) => {
     setUserType(null);
   };
 
-  const values = { userType, toggleUserType, logout };
+  const values = {
+    userType,
+    patient,
+    psychologist,
+    organization,
+    toggleUserType,
+    togglePatient,
+    togglePsy,
+    toggleOrganization,
+    logout,
+  };
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
 };
 
