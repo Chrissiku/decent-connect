@@ -1,6 +1,14 @@
+import { useState } from "react";
 import clientImg from "../../assets/clientAuth.jpg";
+import { getTodayDate } from "../../utils/constant";
+import useImageUploader from "../../utils/imageUploader";
 
 const Client = () => {
+  const [name, setName] = useState("");
+  const { picture, handleImageChange } = useImageUploader();
+  const [dob, setDob] = useState("null");
+  const [gender, setGender] = useState("null");
+
   return (
     <>
       <section className="w-full rounded-lg">
@@ -24,6 +32,7 @@ const Client = () => {
               Sign up to start your transformative journey.
             </h3>
             <form className="space-y-4 md:space-y-6" autoComplete="off">
+              {/* Full name */}
               <div>
                 <label
                   htmlFor="name"
@@ -35,12 +44,15 @@ const Client = () => {
                   type="text"
                   name="name"
                   id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-3"
                   placeholder="eg. John Doe"
                   required=""
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-between gap-5">
+                {/* Profile picture */}
                 <div>
                   <label
                     htmlFor="profile"
@@ -50,13 +62,16 @@ const Client = () => {
                   </label>
                   <input
                     type="file"
+                    accept="image/*"
                     name="profile"
                     id="profile"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-3"
                     placeholder="eg. John Doe"
+                    onChange={handleImageChange}
                     required=""
                   />
                 </div>
+                {/* Data of birth */}
                 <div>
                   <label
                     htmlFor="dob"
@@ -68,12 +83,16 @@ const Client = () => {
                     type="date"
                     name="dob"
                     id="dob"
+                    value={dob}
+                    onChange={(e) => setDob(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-3"
                     placeholder="Your Date of birth here"
+                    max={getTodayDate()}
                     required=""
                   />
                 </div>
               </div>
+              {/* Gender */}
               <div>
                 <label
                   htmlFor="gender"
@@ -82,16 +101,21 @@ const Client = () => {
                   Select Gender <span className="text-red-500">*</span>
                 </label>
                 <select
+                  name="gender"
                   id="gender"
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                  required
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
                 >
-                  <option defaultValue="female">Female</option>
+                  <option value="">Select gender</option>
+                  <option value="female">Female</option>
                   <option value="male">Male</option>
                   <option value="other">Other</option>
                 </select>
               </div>
               <button
-                type="button"
+                type="submit"
                 className="w-full text-white bg-teal hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
                 Create an account

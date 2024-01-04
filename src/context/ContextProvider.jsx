@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Web5 } from "@web5/api/browser";
 import { createContext, useEffect, useMemo, useState } from "react";
-import { publicDid } from "../utils/constant";
+// import { publicDid } from "../utils/constant";
 
 export const AppContext = createContext();
 
@@ -18,10 +18,9 @@ const ContextProvider = ({ children }) => {
   useEffect(() => {
     const connectToWeb5 = async () => {
       try {
-        const { web5, did } = await Web5.connect();
+        const { web5, did } = await Web5.connect({ sync: "5s" });
         setWeb5(web5);
         setUserDid(did);
-        console.log(did);
       } catch (error) {
         console.error("Error connect to Web5 : ", error);
       }
@@ -61,10 +60,8 @@ const ContextProvider = ({ children }) => {
     };
   }, []);
 
-  // add new action when connected to Web5
   useEffect(() => {
     //install protocol
-
     const installProtocol = async () => {
       try {
         console.log("Installing protocol ...");
@@ -81,6 +78,7 @@ const ContextProvider = ({ children }) => {
     };
 
     if (web5 && userDid) {
+      console.log(userDid.slice(0, 5) + "..." + userDid.slice(-8));
       installProtocol();
     }
   }, [web5, userDid, protocolDefinition]);
