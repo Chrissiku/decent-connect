@@ -132,6 +132,37 @@ const Psychologist = () => {
                   </select>
                 </div>
               </div>
+              <div>
+                <label
+                  htmlFor="gender"
+                  className="block mb-2 text-[16px] font-medium text-gray-900"
+                >
+                  Select Your Organization{" "}
+                  <span className="text-red-300">(Optional)</span>
+                </label>
+                <select
+                  id="gender"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
+                >
+                  <option value="selected">Self Employed</option>
+                  <option value="">
+                    American Psychological Association (APA)
+                  </option>
+                  <option value="">
+                    British Association for Counselling and Psychotherapy (BACP)
+                  </option>
+                  <option value="">
+                    World Council for Psychotherapy (WCP)
+                  </option>
+                  <option value="">
+                    National Association of Cognitive-Behavioral Therapists
+                    (NACBT)
+                  </option>
+                  <option value="">
+                    International Society for Psychotherapy (ISP)
+                  </option>
+                </select>
+              </div>
               <button
                 type="button"
                 className="w-full text-white bg-teal hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
