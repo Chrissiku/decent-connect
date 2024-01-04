@@ -31,7 +31,6 @@ const ContextProvider = ({ children }) => {
 
   // Protocol definition
   const protocolDefinition = useMemo(() => {
-    // Initialize schema
     const schema = {
       context: "https://schema.org/",
       type: "Person",
@@ -45,17 +44,17 @@ const ContextProvider = ({ children }) => {
       published: true,
 
       types: {
-        clientProfile: {
-          schema: `${schema.uri}/clientProfile`,
+        client: {
+          schema: `${schema.uri}/client`,
           dataFormats: ["application/json"],
         },
       },
 
       structure: {
-        clientProfile: {
+        client: {
           $actions: [
             { who: "anyone", can: "write" },
-            { who: "recipient", of: "clientProfile", can: "read" },
+            { who: "recipient", of: "client", can: "read" },
           ],
         },
       },
