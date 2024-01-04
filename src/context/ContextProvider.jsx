@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
 import { Web5 } from "@web5/api/browser";
 import { createContext, useState } from "react";
+import { publicDid } from "../utils/constant";
 
 export const AppContext = createContext();
 
 const ContextProvider = ({ children }) => {
+  console.log(publicDid);
   const [modalOpen, setModalOpen] = useState(false);
   const [authType, setAuthType] = useState(null);
   const [userType, setUserType] = useState(() => {
