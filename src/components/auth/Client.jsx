@@ -17,6 +17,7 @@ const Client = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const FormData = {
+      id: uuidv4(),
       name,
       picture,
       dob,
@@ -42,14 +43,16 @@ const Client = () => {
             recipient: userDid,
           },
         });
+
         await record.send(userDid);
+        console.log(record);
         if (status.code === 202) {
           toggleUserType("client");
           setName("");
           setDob("");
           setGender("");
-          console.log("account created");
         }
+        console.log("account created");
       } catch (error) {
         console.error("Error creating the client !", error);
       }

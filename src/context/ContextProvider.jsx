@@ -41,14 +41,12 @@ const ContextProvider = ({ children }) => {
     return {
       protocol: import.meta.env.VITE_PROTOCOL_URL,
       published: true,
-
       types: {
         client: {
           schema: `${schema.uri}/client`,
           dataFormats: ["application/json"],
         },
       },
-
       structure: {
         client: {
           $actions: [
@@ -78,10 +76,10 @@ const ContextProvider = ({ children }) => {
     };
 
     if (web5 && userDid) {
-      console.log(userDid.slice(0, 5) + "..." + userDid.slice(-8));
       installProtocol();
     }
   }, [web5, userDid, protocolDefinition]);
+  // }, [web5, userDid, protocolDefinition]);
 
   const [client, setClient] = useState(() => {
     return localStorage.getItem("client") || null;
