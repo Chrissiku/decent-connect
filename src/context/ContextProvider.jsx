@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { Web5 } from "@web5/api/browser";
 import { createContext, useState } from "react";
 
 export const AppContext = createContext();
