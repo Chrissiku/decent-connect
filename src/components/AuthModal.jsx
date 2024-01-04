@@ -49,9 +49,9 @@ export default function AuthModal({ isOpen, closeModal }) {
             >
               <Dialog.Panel
                 className="relative transform overflow-hidden rounded-lg bg-white text-left 
-              shadow-xl transition-all sm:my-8 w-[90%] md:w-[80%]"
+              shadow-xl transition-all sm:my-8 w-full md:w-[80%]"
               >
-                <div className="bg-white p-4">
+                <div className="bg-white p-5">
                   <div className="sm:flex sm:items-start">
                     <div className="w-full" ref={cancelButtonRef}>
                       {authType === "client" ? (
