@@ -85,7 +85,7 @@ const Client = () => {
                   id="gender"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
                 >
-                  <option selected="female">Female</option>
+                  <option defaultValue="female">Female</option>
                   <option value="male">Male</option>
                   <option value="other">Other</option>
                 </select>

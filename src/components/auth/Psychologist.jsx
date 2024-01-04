@@ -89,7 +89,7 @@ const Psychologist = () => {
                     id="gender"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
                   >
-                    <option selected="female">Female</option>
+                    <option defaultValue="female">Female</option>
                     <option value="male">Male</option>
                     <option value="other">Other</option>
                   </select>
@@ -106,7 +106,7 @@ const Psychologist = () => {
                     id="gender"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
                   >
-                    <option selected="generalist">Generalist</option>
+                    <option defaultValue="generalist">Generalist</option>
                     <option value="Clinical">Clinical Psychologist</option>
                     <option value="">Counseling Psychologist</option>
                     <option value="">School Psychologist</option>
@@ -144,7 +144,7 @@ const Psychologist = () => {
                   id="gender"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
                 >
-                  <option value="selected">Self Employed</option>
+                  <option defaultValue="self employed">Self Employed</option>
                   <option value="">
                     American Psychological Association (APA)
                   </option>
