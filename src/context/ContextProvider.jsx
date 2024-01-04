@@ -38,6 +38,28 @@ const ContextProvider = ({ children }) => {
     },
   };
 
+  // Protocol definition
+  const protocolDefinition = {
+    protocol: import.meta.env.VITE_PROTOCOL_URL,
+    published: true,
+
+    types: {
+      clientProfile: {
+        schema: `${schema.uri}/clientProfile`,
+        dataFormats: ["application/json"],
+      },
+    },
+
+    structure: {
+      clientProfile: {
+        $actions: [
+          { who: "anyone", can: "write" },
+          { who: "recipient", of: "clientProfile", can: "read" },
+        ],
+      },
+    },
+  };
+
   const [client, setClient] = useState(() => {
     return localStorage.getItem("client") || null;
   });
