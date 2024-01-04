@@ -5,6 +5,7 @@ import { AppContext } from "../context/ContextProvider";
 import Client from "./auth/Client";
 import Organization from "./auth/Organization";
 import Psychologist from "./auth/Psychologist";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 
 export default function AuthModal({ isOpen, closeModal }) {
   const { authType, toggleUserType } = useContext(AppContext);
@@ -51,6 +52,13 @@ export default function AuthModal({ isOpen, closeModal }) {
                 className="relative transform overflow-hidden rounded-lg bg-white text-left 
               shadow-xl transition-all sm:my-8 w-full md:w-[80%]"
               >
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  className="absolute text-white top-0 right-0 bg-red-500 w-12 md:w-14 h-12 md:h-14 rounded-bl-3xl  z-50"
+                >
+                  <XMarkIcon className="text-[16px]" />
+                </button>
                 <div className="bg-white p-5">
                   <div className="sm:flex sm:items-start">
                     <div className="w-full" ref={cancelButtonRef}>
