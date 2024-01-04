@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import About from "../components/About";
 import Experience from "../components/Experience";
 import Footer from "../components/Footer";
@@ -10,15 +10,13 @@ import { AppContext } from "../context/ContextProvider";
 import AuthModal from "../components/AuthModal";
 
 const Home = () => {
-  const { userType } = useContext(AppContext);
-  const [isOpen, setIsOpen] = useState(true);
+  const { userType, modalOpen, setModalOpen, toggleAuthType } = useContext(
+    AppContext
+  );
 
   const closeModal = () => {
-    setIsOpen(false);
-  };
-
-  const openModal = () => {
-    setIsOpen(true);
+    setModalOpen(false);
+    toggleAuthType(null);
   };
 
   useEffect(() => {
@@ -35,11 +33,7 @@ const Home = () => {
         <Journey />
         <Footer />
       </div>
-      <AuthModal
-        isOpen={isOpen}
-        closeModal={closeModal}
-        openModal={openModal}
-      />
+      <AuthModal isOpen={modalOpen} closeModal={closeModal} />
     </>
   );
 };

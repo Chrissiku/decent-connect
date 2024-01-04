@@ -38,7 +38,13 @@ const buttonConfig = [
 ];
 
 const ConnectButton = ({ text, start }) => {
-  const { logout, toggleUserType } = useContext(AppContext);
+  const { toggleAuthType, logout, setModalOpen } = useContext(AppContext);
+
+  const handleButtonClick = (userTypeVal) => {
+    toggleAuthType(userTypeVal);
+    setModalOpen(true);
+  };
+
   return (
     <Menu as="div" className="relative inline-block text-left w-full">
       <div>
@@ -69,7 +75,9 @@ const ConnectButton = ({ text, start }) => {
               <Menu.Item key={userType}>
                 <button
                   onClick={() =>
-                    userType === "logout" ? logout() : toggleUserType(userType)
+                    userType === "logout"
+                      ? logout()
+                      : handleButtonClick(userType)
                   }
                   type="button"
                   className={classNames(

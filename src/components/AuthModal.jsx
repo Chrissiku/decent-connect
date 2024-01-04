@@ -6,8 +6,8 @@ import Client from "./auth/Client";
 import Organization from "./auth/Organization";
 import Psychologist from "./auth/Psychologist";
 
-export default function AuthModal({ isOpen, closeModal, openModal }) {
-  const { userType, toggleUserType } = useContext(AppContext);
+export default function AuthModal({ isOpen, closeModal }) {
+  const { authType, toggleUserType } = useContext(AppContext);
 
   const cancelButtonRef = useRef(null);
 
@@ -54,11 +54,11 @@ export default function AuthModal({ isOpen, closeModal, openModal }) {
                 <div className="bg-white p-4">
                   <div className="sm:flex sm:items-start">
                     <div className="w-full" ref={cancelButtonRef}>
-                      {userType === "client" ? (
+                      {authType === "client" ? (
                         <Client />
-                      ) : userType === "organization" ? (
+                      ) : authType === "organization" ? (
                         <Organization />
-                      ) : userType === "psychologist" ? (
+                      ) : authType === "psychologist" ? (
                         <Psychologist />
                       ) : (
                         <main

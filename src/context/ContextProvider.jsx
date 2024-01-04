@@ -4,12 +4,14 @@ import { createContext, useState } from "react";
 export const AppContext = createContext();
 
 const ContextProvider = ({ children }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [authType, setAuthType] = useState(null);
   const [userType, setUserType] = useState(() => {
     return localStorage.getItem("userType") || null;
   });
 
-  const [patient, setPatient] = useState(() => {
-    return localStorage.getItem("patient") || null;
+  const [client, setClient] = useState(() => {
+    return localStorage.getItem("client") || null;
   });
 
   const [psychologist, setPsychologist] = useState(() => {
@@ -20,14 +22,18 @@ const ContextProvider = ({ children }) => {
     return localStorage.getItem("organization") || null;
   });
 
+  const toggleAuthType = (value) => {
+    setAuthType(value);
+  };
+
   const toggleUserType = (value) => {
     localStorage.setItem("userType", value);
     setUserType(value);
   };
 
-  const togglePatient = (value) => {
-    localStorage.setItem("patient", value);
-    setPatient(value);
+  const toggleClient = (value) => {
+    localStorage.setItem("client", value);
+    setClient(value);
   };
 
   const togglePsy = (value) => {
@@ -42,16 +48,21 @@ const ContextProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.setItem("userType", null);
+    setAuthType(null);
     setUserType(null);
   };
 
   const values = {
+    modalOpen,
+    authType,
     userType,
-    patient,
+    client,
     psychologist,
     organization,
+    setModalOpen,
+    toggleAuthType,
     toggleUserType,
-    togglePatient,
+    toggleClient,
     togglePsy,
     toggleOrganization,
     logout,
