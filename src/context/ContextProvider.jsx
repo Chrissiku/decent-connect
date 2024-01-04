@@ -29,6 +29,15 @@ const ContextProvider = ({ children }) => {
     connectToWeb5();
   }, []);
 
+  // Initialize schema
+  const schema = {
+    context: "https://schema.org/",
+    type: "Person",
+    get uri() {
+      return this.context + this.type;
+    },
+  };
+
   const [client, setClient] = useState(() => {
     return localStorage.getItem("client") || null;
   });
