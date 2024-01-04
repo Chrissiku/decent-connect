@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Web5 } from "@web5/api/browser";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import { publicDid } from "../utils/constant";
 
 export const AppContext = createContext();
@@ -29,36 +29,62 @@ const ContextProvider = ({ children }) => {
     connectToWeb5();
   }, []);
 
-  // Initialize schema
-  const schema = {
-    context: "https://schema.org/",
-    type: "Person",
-    get uri() {
-      return this.context + this.type;
-    },
-  };
-
   // Protocol definition
-  const protocolDefinition = {
-    protocol: import.meta.env.VITE_PROTOCOL_URL,
-    published: true,
-
-    types: {
-      clientProfile: {
-        schema: `${schema.uri}/clientProfile`,
-        dataFormats: ["application/json"],
+  const protocolDefinition = useMemo(() => {
+    // Initialize schema
+    const schema = {
+      context: "https://schema.org/",
+      type: "Person",
+      get uri() {
+        return this.context + this.type;
       },
-    },
+    };
 
-    structure: {
-      clientProfile: {
-        $actions: [
-          { who: "anyone", can: "write" },
-          { who: "recipient", of: "clientProfile", can: "read" },
-        ],
+    return {
+      protocol: import.meta.env.VITE_PROTOCOL_URL,
+      published: true,
+
+      types: {
+        clientProfile: {
+          schema: `${schema.uri}/clientProfile`,
+          dataFormats: ["application/json"],
+        },
       },
-    },
-  };
+
+      structure: {
+        clientProfile: {
+          $actions: [
+            { who: "anyone", can: "write" },
+            { who: "recipient", of: "clientProfile", can: "read" },
+          ],
+        },
+      },
+    };
+  }, []);
+
+  // add new action when connected to Web5
+  useEffect(() => {
+    //install protocol
+
+    const installProtocol = async () => {
+      try {
+        console.log("Installing protocol ...");
+        const { protocol, status } = await web5.dwn.protocols.configure({
+          message: {
+            definition: protocolDefinition,
+          },
+        });
+        await protocol.send;
+        console.log("... Protocol installed ", status);
+      } catch (error) {
+        console.error("Error installing protocol : ", error);
+      }
+    };
+
+    if (web5 && userDid) {
+      installProtocol();
+    }
+  }, [web5, userDid, protocolDefinition]);
 
   const [client, setClient] = useState(() => {
     return localStorage.getItem("client") || null;
@@ -109,6 +135,9 @@ const ContextProvider = ({ children }) => {
     client,
     psychologist,
     organization,
+    protocolDefinition,
+    web5,
+    userDid,
     setModalOpen,
     toggleAuthType,
     toggleUserType,
