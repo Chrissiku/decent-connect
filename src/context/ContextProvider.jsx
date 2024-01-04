@@ -1,17 +1,33 @@
 /* eslint-disable react/prop-types */
 import { Web5 } from "@web5/api/browser";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { publicDid } from "../utils/constant";
 
 export const AppContext = createContext();
 
 const ContextProvider = ({ children }) => {
-  console.log(publicDid);
+  const [web5, setWeb5] = useState(null);
+  const [userDid, setUserDid] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [authType, setAuthType] = useState(null);
   const [userType, setUserType] = useState(() => {
     return localStorage.getItem("userType") || null;
   });
+
+  // connect to Web5 on mount
+  useEffect(() => {
+    const connectToWeb5 = async () => {
+      try {
+        const { web5, did } = await Web5.connect();
+        setWeb5(web5);
+        setUserDid(did);
+        console.log(did);
+      } catch (error) {
+        console.error("Error connect to Web5 : ", error);
+      }
+    };
+    connectToWeb5();
+  }, []);
 
   const [client, setClient] = useState(() => {
     return localStorage.getItem("client") || null;
