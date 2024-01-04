@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Web5 } from "@web5/api/browser";
 import { createContext, useEffect, useMemo, useState } from "react";
-// import { publicDid } from "../utils/constant";
+import { publicDid } from "../utils/constant";
 
 export const AppContext = createContext();
 
@@ -18,7 +18,7 @@ const ContextProvider = ({ children }) => {
   useEffect(() => {
     const connectToWeb5 = async () => {
       try {
-        const { web5, did } = await Web5.connect({ sync: "5s" });
+        const { web5, did } = await Web5.connect();
         setWeb5(web5);
         setUserDid(did);
       } catch (error) {
@@ -135,6 +135,7 @@ const ContextProvider = ({ children }) => {
     protocolDefinition,
     web5,
     userDid,
+    publicDid,
     setModalOpen,
     toggleAuthType,
     toggleUserType,

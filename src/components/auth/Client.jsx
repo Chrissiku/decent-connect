@@ -1,13 +1,60 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import clientImg from "../../assets/clientAuth.jpg";
 import { getTodayDate } from "../../utils/constant";
 import useImageUploader from "../../utils/imageUploader";
+import { AppContext } from "../../context/ContextProvider";
+import { v4 as uuidv4 } from "uuid";
 
 const Client = () => {
+  const { web5, userDid, protocolDefinition, toggleUserType } = useContext(
+    AppContext
+  );
   const [name, setName] = useState("");
   const { picture, handleImageChange } = useImageUploader();
-  const [dob, setDob] = useState("null");
-  const [gender, setGender] = useState("null");
+  const [dob, setDob] = useState("");
+  const [gender, setGender] = useState("");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const FormData = {
+      name,
+      picture,
+      dob,
+      gender,
+    };
+
+    if (
+      !FormData.name ||
+      !FormData.picture ||
+      !FormData.dob ||
+      !FormData.gender
+    ) {
+      alert("Please fill out all fields before submitting !");
+      return;
+    } else {
+      try {
+        const { record, status } = await web5.dwn.records.write({
+          data: FormData,
+          message: {
+            protocol: protocolDefinition.protocol,
+            protocolPath: "client",
+            schema: protocolDefinition.types.client.schema,
+            recipient: userDid,
+          },
+        });
+        await record.send(userDid);
+        if (status.code === 202) {
+          toggleUserType("client");
+          setName("");
+          setDob("");
+          setGender("");
+          console.log("account created");
+        }
+      } catch (error) {
+        console.error("Error creating the client !", error);
+      }
+    }
+  };
 
   return (
     <>
@@ -31,7 +78,11 @@ const Client = () => {
             <h3 className="text-teal font-bold text-[20px]">
               Sign up to start your transformative journey.
             </h3>
-            <form className="space-y-4 md:space-y-6" autoComplete="off">
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-4 md:space-y-6"
+              autoComplete="off"
+            >
               {/* Full name */}
               <div>
                 <label
@@ -48,7 +99,7 @@ const Client = () => {
                   onChange={(e) => setName(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-3"
                   placeholder="eg. John Doe"
-                  required=""
+                  required
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-between gap-5">
@@ -68,7 +119,7 @@ const Client = () => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-3"
                     placeholder="eg. John Doe"
                     onChange={handleImageChange}
-                    required=""
+                    required
                   />
                 </div>
                 {/* Data of birth */}
@@ -88,7 +139,7 @@ const Client = () => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-3"
                     placeholder="Your Date of birth here"
                     max={getTodayDate()}
-                    required=""
+                    required
                   />
                 </div>
               </div>
