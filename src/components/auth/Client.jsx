@@ -3,10 +3,10 @@ import clientImg from "../../assets/clientAuth.jpg";
 import { getTodayDate } from "../../utils/constant";
 import useImageUploader from "../../utils/imageUploader";
 import { AppContext } from "../../context/ContextProvider";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uidv4 } from "uuid";
 
 const Client = () => {
-  const { web5, userDid, protocolDefinition, toggleUserType } = useContext(
+  const { web5, did, protocolDefinition, toggleUserType } = useContext(
     AppContext
   );
   const [name, setName] = useState("");
@@ -14,47 +14,46 @@ const Client = () => {
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const FormData = {
-      id: uuidv4(),
-      name,
-      picture,
-      dob,
-      gender,
-    };
+  const formData = {
+    id: uidv4(),
+    name,
+    picture,
+    dob,
+    gender,
+  };
 
+  const createData = async (event) => {
+    event.preventDefault();
     if (
-      !FormData.name ||
-      !FormData.picture ||
-      !FormData.dob ||
-      !FormData.gender
+      !formData.name ||
+      !formData.picture ||
+      !formData.dob ||
+      !formData.gender
     ) {
-      alert("Please fill out all fields before submitting !");
+      alert("Please Fill all required fields !!");
       return;
     } else {
       try {
-        const { record, status } = await web5.dwn.records.write({
-          data: FormData,
+        const { record, status } = await web5.dwn.records.create({
+          data: formData,
           message: {
             protocol: protocolDefinition.protocol,
-            protocolPath: "client",
-            schema: protocolDefinition.types.client.schema,
-            recipient: userDid,
+            protocolPath: "clientProfile",
+            schema: protocolDefinition.types.clientProfile.schema,
+            recipient: did,
           },
         });
 
-        await record.send(userDid);
-        console.log(record);
-        if (status.code === 202) {
-          toggleUserType("client");
+        await record.send(did);
+        if (status.code === 202 && status.detail === "Accepted") {
+          console.log("User created ... ");
           setName("");
           setDob("");
           setGender("");
+          toggleUserType("client");
         }
-        console.log("account created");
       } catch (error) {
-        console.error("Error creating the client !", error);
+        console.error("Error creating client : ", error);
       }
     }
   };
@@ -81,10 +80,11 @@ const Client = () => {
             <h3 className="text-teal font-bold text-[20px]">
               Sign up to start your transformative journey.
             </h3>
+
             <form
-              onSubmit={handleSubmit}
               className="space-y-4 md:space-y-6"
               autoComplete="off"
+              onSubmit={createData}
             >
               {/* Full name */}
               <div>

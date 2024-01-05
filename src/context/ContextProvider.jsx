@@ -7,7 +7,7 @@ export const AppContext = createContext();
 
 const ContextProvider = ({ children }) => {
   const [web5, setWeb5] = useState(null);
-  const [userDid, setUserDid] = useState(null);
+  const [did, setDid] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [authType, setAuthType] = useState(null);
   const [userType, setUserType] = useState(() => {
@@ -20,9 +20,9 @@ const ContextProvider = ({ children }) => {
       try {
         const { web5, did } = await Web5.connect();
         setWeb5(web5);
-        setUserDid(did);
+        setDid(did);
       } catch (error) {
-        console.error("Error connect to Web5 : ", error);
+        console.error("Error connecting to Web5 : ", error);
       }
     };
     connectToWeb5();
@@ -32,7 +32,7 @@ const ContextProvider = ({ children }) => {
   const protocolDefinition = useMemo(() => {
     const schema = {
       context: "https://schema.org/",
-      type: "Person",
+      type: "decentConnect",
       get uri() {
         return this.context + this.type;
       },
@@ -42,20 +42,41 @@ const ContextProvider = ({ children }) => {
       protocol: import.meta.env.VITE_PROTOCOL_URL,
       published: true,
       types: {
-        client: {
-          schema: `${schema.uri}/client`,
+        clientProfile: {
+          schema: schema.uri + "/clientProfile",
           dataFormats: ["application/json"],
         },
       },
       structure: {
-        client: {
+        clientProfile: {
           $actions: [
             { who: "anyone", can: "write" },
-            { who: "recipient", of: "client", can: "read" },
+            { who: "recipient", of: "clientProfile", can: "read" },
+            { who: "author", of: "clientProfile", can: "read" },
           ],
         },
       },
     };
+
+    // return {
+    //   protocol: import.meta.env.VITE_PROTOCOL_URL,
+    //   published: true,
+    //   types: {
+    //     clientProfile: {
+    //       schema: `${schema.uri}/clientProfile`,
+    //       dataFormats: ["application/json"],
+    //     },
+    //   },
+    //   structure: {
+    //     clientProfile: {
+    //       $actions: [
+    //         { who: "anyone", can: "write" },
+    //         { who: "recipient", of: "clientProfile", can: "read" },
+    //         { who: "author", of: "clientProfile", can: "read" },
+    //       ],
+    //     },
+    //   },
+    // };
   }, []);
 
   useEffect(() => {
@@ -75,11 +96,10 @@ const ContextProvider = ({ children }) => {
       }
     };
 
-    if (web5 && userDid) {
+    if (web5 && did) {
       installProtocol();
     }
-  }, [web5, userDid, protocolDefinition]);
-  // }, [web5, userDid, protocolDefinition]);
+  }, [web5, did, protocolDefinition]);
 
   const [client, setClient] = useState(() => {
     return localStorage.getItem("client") || null;
@@ -132,7 +152,7 @@ const ContextProvider = ({ children }) => {
     organization,
     protocolDefinition,
     web5,
-    userDid,
+    did,
     publicDid,
     setModalOpen,
     toggleAuthType,
