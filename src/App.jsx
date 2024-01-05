@@ -22,10 +22,6 @@ export default function App() {
           <Routes>
             <Route path="/" element={<PageComponent />} />
           </Routes>
-          {/* <Home />
-          <Client />
-          <Organization />
-          <Psychologist /> */}
         </div>
       </div>
     </>

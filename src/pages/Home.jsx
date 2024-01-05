@@ -20,8 +20,9 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log(userType);
+    console.log("Welcome to Decent connect");
   }, [userType]);
+
   return (
     <>
       <div className="w-full flex flex-col mx-auto">

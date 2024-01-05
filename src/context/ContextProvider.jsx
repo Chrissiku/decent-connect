@@ -84,14 +84,16 @@ const ContextProvider = ({ children }) => {
     //install protocol
     const installProtocol = async () => {
       try {
-        console.log("Installing protocol ...");
+        // console.log("Installing protocol ...");
         const { protocol, status } = await web5.dwn.protocols.configure({
           message: {
             definition: protocolDefinition,
           },
         });
         await protocol.send(did);
-        console.log("... Protocol installed ", status);
+        if ((status.code === 202) & (status.details === "Accepted")) {
+          console.log("... Welcome to decent connect ");
+        }
       } catch (error) {
         console.error("Error installing protocol : ", error);
       }
