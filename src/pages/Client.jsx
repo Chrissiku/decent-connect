@@ -6,55 +6,20 @@ const Client = () => {
   const [clientInfo, setClientInfo] = useState([]);
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await web5.dwn.records.query({
-    //       from: userDid,
-    //       message: {
-    //         filter: {
-    //           protocol: protocolDefinition.protocol,
-    //           schema: protocolDefinition.types.client.schema,
-    //         },
-    //       },
-    //     });
-
-    //     if (response.status.code === 200) {
-    //       const clientData = await Promise.all(
-    //         response.records.map(async (record) => {
-    //           const data = await record.data.json();
-    //           return {
-    //             ...data,
-    //             recordId: record.id,
-    //           };
-    //         })
-    //       );
-    //       setClientInfo(clientData.records);
-    //       console.log("data : ", clientData);
-    //       return clientData;
-    //     } else {
-    //       console.error("error fetching this profile", response.status);
-    //       return [];
-    //     }
-    //   } catch (error) {
-    //     console.log("Error fetching client data : ", error);
-    //   }
-    // };
-
     const fetchData = async () => {
       try {
-        // console.log("Fetching patient Profile");
         const response = await web5.dwn.records.query({
           from: did,
           message: {
             filter: {
               protocol: protocolDefinition.protocol,
-              schema: protocolDefinition.types.client.schema,
+              schema: protocolDefinition.types.clientProfile.schema,
             },
           },
         });
 
         if (response.status.code === 200) {
-          const patientProfile = await Promise.all(
+          const clientData = await Promise.all(
             response.records.map(async (record) => {
               const data = await record.data.json();
               return {
@@ -63,20 +28,17 @@ const Client = () => {
               };
             })
           );
-          // setPatientData(patientProfile[patientProfile.length - 1]);
-          console.log(patientProfile);
-          return patientProfile;
+          setClientInfo(clientData[clientData.length - 1]);
+          return clientData;
         } else {
           console.error("error fetching this profile", response.status);
           return [];
         }
       } catch (error) {
-        console.error("error fetching patient profile :", error);
+        console.error("Error fetching data : ", error);
       }
     };
-
     if (web5 && did) {
-      // fetchData();
       fetchData();
     }
   }, [web5, did, protocolDefinition]);
@@ -84,8 +46,16 @@ const Client = () => {
   return (
     <>
       <div>Client dashboard</div>
-      {/* <div>{userDid}</div> */}
-      {/* <div>{clientInfo.name}</div> */}
+      <div>{clientInfo.id}</div>
+      <div>{clientInfo.name}</div>
+      <div>{clientInfo.dob}</div>
+      <div>{clientInfo.gender}</div>
+      <img
+        className="h-10 w-10"
+        src={clientInfo.picture}
+        alt={clientInfo.name}
+      />
+
       <button type="button" className="border" onClick={logout}>
         logout
       </button>
