@@ -51,6 +51,10 @@ const ContextProvider = ({ children }) => {
           schema: schema.uri + "/organizationProfile",
           dataFormats: ["application/json"],
         },
+        psychologistProfile: {
+          schema: schema.uri + "/psychologistProfile",
+          dataFormats: ["application/json"],
+        },
       },
       structure: {
         clientProfile: {
@@ -61,6 +65,12 @@ const ContextProvider = ({ children }) => {
           ],
         },
         organizationProfile: {
+          $actions: [
+            { who: "anyone", can: "write" },
+            { who: "anyone", can: "read" },
+          ],
+        },
+        psychologistProfile: {
           $actions: [
             { who: "anyone", can: "write" },
             { who: "anyone", can: "read" },
