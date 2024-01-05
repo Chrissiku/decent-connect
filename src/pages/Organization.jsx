@@ -56,7 +56,7 @@ const Organization = () => {
         </div>
       ) : (
         <>
-          <div>Client dashboard</div>
+          <div>Organization dashboard</div>
           <div>{organizationInfo.id}</div>
           <div>{organizationInfo.name}</div>
           <div>{organizationInfo.creationDate}</div>
