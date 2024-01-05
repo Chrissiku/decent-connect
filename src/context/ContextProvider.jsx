@@ -57,26 +57,6 @@ const ContextProvider = ({ children }) => {
         },
       },
     };
-
-    // return {
-    //   protocol: import.meta.env.VITE_PROTOCOL_URL,
-    //   published: true,
-    //   types: {
-    //     clientProfile: {
-    //       schema: `${schema.uri}/clientProfile`,
-    //       dataFormats: ["application/json"],
-    //     },
-    //   },
-    //   structure: {
-    //     clientProfile: {
-    //       $actions: [
-    //         { who: "anyone", can: "write" },
-    //         { who: "recipient", of: "clientProfile", can: "read" },
-    //         { who: "author", of: "clientProfile", can: "read" },
-    //       ],
-    //     },
-    //   },
-    // };
   }, []);
 
   useEffect(() => {
@@ -89,7 +69,7 @@ const ContextProvider = ({ children }) => {
             definition: protocolDefinition,
           },
         });
-        await protocol.send;
+        await protocol.send(did);
         console.log("... Protocol installed ", status);
       } catch (error) {
         console.error("Error installing protocol : ", error);
