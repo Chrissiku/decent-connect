@@ -6,7 +6,6 @@ import {
   UserIcon,
   HomeModernIcon,
   HeartIcon,
-  LockClosedIcon,
 } from "@heroicons/react/24/solid";
 import { AppContext } from "../../context/ContextProvider";
 
@@ -30,19 +29,49 @@ const buttonConfig = [
     label: "Organization",
     userType: "organization",
   },
-  {
-    icon: <LockClosedIcon className="w-6 h-6 text-red-600" />,
-    label: "Logout",
-    userType: "logout",
-  },
 ];
 
 const ConnectButton = ({ text, start }) => {
-  const { toggleAuthType, logout, setModalOpen } = useContext(AppContext);
+  const {
+    toggleAuthType,
+    toggleUserType,
+    logout,
+    setModalOpen,
+    client,
+    psychologist,
+    organization,
+  } = useContext(AppContext);
 
   const handleButtonClick = (userTypeVal) => {
-    toggleAuthType(userTypeVal);
-    setModalOpen(true);
+    switch (userTypeVal) {
+      case "client":
+        if (client) {
+          toggleUserType("client");
+        } else {
+          toggleAuthType(userTypeVal);
+          setModalOpen(true);
+        }
+        break;
+      case "psychologist":
+        if (psychologist) {
+          toggleUserType("psychologist");
+        } else {
+          toggleAuthType(userTypeVal);
+          setModalOpen(true);
+        }
+        break;
+      case "organization":
+        if (organization) {
+          toggleUserType("organization");
+        } else {
+          toggleAuthType(userTypeVal);
+          setModalOpen(true);
+        }
+        break;
+      default:
+        toggleAuthType(userTypeVal);
+        setModalOpen(true);
+    }
   };
 
   return (

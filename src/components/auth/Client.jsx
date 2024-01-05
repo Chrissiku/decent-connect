@@ -6,9 +6,13 @@ import { AppContext } from "../../context/ContextProvider";
 import { v4 as uidv4 } from "uuid";
 
 const Client = () => {
-  const { web5, did, protocolDefinition, toggleUserType } = useContext(
-    AppContext
-  );
+  const {
+    web5,
+    did,
+    protocolDefinition,
+    toggleUserType,
+    toggleClient,
+  } = useContext(AppContext);
   const [name, setName] = useState("");
   const { picture, handleImageChange } = useImageUploader();
   const [dob, setDob] = useState("");
@@ -50,6 +54,7 @@ const Client = () => {
           setDob("");
           setGender("");
           toggleUserType("client");
+          toggleClient(true);
         }
       } catch (error) {
         console.error("Error creating client : ", error);

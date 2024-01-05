@@ -4,6 +4,7 @@ import { AppContext } from "../context/ContextProvider";
 const Client = () => {
   const { web5, did, logout, protocolDefinition } = useContext(AppContext);
   const [clientInfo, setClientInfo] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,25 +41,36 @@ const Client = () => {
     };
     if (web5 && did) {
       fetchData();
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
     }
   }, [web5, did, protocolDefinition]);
 
   return (
     <>
-      <div>Client dashboard</div>
-      <div>{clientInfo.id}</div>
-      <div>{clientInfo.name}</div>
-      <div>{clientInfo.dob}</div>
-      <div>{clientInfo.gender}</div>
-      <img
-        className="h-10 w-10"
-        src={clientInfo.picture}
-        alt={clientInfo.name}
-      />
+      {loading ? (
+        <div className="text-teal text-[40px] w-full block items-center justify-center text-center">
+          Loading . . .
+        </div>
+      ) : (
+        <>
+          <div>Client dashboard</div>
+          <div>{clientInfo.id}</div>
+          <div>{clientInfo.name}</div>
+          <div>{clientInfo.dob}</div>
+          <div>{clientInfo.gender}</div>
+          <img
+            className="h-10 w-10"
+            src={clientInfo.picture}
+            alt={clientInfo.name}
+          />
 
-      <button type="button" className="border" onClick={logout}>
-        logout
-      </button>
+          <button type="button" className="border" onClick={logout}>
+            logout
+          </button>
+        </>
+      )}
     </>
   );
 };
