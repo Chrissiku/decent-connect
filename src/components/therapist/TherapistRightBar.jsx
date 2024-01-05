@@ -3,6 +3,15 @@ import male from '../../assets/patient/male.svg'
 import { UserGroupIcon, UserIcon, ArrowLongRightIcon } from "@heroicons/react/24/outline"
 import counselling from "../../assets/patient/Marriage counseling-bro.png"
 import { PlusIcon } from "lucide-react"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "../ui/dropdown-menu"
+
 
 const TherapistRightBar = () => {
     return (
@@ -16,9 +25,19 @@ const TherapistRightBar = () => {
                     </div>
                     <div className="flex gap-1">
                         <img src={male} className="w-[30px] h-[30px]" alt='profile' />
-                        <button className="text-[#9E9E9E]">
-                            <ChevronDownIcon className="w-5 h-5" />
-                        </button>
+                        <DropdownMenu className="text-[#9E9E9E]">
+                            <DropdownMenuTrigger className="outline-none cursor-pointer">
+                                <ChevronDownIcon className="w-5 h-5" />
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem>Profile</DropdownMenuItem>
+                                <DropdownMenuItem>Billing</DropdownMenuItem>
+                                <DropdownMenuItem>Team</DropdownMenuItem>
+                                <DropdownMenuItem>Subscription</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
                 {/* Meeting */}
@@ -43,17 +62,17 @@ const TherapistRightBar = () => {
                 </div>
                 {/* Image */}
                 <div>
-                    <img src={counselling} alt='Counselling demo'/>
+                    <img src={counselling} alt='Counselling demo' />
                 </div>
                 {/* Notifications */}
                 <div>
                     <h3 className="text-[#8B7EF8] text-base font-semibold">Latest Notification</h3>
                     <div className="bg-white w-[282px] flex items-center gap-6 py-3 px-4 rounded-[8px]">
                         <div>
-                        <h4 className="font-semibold text-sm">Webinar “Self care essentials...</h4>
-                        <p className="font-light text-xs text-[#9C9A9A]">ft. Evelyne, Lynette, Jacey</p>
+                            <h4 className="font-semibold text-sm">Webinar “Self care essentials...</h4>
+                            <p className="font-light text-xs text-[#9C9A9A]">ft. Evelyne, Lynette, Jacey</p>
                         </div>
-                        <ArrowLongRightIcon className="w-5 h-5 text-[#9C9A9A]"/>
+                        <ArrowLongRightIcon className="w-5 h-5 text-[#9C9A9A]" />
                     </div>
                 </div>
             </div>
