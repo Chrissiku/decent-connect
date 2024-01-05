@@ -13,6 +13,7 @@ const ContextProvider = ({ children }) => {
   const [userType, setUserType] = useState(() => {
     return localStorage.getItem("userType") || null;
   });
+  const [organizationList, setOrganizationList] = useState([]);
 
   // connect to Web5 on mount
   useEffect(() => {
@@ -86,8 +87,47 @@ const ContextProvider = ({ children }) => {
       }
     };
 
+    // Fetch all organizations
+    const fetchOrganizations = async () => {
+      try {
+        const response = await web5.dwn.records.query({
+          from: publicDid,
+          message: {
+            filter: {
+              protocol: protocolDefinition.protocol,
+              schema: protocolDefinition.types.organizationProfile.schema,
+            },
+          },
+        });
+
+        if (response.status.code === 200) {
+          const orgsData = await Promise.all(
+            response.records.map(async (record) => {
+              const data = await record.data.json();
+              return {
+                ...data,
+                recordId: record.id,
+              };
+            })
+          );
+          setOrganizationList(orgsData);
+          return orgsData;
+        } else {
+          console.error("error fetching all organization", response.status);
+          return [];
+        }
+      } catch (error) {
+        console.error("Error Fetching all organizations : ", error);
+      }
+    };
+
+    const mounter = async () => {
+      await installProtocol();
+      await fetchOrganizations();
+    };
+
     if (web5 && did) {
-      installProtocol();
+      mounter();
     }
   }, [web5, did, protocolDefinition]);
 
@@ -144,6 +184,7 @@ const ContextProvider = ({ children }) => {
     web5,
     did,
     publicDid,
+    organizationList,
     setModalOpen,
     toggleAuthType,
     toggleUserType,
