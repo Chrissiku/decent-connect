@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import psychologistImg from "../../assets/psychologistAuth.jpg";
+import { AppContext } from "../../context/ContextProvider";
 
 const Psychologist = () => {
-  return (
+  const { organizationList } = useContext(AppContext);
+  return (  
     <>
       <section className="w-full rounded-lg">
         <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-2 items-center justify-center gap-5">
@@ -142,25 +145,14 @@ const Psychologist = () => {
                 </label>
                 <select
                   id="gender"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
+                  className="capitalize bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
                 >
                   <option defaultValue="self employed">Self Employed</option>
-                  <option value="">
-                    American Psychological Association (APA)
-                  </option>
-                  <option value="">
-                    British Association for Counselling and Psychotherapy (BACP)
-                  </option>
-                  <option value="">
-                    World Council for Psychotherapy (WCP)
-                  </option>
-                  <option value="">
-                    National Association of Cognitive-Behavioral Therapists
-                    (NACBT)
-                  </option>
-                  <option value="">
-                    International Society for Psychotherapy (ISP)
-                  </option>
+                  {organizationList.map((organization) => (
+                    <option key={organization.id} value={organization.recordId}>
+                      {organization.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <button
