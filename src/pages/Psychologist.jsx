@@ -1,15 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/ContextProvider";
+import PsychologistSideNav from "../components/psychologist/PsychologistSideNav";
+import PsychologistContent from "../components/psychologist/PsychologistContent";
+import PsychologistRightBar from "../components/psychologist/PsychologistRightBar";
 
 const Psychologist = () => {
-  const {
-    web5,
-    did,
-    logout,
-    protocolDefinition,
-    organizationList,
-  } = useContext(AppContext);
+  const { web5, did, protocolDefinition, organizationList } = useContext(
+    AppContext
+  );
   const [psychologistInfo, setPsychologistInfo] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [org, setOrg] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -72,23 +72,17 @@ const Psychologist = () => {
         </div>
       ) : (
         <>
-          <div>Psychologist dashboard</div>
-          <div>{psychologistInfo.id}</div>
-          <div>{psychologistInfo.name}</div>
-          <div>{psychologistInfo.gender}</div>
-          {/* <div>{org}</div> */}
-          <div>{psychologistInfo.experience}</div>
-          <div>{psychologistInfo.specialization} Psychologist</div>
-
-          <img
-            className="h-10 w-10"
-            src={psychologistInfo.profile}
-            alt={psychologistInfo.name}
-          />
-
-          <button type="button" className="border" onClick={logout}>
-            logout
-          </button>
+          <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12">
+            <div className="lg:col-span-2">
+              <PsychologistSideNav />
+            </div>
+            <div className="lg:col-span-7">
+              <PsychologistContent data={psychologistInfo} />
+            </div>
+            <div className="lg:col-span-3">
+              <PsychologistRightBar data={psychologistInfo} />
+            </div>
+          </div>
         </>
       )}
     </>
