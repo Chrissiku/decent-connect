@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/ContextProvider";
-import SideNav from "../components/patient/SideNav";
-import PatientContent from "../components/patient/PatientContent";
-import RightBar from "../components/patient/RightBar";
+import SideNav from "../components/client/SideNav";
+import ClientContent from "../components/client/ClientContent";
+import RightBar from "../components/client/RightBar";
 
 const Client = () => {
   const { web5, did, protocolDefinition } = useContext(AppContext);
@@ -63,7 +63,7 @@ const Client = () => {
               <SideNav />
             </div>
             <div className="lg:col-span-7">
-              <PatientContent data={clientInfo} />
+              <ClientContent data={clientInfo} />
             </div>
             <div className="lg:col-span-3">
               <RightBar data={clientInfo} />

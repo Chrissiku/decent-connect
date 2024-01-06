@@ -77,8 +77,6 @@ const Psychologist = () => {
     }
   };
 
-  console.log(formData);
-
   return (
     <>
       <section className="w-full rounded-lg">

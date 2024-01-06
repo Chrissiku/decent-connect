@@ -7,9 +7,9 @@ import call from "../../assets/patient/call.svg";
 import video from "../../assets/patient/video.svg";
 import { Calendar } from "../ui/calendar";
 
-const PatientContent = ({ data }) => {
+const ClientContent = ({ data }) => {
   return (
-    <div className="w-full mx-auto px-5 lg:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">
+    <div className="w-full mx-auto px-5 md:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">
       <h1 className="text-[20px] font-bold">
         Welcome <span className="text-teal">{data.name}!</span>
       </h1>
@@ -20,15 +20,15 @@ const PatientContent = ({ data }) => {
       <div className="w-full">
         <img src={hero} className="w-full h-full" alt="Hero image" />
       </div>
-      <div className="w-full flex flex-col lg:flex-row items-center justify-center lg:justify-between space-x-8 space-y-5">
-        <div className="w-full lg:w-3/5 flex flex-col flex-wrap items-center justify-between space-y-3">
+      <div className="w-full flex flex-col md:flex-row items-center justify-center md:justify-between space-x-8 space-y-5">
+        <div className="w-full md:w-3/5 flex flex-col flex-wrap items-center justify-between space-y-3">
           <div className="w-full flex items-center justify-between text-[15px]">
             <h2 className="text-teal font-bold">Therapists Onboard</h2>
             <Link className="underline font-semibold py-2 px-3 hover:bg-slate-100">
               View all
             </Link>
           </div>
-          <div className="w-full flex flex-col items-center justify-between lg:justify-start border-b-2 border-t-2 border-gray-200 py-2">
+          <div className="w-full flex flex-col items-center justify-between md:justify-start border-b-2 border-t-2 border-gray-200 py-2">
             {[1, 2, 3].map((index, item) => (
               <div
                 key={index}
@@ -62,8 +62,8 @@ const PatientContent = ({ data }) => {
           </div>
         </div>
         <div
-          className="bg-teal rounded-xl text-white px-5 py-3 w-full lg:w-2/5 flex flex-col 
-        items-center lg:items-start justify-between space-y-4"
+          className="bg-teal rounded-xl text-white px-5 py-3 w-full md:w-2/5 flex flex-col 
+        items-center md:items-start justify-between space-y-4"
         >
           <h4 className="w-full text-[14px]">Upcoming Appointment</h4>
           <div className="w-full h-full flex flex-col items-start justify-between space-y-4">
@@ -124,11 +124,11 @@ const PatientContent = ({ data }) => {
         </div>
       </div>
       <div className="w-full flex items-start justify-between flex-wrap">
-        <div className="w-full lg:w-3/6 flex flex-col items-start justify-between space-y-8">
+        <div className="w-full md:w-3/6 flex flex-col items-start justify-between space-y-8">
           <h3 className="text-[15px] font-bold text-teal">My schedule</h3>
           <Calendar />
         </div>
-        <div className="w-full lg:w-3/6 flex flex-col items-start justify-between space-y-8">
+        <div className="w-full md:w-3/6 flex flex-col items-start justify-between space-y-8">
           <h3 className="text-teal text-[15px] font-semibold">
             Recently Scheduled Appointments
           </h3>
@@ -157,4 +157,4 @@ const PatientContent = ({ data }) => {
   );
 };
 
-export default PatientContent;
+export default ClientContent;
