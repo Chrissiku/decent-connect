@@ -39,34 +39,21 @@ const RightBar = ({ data }) => {
           </div>
         </div>
         {/* Meeting */}
-        <div className="w-full flex flex-col items-start justify-between space-y-5">
-          <h3 className="text-teal font-medium text-[15px]">
-            Schedule Meeting
+        <div className="w-full flex flex-col items-start justify-between space-y-3">
+          <h3 className="text-teal font-medium text-[14px]">
+            Create meeting and/or view your record
           </h3>
           <div className="inline-flex space-x-2 items-center justify-center">
             <div className="bg-teal inline-flex items-center justify-between space-x-1 text-white py-2 px-4 rounded-lg">
-              <UserIcon className="w-5 h-5" />
+              <UserIcon className="w-4 h-4" />
               <button type="button" className="text-[12px]">
                 One-on-One
               </button>
             </div>
-            <span className="text-[12px]">or</span>
-            <div className="bg-teal inline-flex items-center justify-between space-x-1 text-white py-2 px-4 rounded-lg">
-              <UserGroupIcon className="w-5 h-5" />
-              <button type="button" className="text-[12px]">
-                Conference
-              </button>
-            </div>
+            <button className="bg-teal text-white py-2 px-4 rounded-lg text-[12px]">
+              View all Report
+            </button>
           </div>
-        </div>
-        {/*Medical History  */}
-        <div className="w-full flex flex-col items-start justify-between space-y-5">
-          <h3 className="text-teal font-medium text-[15px]">
-            My Medical Report
-          </h3>
-          <button className="bg-teal text-white py-2 px-5 rounded-lg tex-[13px]">
-            View all Report
-          </button>
         </div>
         {/* Image */}
         <div className="w-full h-[300px]">
