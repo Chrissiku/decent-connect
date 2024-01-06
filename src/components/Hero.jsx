@@ -1,4 +1,5 @@
 import hero from "../assets/hero.jpg";
+import ConnectButton from "./common/ConnectButton";
 
 const Hero = () => {
   return (
@@ -23,13 +24,8 @@ const Hero = () => {
                 online therapy.
               </p>
             </div>
-            <div className="w-full">
-              <button
-                className="bg-teal text-white px-5 py-3 lg:px-10 lg:py-5 text-[16px] lg:text-[20px] text-center rounded-lg"
-                type="button"
-              >
-                Schedule your appointment
-              </button>
+            <div className="w-full max-w-[300px] mx-auto">
+              <ConnectButton text="Start your journey" start="Start" />
             </div>
           </div>
         </div>
