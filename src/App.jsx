@@ -5,7 +5,6 @@ import Organization from "./pages/Organization";
 import Psychologist from "./pages/Psychologist";
 import { useContext } from "react";
 import { AppContext } from "./context/ContextProvider";
-import TherapistDashboard from "./pages/TherapistDashboard";
 
 export default function App() {
   const { userType, did } = useContext(AppContext);
@@ -25,7 +24,6 @@ export default function App() {
         <div className="w-full mx-auto flex flex-col">
           <Routes>
             <Route path="/" element={<PageComponent />} />
-            <Route path="/th" element={<TherapistDashboard />} />
           </Routes>
         </div>
       </div>
