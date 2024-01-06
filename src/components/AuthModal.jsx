@@ -68,7 +68,7 @@ export default function AuthModal({ isOpen, closeModal }) {
                         <Organization />
                       ) : authType === "psychologist" ? (
                         <Psychologist />
-                      ) : (
+                      ) : authType === "undefined" ? (
                         <main
                           className="w-full mx-auto grid place-items-center 
                         bg-white px-6 py-24 sm:py-32 lg:px-8"
@@ -92,7 +92,7 @@ export default function AuthModal({ isOpen, closeModal }) {
                             </div>
                           </div>
                         </main>
-                      )}
+                      ) : null}
                     </div>
                   </div>
                 </div>
