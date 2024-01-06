@@ -1,8 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/ContextProvider";
+import SideNav from "../components/patient/SideNav";
+import PatientContent from "../components/patient/PatientContent";
+import RightBar from "../components/patient/RightBar";
 
 const Client = () => {
-  const { web5, did, logout, protocolDefinition } = useContext(AppContext);
+  const { web5, did, protocolDefinition } = useContext(AppContext);
   const [clientInfo, setClientInfo] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -55,20 +58,17 @@ const Client = () => {
         </div>
       ) : (
         <>
-          <div>Client dashboard</div>
-          <div>{clientInfo.id}</div>
-          <div>{clientInfo.name}</div>
-          <div>{clientInfo.dob}</div>
-          <div>{clientInfo.gender}</div>
-          <img
-            className="h-10 w-10"
-            src={clientInfo.picture}
-            alt={clientInfo.name}
-          />
-
-          <button type="button" className="border" onClick={logout}>
-            logout
-          </button>
+          <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12">
+            <div className="lg:col-span-2">
+              <SideNav />
+            </div>
+            <div className="lg:col-span-7">
+              <PatientContent data={clientInfo} />
+            </div>
+            <div className="lg:col-span-3">
+              <RightBar data={clientInfo} />
+            </div>
+          </div>
         </>
       )}
     </>

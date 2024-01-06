@@ -5,6 +5,7 @@ import Organization from "./pages/Organization";
 import Psychologist from "./pages/Psychologist";
 import { useContext } from "react";
 import { AppContext } from "./context/ContextProvider";
+
 export default function App() {
   const { userType, did } = useContext(AppContext);
   const PageComponent =
