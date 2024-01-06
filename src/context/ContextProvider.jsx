@@ -11,7 +11,7 @@ const ContextProvider = ({ children }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [authType, setAuthType] = useState(null);
   const [userType, setUserType] = useState(() => {
-    return localStorage.getItem("userType") || null;
+    localStorage.getItem("userType") || null;
   });
   const [organizationList, setOrganizationList] = useState([]);
 
