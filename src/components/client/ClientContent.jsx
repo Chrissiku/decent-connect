@@ -44,53 +44,56 @@ const ClientContent = ({ data }) => {
             </div>
             <div
               className="w-full flex flex-col items-center justify-between md:justify-start 
-            border-b-2 border-t-2 border-gray-200 py-2 space-y-2"
+            border-b-2 border-t-2 border-gray-200 py-2 space-y-1"
             >
-              {psychologistList?.map((psy, index) => (
-                <div
-                  key={`${index} ${psy.id}`}
-                  className={`w-full flex justify-between space-x-4 px-2 py-4 rounded-xl ${
-                    psy.organization === "self" || psy.organization === ""
-                      ? "hover:bg-red-200"
-                      : "hover:bg-slate-200"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="inline-flex items-center justify-start space-x-3">
-                      <div className="rounded-full overflow-hidden w-14 h-14">
-                        <img
-                          src={psy?.profile}
-                          className="w-full h-full object-cover"
-                          alt={`female profile ${psy.name}`}
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <h4 className="text-sm font-semibold text-teal">
-                          {psy?.name}
-                        </h4>
-                        <p className="text-xs text-[#808080]">
-                          {psy?.specialization} psychologist
-                        </p>
-                        <p className="text-[12px] text-shade p-1 text-left">
-                          {psy.organization === "self" ||
-                          psy.organization === ""
-                            ? `@ Self Employed`
-                            : `@
+              {[...psychologistList]
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 3)
+                ?.map((psy, index) => (
+                  <div
+                    key={`${index} ${psy.id}`}
+                    className={`w-full flex justify-between space-x-4 px-2 py-4 rounded-xl ${
+                      psy.organization === "self" || psy.organization === ""
+                        ? "hover:bg-red-200"
+                        : "hover:bg-slate-200"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="inline-flex items-center justify-start space-x-3">
+                        <div className="rounded-full overflow-hidden w-14 h-14">
+                          <img
+                            src={psy?.profile}
+                            className="w-full h-full object-cover"
+                            alt={`female profile ${psy.name}`}
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <h4 className="capitalize text-[14px] font-semibold text-teal">
+                            {psy?.name}
+                          </h4>
+                          <p className="text-[12px] text-[#808080]">
+                            {psy?.specialization} psychologist
+                          </p>
+                          <p className="text-[12px] text-shade text-left">
+                            {psy.organization === "self" ||
+                            psy.organization === ""
+                              ? `@ Self Employed`
+                              : `@
                             ${
                               findOrganizationByRecordId(psy?.organization).name
                             }`}
-                        </p>
+                          </p>
+                        </div>
                       </div>
                     </div>
+                    <button
+                      type="button"
+                      className="rounded-xl text-white py-1 text-[12px] font-medium px-6 bg-teal"
+                    >
+                      Book Now
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    className="rounded-xl text-white py-1 text-[12px] font-medium px-6 bg-teal"
-                  >
-                    Book Now
-                  </button>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         )}
