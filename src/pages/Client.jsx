@@ -5,9 +5,7 @@ import ClientContent from "../components/client/ClientContent";
 import RightBar from "../components/client/RightBar";
 
 const Client = () => {
-  const { web5, did, protocolDefinition } = useContext(
-    AppContext
-  );
+  const { web5, did, protocolDefinition, pageView } = useContext(AppContext);
   const [clientInfo, setClientInfo] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -65,7 +63,13 @@ const Client = () => {
               <SideNav />
             </div>
             <div className="lg:col-span-7">
-              <ClientContent data={clientInfo} />
+              {pageView === "home" ? (
+                <ClientContent data={clientInfo} />
+              ) : pageView === "appointment" ? (
+                <>Appointment page</>
+              ) : (
+                <ClientContent data={clientInfo} />
+              )}
             </div>
             <div className="lg:col-span-3">
               <RightBar data={clientInfo} />

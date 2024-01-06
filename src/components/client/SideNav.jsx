@@ -11,7 +11,7 @@ import { useContext } from "react";
 import { AppContext } from "../../context/ContextProvider";
 
 const SideNav = () => {
-  const { logout } = useContext(AppContext);
+  const { logout, togglePageView } = useContext(AppContext);
   return (
     <div className="w-full h-full bg-[#F7F6FE] border border-r-[#DBDAE5]">
       <nav className="w-full h-screen flex flex-col items-center justify-start space-y-[50px] py-14">
@@ -24,6 +24,7 @@ const SideNav = () => {
         </div>
         <div className="w-full flex flex-col items-center justify-center">
           <button
+            onClick={() => togglePageView("home")}
             type="button"
             className="py-5 px-10 w-full text-shade inline-flex items-center justify-start space-x-4 
             hover:bg-white"
@@ -34,6 +35,7 @@ const SideNav = () => {
             <span>Dashboard</span>
           </button>
           <button
+            onClick={() => togglePageView("appointment")}
             type="button"
             className="py-5 px-10 w-full text-shade inline-flex items-center justify-start space-x-4 
             hover:bg-white"

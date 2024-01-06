@@ -13,6 +13,8 @@ const ClientContent = ({ data }) => {
     AppContext
   );
 
+  console.log(psychologistList);
+
   return (
     <div className="w-full mx-auto px-5 md:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">
       <h1 className="text-[20px] font-bold">
@@ -26,51 +28,72 @@ const ClientContent = ({ data }) => {
         <img src={hero} className="w-full h-full" alt="Hero image" />
       </div>
       <div className="w-full flex flex-col md:flex-row items-center justify-center md:justify-between space-x-8 space-y-5">
-        <div className="w-full md:w-3/5 flex flex-col flex-wrap items-center justify-between space-y-3">
-          <div className="w-full flex items-center justify-between text-[15px]">
-            <h2 className="text-teal font-bold">Therapists Onboard</h2>
-            <Link className="underline font-semibold py-2 px-3 hover:bg-slate-100">
-              View all
-            </Link>
+        {Object.keys(psychologistList).length === 0 ? (
+          <div className="w-full md:w-3/5 flex flex-col flex-wrap items-center justify-between space-y-3 bg-red-200">
+            <div className="w-full h-[100%] p-20 text-center text-[20px] text-dark-gray">
+              Currently, there are no therapists available !
+            </div>
           </div>
-          <div className="w-full flex flex-col items-center justify-between md:justify-start border-b-2 border-t-2 border-gray-200 py-2">
-            {psychologistList?.map((psy, index) => (
-              <div
-                key={`${index} ${psy.id}`}
-                className="w-full flex justify-between space-x-4 hover:bg-slate-100 px-2 py-4 rounded-xl"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="inline-flex items-center justify-start space-x-3">
-                    <div className="rounded-full overflow-hidden w-14 h-14">
-                      <img
-                        src={psy?.profile}
-                        className="w-full h-full object-cover"
-                        alt={`female profile ${psy.name}`}
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <h4 className="text-sm font-semibold text-teal">
-                        {psy?.name}
-                      </h4>
-                      <p className="text-xs text-[#808080]">
-                        {psy?.specialization} psychologist
-                      </p>
-                      <p className="text-[13px] text-shade">
-                        @ {findOrganizationByRecordId(psy?.organization).name}
-                      </p>
+        ) : (
+          <div className="w-full md:w-3/5 flex flex-col flex-wrap items-center justify-between space-y-3">
+            <div className="w-full flex items-center justify-between text-[15px]">
+              <h2 className="text-teal font-bold">Therapists Onboard</h2>
+              <Link className="underline font-semibold py-2 px-3 hover:bg-slate-100">
+                View all
+              </Link>
+            </div>
+            <div
+              className="w-full flex flex-col items-center justify-between md:justify-start 
+            border-b-2 border-t-2 border-gray-200 py-2 space-y-2"
+            >
+              {psychologistList?.map((psy, index) => (
+                <div
+                  key={`${index} ${psy.id}`}
+                  className={`w-full flex justify-between space-x-4 px-2 py-4 rounded-xl ${
+                    psy.organization === "self" || psy.organization === ""
+                      ? "hover:bg-red-200"
+                      : "hover:bg-slate-200"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="inline-flex items-center justify-start space-x-3">
+                      <div className="rounded-full overflow-hidden w-14 h-14">
+                        <img
+                          src={psy?.profile}
+                          className="w-full h-full object-cover"
+                          alt={`female profile ${psy.name}`}
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <h4 className="text-sm font-semibold text-teal">
+                          {psy?.name}
+                        </h4>
+                        <p className="text-xs text-[#808080]">
+                          {psy?.specialization} psychologist
+                        </p>
+                        <p className="text-[12px] text-shade p-1 text-left">
+                          {psy.organization === "self" ||
+                          psy.organization === ""
+                            ? `@ Self Employed`
+                            : `@
+                            ${
+                              findOrganizationByRecordId(psy?.organization).name
+                            }`}
+                        </p>
+                      </div>
                     </div>
                   </div>
+                  <button
+                    type="button"
+                    className="rounded-xl text-white py-1 text-[12px] font-medium px-6 bg-teal"
+                  >
+                    Book Now
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  className="rounded-xl text-white py-1 text-[12px] font-medium px-6 bg-teal"
-                >
-                  Book Now
-                </button>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
         <div
           className="bg-teal rounded-xl text-white px-5 py-3 w-full md:w-2/5 flex flex-col 
         items-center md:items-start justify-between space-y-4"

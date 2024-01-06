@@ -257,8 +257,10 @@ const Psychologist = () => {
                   onChange={(e) => setOrganization(e.target.value)}
                   className="capitalize bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
                 >
-                  <option defaultValue="self employed">Self Employed</option>
-                  {organizationList.map((organization) => (
+                  <option defaultValue="self" value="self">
+                    Self Employed
+                  </option>
+                  {organizationList?.map((organization) => (
                     <option key={organization.id} value={organization.recordId}>
                       {organization.name}
                     </option>

@@ -11,10 +11,14 @@ const ContextProvider = ({ children }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [authType, setAuthType] = useState(null);
   const [userType, setUserType] = useState(() => {
-    localStorage.getItem("userType") || null;
+    return localStorage.getItem("userType") || null;
   });
   const [organizationList, setOrganizationList] = useState([]);
   const [psychologistList, setPsychologistList] = useState([]);
+
+  const [pageView, setPageView] = useState(() => {
+    return localStorage.getItem("pageView") || null;
+  });
 
   // connect to Web5 on mount
   useEffect(() => {
@@ -200,6 +204,11 @@ const ContextProvider = ({ children }) => {
     setUserType(value);
   };
 
+  const togglePageView = (value) => {
+    localStorage.setItem("pageView", value);
+    setPageView(value);
+  };
+
   const toggleClient = (value) => {
     localStorage.setItem("client", value);
     setClient(value);
@@ -219,10 +228,18 @@ const ContextProvider = ({ children }) => {
     localStorage.setItem("userType", null);
     setAuthType(null);
     setUserType(null);
+    togglePageView("home");
   };
 
+  console.log("Page view : ", pageView);
+
   const findOrganizationByRecordId = (recordIdToFind) => {
-    const org = organizationList.find((org) => org.recordId === recordIdToFind);
+    if (Object.keys(organizationList).length === 0) {
+      return [];
+    }
+    const org = organizationList?.find(
+      (org) => org?.recordId === recordIdToFind
+    );
     return org;
   };
 
@@ -239,6 +256,7 @@ const ContextProvider = ({ children }) => {
     publicDid,
     organizationList,
     psychologistList,
+    pageView,
     setModalOpen,
     toggleAuthType,
     toggleUserType,
@@ -247,6 +265,7 @@ const ContextProvider = ({ children }) => {
     toggleOrganization,
     logout,
     findOrganizationByRecordId,
+    togglePageView,
   };
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
 };

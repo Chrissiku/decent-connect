@@ -117,7 +117,7 @@ const Client = () => {
                     className="block mb-2 text-[16px] font-medium text-gray-900"
                   >
                     Your profile picture <span className="text-red-500">*</span>{" "}
-                    <span className="text-gray-400">(Maximum size 700kb)</span>
+                    <span className="text-gray-400">{`(Max size < 700kb)`}</span>
                   </label>
                   <input
                     type="file"
