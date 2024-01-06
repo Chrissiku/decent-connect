@@ -3,11 +3,7 @@ import {
   DocumentDuplicateIcon,
   ChevronDownIcon,
 } from "@heroicons/react/24/solid";
-import {
-  UserGroupIcon,
-  UserIcon,
-  ArrowLongRightIcon,
-} from "@heroicons/react/24/outline";
+import { UserIcon, ArrowLongRightIcon } from "@heroicons/react/24/outline";
 import counselling from "../../assets/patient/Marriage counseling-bro.png";
 import { useContext } from "react";
 import { AppContext } from "../../context/ContextProvider";
