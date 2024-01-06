@@ -1,13 +1,18 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import hero from "../../assets/patient/hero-img.png";
-import femaleProfile from "../../assets/patient/female.svg";
 import maleProfile from "../../assets/patient/male.svg";
 import call from "../../assets/patient/call.svg";
 import video from "../../assets/patient/video.svg";
 import { Calendar } from "../ui/calendar";
+import { useContext } from "react";
+import { AppContext } from "../../context/ContextProvider";
 
 const ClientContent = ({ data }) => {
+  const { psychologistList, findOrganizationByRecordId } = useContext(
+    AppContext
+  );
+
   return (
     <div className="w-full mx-auto px-5 md:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">
       <h1 className="text-[20px] font-bold">
@@ -29,25 +34,30 @@ const ClientContent = ({ data }) => {
             </Link>
           </div>
           <div className="w-full flex flex-col items-center justify-between md:justify-start border-b-2 border-t-2 border-gray-200 py-2">
-            {[1, 2, 3].map((index, item) => (
+            {psychologistList?.map((psy, index) => (
               <div
-                key={index}
+                key={`${index} ${psy.id}`}
                 className="w-full flex justify-between space-x-4 hover:bg-slate-100 px-2 py-4 rounded-xl"
               >
                 <div className="flex items-center justify-between">
                   <div className="inline-flex items-center justify-start space-x-3">
-                    <div className="rounded-full overflow-hidden w-12 h-12">
+                    <div className="rounded-full overflow-hidden w-14 h-14">
                       <img
-                        src={femaleProfile}
-                        className="w-full h-full"
-                        alt={`female profile ${item}`}
+                        src={psy?.profile}
+                        className="w-full h-full object-cover"
+                        alt={`female profile ${psy.name}`}
                       />
                     </div>
                     <div className="flex flex-col">
                       <h4 className="text-sm font-semibold text-teal">
-                        Dr. Mary
+                        {psy?.name}
                       </h4>
-                      <p className="text-xs text-[#808080]">Psychiatrist</p>
+                      <p className="text-xs text-[#808080]">
+                        {psy?.specialization} psychologist
+                      </p>
+                      <p className="text-[13px] text-shade">
+                        @ {findOrganizationByRecordId(psy?.organization).name}
+                      </p>
                     </div>
                   </div>
                 </div>

@@ -14,6 +14,7 @@ const ContextProvider = ({ children }) => {
     localStorage.getItem("userType") || null;
   });
   const [organizationList, setOrganizationList] = useState([]);
+  const [psychologistList, setPsychologistList] = useState([]);
 
   // connect to Web5 on mount
   useEffect(() => {
@@ -133,9 +134,44 @@ const ContextProvider = ({ children }) => {
       }
     };
 
+    // Fetch All Psychologists
+    const fetchPsychologists = async () => {
+      try {
+        const response = await web5.dwn.records.query({
+          from: publicDid,
+          message: {
+            filter: {
+              protocol: protocolDefinition.protocol,
+              schema: protocolDefinition.types.psychologistProfile.schema,
+            },
+          },
+        });
+
+        if (response.status.code === 200) {
+          const psyData = await Promise.all(
+            response.records.map(async (record) => {
+              const data = await record.data.json();
+              return {
+                ...data,
+                recordId: record.id,
+              };
+            })
+          );
+          setPsychologistList(psyData);
+          return psyData;
+        } else {
+          console.error("error fetching all organization", response.status);
+          return [];
+        }
+      } catch (error) {
+        console.error("Error Fetching all organizations : ", error);
+      }
+    };
+
     const mounter = async () => {
       await installProtocol();
       await fetchOrganizations();
+      await fetchPsychologists();
     };
 
     if (web5 && did) {
@@ -185,6 +221,11 @@ const ContextProvider = ({ children }) => {
     setUserType(null);
   };
 
+  const findOrganizationByRecordId = (recordIdToFind) => {
+    const org = organizationList.find((org) => org.recordId === recordIdToFind);
+    return org;
+  };
+
   const values = {
     modalOpen,
     authType,
@@ -197,6 +238,7 @@ const ContextProvider = ({ children }) => {
     did,
     publicDid,
     organizationList,
+    psychologistList,
     setModalOpen,
     toggleAuthType,
     toggleUserType,
@@ -204,6 +246,7 @@ const ContextProvider = ({ children }) => {
     togglePsy,
     toggleOrganization,
     logout,
+    findOrganizationByRecordId,
   };
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
 };

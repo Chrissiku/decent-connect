@@ -5,7 +5,9 @@ import ClientContent from "../components/client/ClientContent";
 import RightBar from "../components/client/RightBar";
 
 const Client = () => {
-  const { web5, did, protocolDefinition } = useContext(AppContext);
+  const { web5, did, protocolDefinition } = useContext(
+    AppContext
+  );
   const [clientInfo, setClientInfo] = useState([]);
   const [loading, setLoading] = useState(true);
 
