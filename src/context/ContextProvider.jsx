@@ -13,13 +13,27 @@ const ContextProvider = ({ children }) => {
   const [userType, setUserType] = useState(() => {
     return localStorage.getItem("userType") || null;
   });
+  const [clientInfo, setClientInfo] = useState([]);
   const [organizationList, setOrganizationList] = useState([]);
   const [psychologistList, setPsychologistList] = useState([]);
+  const [meetings, setMeetings] = useState([]);
   const [pageView, setPageView] = useState(() => {
     return localStorage.getItem("pageView") || null;
   });
   const [customModalOpen, setCustomModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
+  const [selectedDid, setSelectedDid] = useState(null);
+  const [client, setClient] = useState(() => {
+    return localStorage.getItem("client") || null;
+  });
+
+  const [psychologist, setPsychologist] = useState(() => {
+    return localStorage.getItem("psychologist") || null;
+  });
+
+  const [organization, setOrganization] = useState(() => {
+    return localStorage.getItem("organization") || null;
+  });
 
   // connect to Web5 on mount
   useEffect(() => {
@@ -61,6 +75,10 @@ const ContextProvider = ({ children }) => {
           schema: schema.uri + "/psychologistProfile",
           dataFormats: ["application/json"],
         },
+        meetings: {
+          schema: schema.uri + "/meetings",
+          dataFormats: ["application/json"],
+        },
       },
       structure: {
         clientProfile: {
@@ -80,6 +98,13 @@ const ContextProvider = ({ children }) => {
           $actions: [
             { who: "anyone", can: "write" },
             { who: "anyone", can: "read" },
+          ],
+        },
+        meetings: {
+          $actions: [
+            { who: "anyone", can: "write" },
+            { who: "recipient", of: "meetings", can: "read" },
+            { who: "author", of: "meetings", can: "read" },
           ],
         },
       },
@@ -173,28 +198,51 @@ const ContextProvider = ({ children }) => {
       }
     };
 
+    // Fetch All meeting
+    const fetchMeetings = async () => {
+      try {
+        const response = await web5.dwn.records.query({
+          from: did,
+          message: {
+            filter: {
+              protocol: protocolDefinition.protocol,
+              schema: protocolDefinition.types.meetings.schema,
+            },
+          },
+        });
+
+        if (response.status.code === 200) {
+          const meetingData = await Promise.all(
+            response.records.map(async (record) => {
+              const data = await record.data.json();
+              return {
+                ...data,
+                recordId: record.id,
+              };
+            })
+          );
+          setMeetings(meetingData);
+          return meetingData;
+        } else {
+          console.error("error fetching meetings", response.status);
+          return [];
+        }
+      } catch (error) {
+        console.error("Error Fetching meetings : ", error);
+      }
+    };
+
     const mounter = async () => {
       await installProtocol();
       await fetchOrganizations();
       await fetchPsychologists();
+      await fetchMeetings();
     };
 
     if (web5 && did) {
       mounter();
     }
   }, [web5, did, protocolDefinition]);
-
-  const [client, setClient] = useState(() => {
-    return localStorage.getItem("client") || null;
-  });
-
-  const [psychologist, setPsychologist] = useState(() => {
-    return localStorage.getItem("psychologist") || null;
-  });
-
-  const [organization, setOrganization] = useState(() => {
-    return localStorage.getItem("organization") || null;
-  });
 
   const toggleAuthType = (value) => {
     setAuthType(value);
@@ -246,6 +294,16 @@ const ContextProvider = ({ children }) => {
     return org;
   };
 
+  const findPsyByDid = (recordIdToFind) => {
+    if (Object.keys(psychologistList).length === 0) {
+      return [];
+    }
+    const psy = psychologistList?.find((psy) => psy?.did === recordIdToFind);
+    return psy;
+  };
+
+  console.log("Meeting : ", meetings);
+
   const values = {
     modalOpen,
     authType,
@@ -262,6 +320,11 @@ const ContextProvider = ({ children }) => {
     pageView,
     customModalOpen,
     modalContent,
+    selectedDid,
+    meetings,
+    clientInfo,
+    setClientInfo,
+    setSelectedDid,
     setCustomModalOpen,
     toggleModalContent,
     setModalOpen,
@@ -272,6 +335,7 @@ const ContextProvider = ({ children }) => {
     toggleOrganization,
     logout,
     findOrganizationByRecordId,
+    findPsyByDid,
     togglePageView,
   };
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
