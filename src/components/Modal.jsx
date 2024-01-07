@@ -3,6 +3,7 @@ import { Fragment, useContext, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { AppContext } from "../context/ContextProvider";
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import BookPsychologist from "../dashBoardsUi/BookPsychologist";
 
 const Modal = ({ isOpen, closeModal }) => {
   const { modalContent, toggleModalContent } = useContext(AppContext);
@@ -56,11 +57,11 @@ const Modal = ({ isOpen, closeModal }) => {
                 >
                   <XMarkIcon className="text-[16px]" />
                 </button>
-                <div className="bg-white p-5">
+                <div className="bg-white p-3">
                   <div className="sm:flex sm:items-start">
                     <div className="w-full" ref={cancelButtonRef}>
-                      {modalContent === "book-doctor" ? (
-                        <div>Booking doctor form</div>
+                      {modalContent === "book-psychologist" ? (
+                        <BookPsychologist />
                       ) : null}
                     </div>
                   </div>
