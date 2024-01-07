@@ -4,6 +4,7 @@ import SideNav from "../components/client/SideNav";
 import ClientContent from "../components/client/ClientContent";
 import RightBar from "../components/client/RightBar";
 import PsychologistList from "../components/client/PsychologistList";
+import Appointments from "../components/client/Appointments";
 
 const Client = () => {
   const {
@@ -12,8 +13,11 @@ const Client = () => {
     protocolDefinition,
     pageView,
     psychologistList,
+    meetings,
+    clientInfo,
+    setClientInfo,
   } = useContext(AppContext);
-  const [clientInfo, setClientInfo] = useState([]);
+  // const [clientInfo, setClientInfo] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -70,14 +74,14 @@ const Client = () => {
               <SideNav />
             </div>
             <div className="lg:col-span-7">
-              {pageView === "home" ? (
-                Object.keys(clientInfo).length === 0 ? (
-                  <>No data on the DWN</>
-                ) : (
-                  <ClientContent data={clientInfo} />
-                )
+              {Object.keys(clientInfo).length === 0 ? (
+                <>No data on the DWN</>
+              ) : pageView === "home" ? (
+                <ClientContent data={clientInfo} />
               ) : pageView === "psychologist" ? (
                 <PsychologistList psy={psychologistList} />
+              ) : pageView === "appointment" ? (
+                <Appointments meetings={meetings} />
               ) : (
                 <>null page</>
               )}
