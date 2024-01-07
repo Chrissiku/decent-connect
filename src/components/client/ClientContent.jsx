@@ -9,9 +9,19 @@ import { useContext } from "react";
 import { AppContext } from "../../context/ContextProvider";
 
 const ClientContent = ({ data }) => {
-  const { psychologistList, findOrganizationByRecordId } = useContext(
-    AppContext
-  );
+  const {
+    psychologistList,
+    findOrganizationByRecordId,
+    setCustomModalOpen,
+    toggleModalContent,
+    setSelectedDid,
+  } = useContext(AppContext);
+
+  const toggleBooking = (selectedDid) => {
+    toggleModalContent("book-psychologist");
+    setCustomModalOpen(true);
+    setSelectedDid(selectedDid);
+  };
 
   return (
     <div className="w-full mx-auto px-5 md:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">
@@ -85,8 +95,9 @@ const ClientContent = ({ data }) => {
                       </div>
                     </div>
                     <button
+                      onClick={() => toggleBooking(psy.did)}
                       type="button"
-                      className="rounded-xl text-white py-1 text-[12px] font-medium px-6 bg-teal"
+                      className="rounded-xl text-white py-1 text-[12px] font-medium px-6 bg-teal hover:bg-indigo-500"
                     >
                       Book Now
                     </button>
