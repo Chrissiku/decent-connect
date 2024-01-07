@@ -6,6 +6,7 @@ import Psychologist from "./pages/Psychologist";
 import { useContext } from "react";
 import { AppContext } from "./context/ContextProvider";
 import Modal from "./components/Modal";
+import JoinAppointment from "./pages/JoinAppointment";
 
 export default function App() {
   const {
@@ -14,11 +15,13 @@ export default function App() {
     toggleModalContent,
     customModalOpen,
     setCustomModalOpen,
+    setSelectedDid,
   } = useContext(AppContext);
 
   const closeModal = () => {
     setCustomModalOpen(false);
     toggleModalContent(null);
+    setSelectedDid(null);
   };
   const PageComponent =
     userType === "organization"
@@ -36,6 +39,7 @@ export default function App() {
         <div className="w-full mx-auto flex flex-col">
           <Routes>
             <Route path="/" element={<PageComponent />} />
+            <Route path="/join/:id" element={<JoinAppointment />} />
           </Routes>
         </div>
         <Modal isOpen={customModalOpen} closeModal={closeModal} />
