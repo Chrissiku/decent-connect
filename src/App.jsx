@@ -5,9 +5,21 @@ import Organization from "./pages/Organization";
 import Psychologist from "./pages/Psychologist";
 import { useContext } from "react";
 import { AppContext } from "./context/ContextProvider";
+import Modal from "./components/Modal";
 
 export default function App() {
-  const { userType, did } = useContext(AppContext);
+  const {
+    userType,
+    did,
+    toggleModalContent,
+    customModalOpen,
+    setCustomModalOpen,
+  } = useContext(AppContext);
+
+  const closeModal = () => {
+    setCustomModalOpen(false);
+    toggleModalContent(null);
+  };
   const PageComponent =
     userType === "organization"
       ? Organization
@@ -26,6 +38,7 @@ export default function App() {
             <Route path="/" element={<PageComponent />} />
           </Routes>
         </div>
+        <Modal isOpen={customModalOpen} closeModal={closeModal} />
       </div>
     </>
   );
