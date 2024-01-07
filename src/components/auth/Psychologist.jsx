@@ -24,6 +24,7 @@ const Psychologist = () => {
 
   const formData = {
     id: uidv4(),
+    did: did,
     name,
     profile,
     experience,

@@ -46,6 +46,7 @@ const SideNav = () => {
             <span>Appointment</span>
           </button>
           <button
+            onClick={() => togglePageView("psychologist")}
             type="button"
             className="py-5 px-10 w-full text-shade inline-flex items-center justify-start space-x-4 
             hover:bg-white"

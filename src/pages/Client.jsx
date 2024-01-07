@@ -3,9 +3,16 @@ import { AppContext } from "../context/ContextProvider";
 import SideNav from "../components/client/SideNav";
 import ClientContent from "../components/client/ClientContent";
 import RightBar from "../components/client/RightBar";
+import PsychologistList from "../components/client/PsychologistList";
 
 const Client = () => {
-  const { web5, did, protocolDefinition, pageView } = useContext(AppContext);
+  const {
+    web5,
+    did,
+    protocolDefinition,
+    pageView,
+    psychologistList,
+  } = useContext(AppContext);
   const [clientInfo, setClientInfo] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -64,11 +71,15 @@ const Client = () => {
             </div>
             <div className="lg:col-span-7">
               {pageView === "home" ? (
-                <ClientContent data={clientInfo} />
-              ) : pageView === "appointment" ? (
-                <>Appointment page</>
+                Object.keys(clientInfo).length === 0 ? (
+                  <>No data on the DWN</>
+                ) : (
+                  <ClientContent data={clientInfo} />
+                )
+              ) : pageView === "psychologist" ? (
+                <PsychologistList psy={psychologistList} />
               ) : (
-                <ClientContent data={clientInfo} />
+                <>null page</>
               )}
             </div>
             <div className="lg:col-span-3">

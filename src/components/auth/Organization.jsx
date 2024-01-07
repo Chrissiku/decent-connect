@@ -22,6 +22,7 @@ const Organization = () => {
 
   const formData = {
     id: uidv4(),
+    did: did,
     name,
     logo,
     creationDate,

@@ -15,10 +15,11 @@ const ContextProvider = ({ children }) => {
   });
   const [organizationList, setOrganizationList] = useState([]);
   const [psychologistList, setPsychologistList] = useState([]);
-
   const [pageView, setPageView] = useState(() => {
     return localStorage.getItem("pageView") || null;
   });
+  const [customModalOpen, setCustomModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
 
   // connect to Web5 on mount
   useEffect(() => {
@@ -199,6 +200,10 @@ const ContextProvider = ({ children }) => {
     setAuthType(value);
   };
 
+  const toggleModalContent = (value) => {
+    setModalContent(value);
+  };
+
   const toggleUserType = (value) => {
     localStorage.setItem("userType", value);
     setUserType(value);
@@ -231,8 +236,6 @@ const ContextProvider = ({ children }) => {
     togglePageView("home");
   };
 
-  console.log("Page view : ", pageView);
-
   const findOrganizationByRecordId = (recordIdToFind) => {
     if (Object.keys(organizationList).length === 0) {
       return [];
@@ -257,6 +260,10 @@ const ContextProvider = ({ children }) => {
     organizationList,
     psychologistList,
     pageView,
+    customModalOpen,
+    modalContent,
+    setCustomModalOpen,
+    toggleModalContent,
     setModalOpen,
     toggleAuthType,
     toggleUserType,

@@ -13,12 +13,10 @@ const ClientContent = ({ data }) => {
     AppContext
   );
 
-  console.log(psychologistList);
-
   return (
     <div className="w-full mx-auto px-5 md:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">
       <h1 className="text-[20px] font-bold">
-        Welcome <span className="text-teal">{data.name}!</span>
+        Welcome <span className="text-teal">{data?.name}!</span>
       </h1>
       <p className="text-[15px] text-gray-500">
         Search for the best therapists to attend to you! our therapists are
