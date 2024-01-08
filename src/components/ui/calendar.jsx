@@ -5,10 +5,19 @@ import { DayPicker } from "react-day-picker";
 
 import { cn } from "../lib/utils";
 import { buttonVariants } from "../ui/button";
+import { useState } from "react";
+import { format } from "date-fns";
 
 function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
+  const [selected, setSelected] = useState(new Date("2024-01-30"));
+  let footer = <p>Please pick a day.</p>;
+  if (selected) {
+    footer = <p>You picked {format(selected, "PP")}.</p>;
+  }
   return (
     <DayPicker
+      selected={selected}
+      onSelect={setSelected}
       showOutsideDays={showOutsideDays}
       className={cn("w-full", className)}
       classNames={{
@@ -35,7 +44,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
         ),
         day_range_end: "day-range-end",
         day_selected:
-          "bg-slate-900 text-slate-50 hover:bg-slate-800 hover:text-slate-50 focus:bg-slate-900 focus:text-slate-50 ",
+          "bg-shade text-slate-50 hover:bg-slate-800 hover:text-slate-50 focus:bg-slate-900 focus:text-slate-50 ",
         day_today: "bg-slate-800 text-slate-100",
         day_outside:
           "day-outside text-slate-500 opacity-50 aria-selected:bg-slate-100/50 aria-selected:text-slate-500 aria-selected:opacity-30",
