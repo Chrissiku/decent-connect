@@ -34,6 +34,18 @@ const SideNav = () => {
             </span>
             <span>Dashboard</span>
           </button>
+
+          <button
+            onClick={() => togglePageView("psychologist")}
+            type="button"
+            className="py-5 px-10 w-full text-shade inline-flex items-center justify-start space-x-4 
+            hover:bg-white"
+          >
+            <span>
+              <UserPlusIcon className="w-[20px] h-[20px]" />
+            </span>
+            <span>Therapist</span>
+          </button>
           <button
             onClick={() => {
               togglePageView("appointment");
@@ -46,17 +58,6 @@ const SideNav = () => {
               <CalendarDaysIcon className="w-[20px] h-[20px]" />
             </span>
             <span>Appointment</span>
-          </button>
-          <button
-            onClick={() => togglePageView("psychologist")}
-            type="button"
-            className="py-5 px-10 w-full text-shade inline-flex items-center justify-start space-x-4 
-            hover:bg-white"
-          >
-            <span>
-              <UserPlusIcon className="w-[20px] h-[20px]" />
-            </span>
-            <span>Therapist</span>
           </button>
           <button
             type="button"

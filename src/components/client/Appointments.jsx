@@ -34,56 +34,77 @@ const Appointments = ({ meetings }) => {
             </tr>
           </thead>
           <tbody className="text-center">
-            {meetings?.map((item, index) => (
-              <tr key={index} className="hover:bg-gray-200">
-                <td>
-                  <div className="w-full text-center flex flex-col items-center p-3 justify-center text-gray-500 text-[13px]">
-                    <span>{clientInfo.name}</span>
-                    <span>{findPsyByDid(item.psychologistDid).name}</span>
-                  </div>
-                </td>
-                <td>{item.reason}</td>
-                <td>{item.symptom}</td>
-                <td className="">
-                  <div className="w-full flex flex-col text-[13px] text-gray-500">
-                    <span>
-                      on {new Date(item.meetingTime).toLocaleDateString()}
-                    </span>
-                    <span>
-                      @ {new Date(item.meetingTime).toLocaleTimeString()}
-                    </span>
-                  </div>
-                </td>
-                <td className="p-2">
-                  {item.moreInfo !== "" ? (
-                    <div>
-                      <a title={item.moreInfo}>
-                        {item.moreInfo.slice(0, 10) + "..."}
-                      </a>
+            {meetings
+              ?.sort(
+                (a, b) => new Date(a.meetingTime) - new Date(b.meetingTime)
+              )
+              .map((item, index) => (
+                <tr key={index} className="hover:bg-gray-200">
+                  <td>
+                    <div className="w-full text-center flex flex-col items-center p-3 justify-center text-gray-500 text-[13px]">
+                      <span>{clientInfo.name}</span>
+                      <span>{findPsyByDid(item.psychologistDid).name}</span>
                     </div>
-                  ) : (
-                    <span> - </span>
-                  )}
-                </td>
-                <td>
-                  {item.medicalRecord !== null ? (
-                    <div className="text-[10px] flex flex-col items-center justify-center group ">
-                      <DocumentArrowDownIcon className="w-8 h-8 group-hover:text-green-500" />
+                  </td>
+                  <td>{item.reason}</td>
+                  <td>{item.symptom}</td>
+                  <td className="">
+                    <div className="w-full flex flex-col text-[13px] text-gray-500">
+                      <span>
+                        on{" "}
+                        {new Date(item.meetingTime).toLocaleDateString(
+                          "en-GB",
+                          {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          }
+                        )}
+                      </span>
+                      <span>
+                        @{" "}
+                        {new Date(item.meetingTime).toLocaleTimeString(
+                          "en-US",
+                          {
+                            hour: "numeric",
+                            minute: "numeric",
+                            hour12: true,
+                          }
+                        )}
+                      </span>
                     </div>
-                  ) : (
-                    <span> - </span>
-                  )}
-                </td>
-                <td>
-                  <Link
-                    to={`/join/${item.id}`}
-                    className="px-4 py-1 bg-green-400 hover:bg-green-500 text-black rounded-lg text-[13px]"
-                  >
-                    Join now
-                  </Link>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td className="p-2">
+                    {item.moreInfo !== "" ? (
+                      <div>
+                        <a title={item.moreInfo}>
+                          {item.moreInfo.slice(0, 10) + "..."}
+                        </a>
+                      </div>
+                    ) : (
+                      <span> - </span>
+                    )}
+                  </td>
+                  <td>
+                    {item.medicalRecord !== null ? (
+                      <div className="text-[10px] flex flex-col items-center justify-center group ">
+                        <DocumentArrowDownIcon className="w-8 h-8 group-hover:text-green-500" />
+                      </div>
+                    ) : (
+                      <span> - </span>
+                    )}
+                  </td>
+                  <td>
+                    <Link
+                      to={`/join/${item.id}`}
+                      target="_blank"
+                      className="px-4 py-1 bg-green-400 hover:bg-green-500 text-black rounded-lg text-[13px]"
+                    >
+                      Join now
+                    </Link>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       )}
