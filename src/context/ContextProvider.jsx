@@ -14,6 +14,7 @@ const ContextProvider = ({ children }) => {
     return localStorage.getItem("userType") || null;
   });
   const [clientInfo, setClientInfo] = useState([]);
+  const [psychologistInfo, setPsychologistInfo] = useState([]);
   const [organizationList, setOrganizationList] = useState([]);
   const [psychologistList, setPsychologistList] = useState([]);
   const [meetings, setMeetings] = useState([]);
@@ -134,7 +135,7 @@ const ContextProvider = ({ children }) => {
     const fetchOrganizations = async () => {
       try {
         const response = await web5.dwn.records.query({
-          from: publicDid,
+          from: did,
           message: {
             filter: {
               protocol: protocolDefinition.protocol,
@@ -143,32 +144,34 @@ const ContextProvider = ({ children }) => {
           },
         });
 
-        if (response.status.code === 200) {
-          const orgsData = await Promise.all(
+        if (response.status.code == 200) {
+          const result = await Promise.all(
             response.records.map(async (record) => {
-              const data = await record;
-              return {
-                ...data,
-                recordId: record.id,
-              };
+              if (record && record.data) {
+                const { data } = record;
+                const textData = await data.json();
+                return textData;
+              }
+              return null;
             })
           );
-          setOrganizationList(orgsData);
-          return orgsData;
-        } else {
-          console.error("error fetching all organization", response.status);
-          return [];
+
+          const filteredResult = result.filter((item) => item !== null);
+
+          setOrganizationList(filteredResult);
+          return filteredResult;
         }
       } catch (error) {
-        console.error("Error Fetching all organizations : ", error);
+        console.error("Error fetching data : ", error);
       }
     };
 
     // Fetch All Psychologists
+
     const fetchPsychologists = async () => {
       try {
         const response = await web5.dwn.records.query({
-          from: publicDid,
+          from: did,
           message: {
             filter: {
               protocol: protocolDefinition.protocol,
@@ -177,24 +180,20 @@ const ContextProvider = ({ children }) => {
           },
         });
 
-        if (response.status.code === 200) {
-          const psyData = await Promise.all(
+        if (response.status.code == 200) {
+          const result = await Promise.all(
             response.records.map(async (record) => {
-              const data = await record;
-              return {
-                ...data,
-                recordId: record.id,
-              };
+              const { data } = record;
+              const textData = await data.json();
+              return textData;
             })
           );
-          setPsychologistList(psyData);
-          return psyData;
-        } else {
-          console.error("error fetching all organization", response.status);
-          return [];
+
+          setPsychologistList(result);
+          return result;
         }
       } catch (error) {
-        console.error("Error Fetching all organizations : ", error);
+        console.error("Error fetching data : ", error);
       }
     };
 
@@ -211,36 +210,28 @@ const ContextProvider = ({ children }) => {
           },
         });
 
-        if (response.status.code === 200) {
-          const meetingData = await Promise.all(
+        if (response.status.code == 200) {
+          const result = await Promise.all(
             response.records.map(async (record) => {
-              const data = await record.data.json();
-              return {
-                ...data,
-                recordId: record.id,
-              };
+              const { data } = record;
+              const textData = await data.json();
+              return textData;
             })
           );
-          setMeetings(meetingData);
-          return meetingData;
-        } else {
-          console.error("error fetching meetings", response.status);
-          return [];
+
+          setMeetings(result);
+          return result;
         }
       } catch (error) {
-        console.error("Error Fetching meetings : ", error);
+        console.error("Error fetching data : ", error);
       }
     };
 
-    const mounter = async () => {
-      await installProtocol();
-      await fetchOrganizations();
-      await fetchPsychologists();
-      await fetchMeetings();
-    };
-
     if (web5 && did) {
-      mounter();
+      installProtocol();
+      // fetchOrganizations();
+      // fetchPsychologists();
+      // fetchMeetings();
     }
   }, [web5, did, protocolDefinition]);
 
@@ -337,6 +328,8 @@ const ContextProvider = ({ children }) => {
     findOrganizationByRecordId,
     findPsyByDid,
     togglePageView,
+    psychologistInfo,
+    setPsychologistInfo,
   };
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
 };

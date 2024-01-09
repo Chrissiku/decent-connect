@@ -18,35 +18,20 @@ const Organization = () => {
             },
           },
         });
-        console.log("fetching", response);
+        console.log(response);
+        
+        if (response.status.code == 200) {
+          const result = await Promise.all(
+            response.records.map(async (record) => {
+              const { data } = record;
+              const textData = await data.json();
+              return { ...textData, recordId: record.id };
+            })
+          );
+          setOrganizationInfo(result[result.length - 1]);
 
-        const receivedDings = await Promise.all(
-          response.records.map(async (record) => {
-            const { data } = record;
-            const textData = await data.json();
-            return textData;
-          })
-        );
-
-        console.log(receivedDings);
-
-        // if (response.status.code === 200) {
-        //   const clientData = await Promise.all(
-        //     response.records.map(async (record) => {
-        //       const data = await record.data.json();
-        //       return {
-        //         ...data,
-        //         recordId: record.id,
-        //       };
-        //     })
-        //   );
-        // setOrganizationInfo(clientData[clientData.length - 1]);
-        // setLoading(false);
-        // return clientData;
-        // } else {
-        //   console.error("error fetching this profile", response.status);
-        //   return [];
-        // }
+          return result;
+        }
       } catch (error) {
         console.error("Error fetching data : ", error);
       }
@@ -54,12 +39,10 @@ const Organization = () => {
 
     if (web5 && did) {
       fetchData();
-      setTimeout(() => {
-        setLoading(false);
-      }, 200);
+      setLoading(false);
     }
   }, [web5, did, protocolDefinition]);
-
+  // console.log(organizationInfo);
   return (
     <>
       {loading ? (

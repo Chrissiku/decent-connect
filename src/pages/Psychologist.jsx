@@ -5,10 +5,15 @@ import PsychologistContent from "../components/psychologist/PsychologistContent"
 import PsychologistRightBar from "../components/psychologist/PsychologistRightBar";
 
 const Psychologist = () => {
-  const { web5, did, protocolDefinition, organizationList } = useContext(
-    AppContext
-  );
-  const [psychologistInfo, setPsychologistInfo] = useState([]);
+  const {
+    web5,
+    did,
+    protocolDefinition,
+    organizationList,
+    psychologistInfo,
+    setPsychologistInfo,
+  } = useContext(AppContext);
+  // const [psychologistInfo, setPsychologistInfo] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [org, setOrg] = useState("");
   const [loading, setLoading] = useState(true);
@@ -21,37 +26,6 @@ const Psychologist = () => {
   };
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await web5.dwn.records.query({
-    //       from: did,
-    //       message: {
-    //         filter: {
-    //           protocolDefinition: protocolDefinition.protocolDefinition,
-    //           schema: protocolDefinition.types.psychologistProfile.schema,
-    //         },
-    //       },
-    //     });
-
-    //     if (response.status.code === 200) {
-    //       const psyData = await Promise.all(
-    //         response.records.map(async (record) => {
-    //           const data = await record.data.json();
-    //           return {
-    //             ...data,
-    //             recordId: record.id,
-    //           };
-    //         })
-    //       );
-    //       setPsychologistInfo(psyData[psyData.length - 1]);
-    //       selectOrg();
-    //       return psyData;
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching this profile : ", error);
-    //   }
-    // };
-
     const fetchData = async () => {
       try {
         const response = await web5.dwn.records.query({
@@ -69,11 +43,10 @@ const Psychologist = () => {
             response.records.map(async (record) => {
               const { data } = record;
               const textData = await data.json();
-              return textData;
+              return { ...textData, recordId: record.id };
             })
           );
-
-          console.log("Data : ", result);
+          console.log(result);
           setPsychologistInfo(result[result.length - 1]);
           selectOrg();
           return result;
@@ -82,17 +55,18 @@ const Psychologist = () => {
         console.error("Error fetching data : ", error);
       }
     };
+
     const mounter = async () => {
       await fetchData();
-      setTimeout(() => {
-        setLoading(false);
-      }, 200);
+      setLoading(false);
     };
 
     if (web5 && did) {
       mounter();
     }
   }, [web5, did, protocolDefinition]);
+
+  // console.log(psychologistInfo);
 
   return (
     <>
