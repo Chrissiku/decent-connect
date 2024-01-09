@@ -27,36 +27,23 @@ const Organization = () => {
         });
 
         if (response.status.code === 200) {
-          const clientDataPromises = response.records.map(async (record) => {
-            const dataPromise = record.data.json();
-            return {
-              data: await dataPromise,
-              recordId: record.id,
-            };
-          });
-
-          const clientDataResults = await Promise.allSettled(
-            clientDataPromises
+          const result = await Promise.all(
+            response.records.map(async (record) => {
+              const data = await record.data.json();
+              return {
+                ...data,
+                recordId: record.id,
+              };
+            })
           );
-
-          const fulfilledClientData = clientDataResults
-            .filter((result) => result.status === "fulfilled")
-            .map((result) => result.value.data);
-
-          console.log("full filed", fulfilledClientData);
-
-          if (fulfilledClientData.length > 0) {
-            setOrganizationInfo(
-              fulfilledClientData[fulfilledClientData.length - 1]
-            );
-          } else {
-            console.error("No client data fulfilled");
-          }
+          setOrganizationInfo(result[result.length - 1]);
+          return result;
+        } else {
+          console.error("error fetching this organization", response.status);
+          return [];
         }
       } catch (error) {
-        console.error("Error fetching this profile", error);
-      } finally {
-        setLoading(false);
+        console.error("error fetching organization profile :", error);
       }
     };
 

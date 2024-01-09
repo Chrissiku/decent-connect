@@ -34,36 +34,29 @@ const Client = () => {
         });
 
         if (response.status.code === 200) {
-          const clientDataPromises = response.records.map(async (record) => {
-            const dataPromise = record.data.json();
-            return {
-              data: await dataPromise,
-              recordId: record.id,
-            };
-          });
-
-          const clientDataResults = await Promise.allSettled(
-            clientDataPromises
+          const result = await Promise.all(
+            response.records.map(async (record) => {
+              const data = await record.data.json();
+              return {
+                ...data,
+                recordId: record.id,
+              };
+            })
           );
-
-          const fulfilledClientData = clientDataResults
-            .filter((result) => result.status === "fulfilled")
-            .map((result) => result.value.data);
-
-          if (fulfilledClientData.length > 0) {
-            setClientInfo(fulfilledClientData[fulfilledClientData.length - 1]);
-          } else {
-            console.error("No client data fulfilled");
-          }
+          setClientInfo(result[result.length - 1]);
+          return result;
+        } else {
+          console.error("error fetching this profile", response.status);
+          return [];
         }
       } catch (error) {
-        console.error("Error fetching this profile", error);
-      } finally {
-        setLoading(false);
+        console.error("error fetching patient profile :", error);
       }
     };
+
     if (web5 && did) {
       fetchData();
+      setLoading(false);
     }
   }, [web5, did, protocolDefinition, setClientInfo]);
 
@@ -81,7 +74,9 @@ const Client = () => {
             </div>
             <div className="lg:col-span-7">
               {Object.keys(clientInfo).length === 0 ? (
-                <>No data on the DWN</>
+                <div className="text-teal text-[40px] w-full block items-center justify-center text-center">
+                  Loading . . .
+                </div>
               ) : pageView === "home" ? (
                 <ClientContent data={clientInfo} />
               ) : pageView === "psychologist" ? (
