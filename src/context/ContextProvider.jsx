@@ -135,7 +135,7 @@ const ContextProvider = ({ children }) => {
     const fetchOrganizations = async () => {
       try {
         const response = await web5.dwn.records.query({
-          from: did,
+          // from: did,
           message: {
             filter: {
               protocol: protocolDefinition.protocol,
@@ -171,7 +171,7 @@ const ContextProvider = ({ children }) => {
     const fetchPsychologists = async () => {
       try {
         const response = await web5.dwn.records.query({
-          from: did,
+          // from: did,
           message: {
             filter: {
               protocol: protocolDefinition.protocol,
@@ -201,7 +201,7 @@ const ContextProvider = ({ children }) => {
     const fetchMeetings = async () => {
       try {
         const response = await web5.dwn.records.query({
-          from: did,
+          // from: did,
           message: {
             filter: {
               protocol: protocolDefinition.protocol,
@@ -229,9 +229,9 @@ const ContextProvider = ({ children }) => {
 
     if (web5 && did) {
       installProtocol();
-      // fetchOrganizations();
-      // fetchPsychologists();
-      // fetchMeetings();
+      fetchOrganizations();
+      fetchPsychologists();
+      fetchMeetings();
     }
   }, [web5, did, protocolDefinition]);
 

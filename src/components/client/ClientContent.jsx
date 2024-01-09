@@ -8,15 +8,27 @@ import { useContext } from "react";
 import { AppContext } from "../../context/ContextProvider";
 
 const ClientContent = ({ data }) => {
-  const { psychologistList, findOrganizationByRecordId, meetings,togglePageView } = useContext(
-    AppContext
-  );
+  const {
+    psychologistList,
+    findOrganizationByRecordId,
+    meetings,
+    togglePageView,
+    setCustomModalOpen,
+    toggleModalContent,
+    setSelectedDid,
+    findPsyByDid,
+  } = useContext(AppContext);
 
   const upcomingAppointment = meetings.sort(
     (a, b) => new Date(a.meetingTime) - new Date(b.meetingTime)
   );
-
   const recentScheduled = upcomingAppointment.slice(0, 3);
+
+  const toggleBooking = (selectedDid) => {
+    toggleModalContent("book-psychologist");
+    setCustomModalOpen(true);
+    setSelectedDid(selectedDid);
+  };
 
   return (
     <div className="w-full mx-auto px-5 md:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">
@@ -86,7 +98,7 @@ const ClientContent = ({ data }) => {
                               ? `@ Self Employed`
                               : `@
                             ${
-                              {/* findOrganizationByRecordId(psy?.organization).name */}
+                              findOrganizationByRecordId(psy?.organization).name
                             }`}
                           </p>
                         </div>
@@ -94,6 +106,7 @@ const ClientContent = ({ data }) => {
                     </div>
                     <button
                       type="button"
+                      onClick={() => toggleBooking(psy?.did)}
                       className="rounded-xl text-white py-1 text-[12px] font-medium px-6 bg-teal"
                     >
                       Book Now

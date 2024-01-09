@@ -8,11 +8,13 @@ const PsychologistList = ({ psy }) => {
     findOrganizationByRecordId,
     setCustomModalOpen,
     toggleModalContent,
+    setSelectedDid,
   } = useContext(AppContext);
 
-  const toggleBooking = () => {
-    toggleModalContent("book-doctor");
+  const toggleBooking = (selectedDid) => {
+    toggleModalContent("book-psychologist");
     setCustomModalOpen(true);
+    setSelectedDid(selectedDid);
   };
 
   return (
@@ -63,7 +65,7 @@ const PsychologistList = ({ psy }) => {
                 </div>
               </div>
               <button
-                onClick={() => toggleBooking()}
+                onClick={() => toggleBooking(item.did)}
                 className="bg-teal w-full text-center  text-white rounded-lg p-2"
                 type="button"
               >

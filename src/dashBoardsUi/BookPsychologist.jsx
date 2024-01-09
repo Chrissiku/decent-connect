@@ -74,7 +74,6 @@ const BookPsychologist = () => {
         <h3 className="text-teal font-bold text-[20px]">
           Complete this form to schedule an Meeting.
         </h3>
-        <>{selectedDid}</>
         <form
           className="space-y-3 md:space-y-4"
           autoComplete="off"

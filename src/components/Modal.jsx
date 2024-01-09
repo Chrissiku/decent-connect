@@ -15,6 +15,8 @@ const Modal = ({ isOpen, closeModal }) => {
     toggleModalContent(null);
   };
 
+  console.log(modalContent);
+
   return (
     <Transition.Root appear show={isOpen} as={Fragment}>
       <Dialog
@@ -62,7 +64,9 @@ const Modal = ({ isOpen, closeModal }) => {
                     <div className="w-full" ref={cancelButtonRef}>
                       {modalContent === "book-psychologist" ? (
                         <BookPsychologist />
-                      ) : null}
+                      ) : (
+                        <div>Null</div>
+                      )}
                     </div>
                   </div>
                 </div>
