@@ -106,9 +106,8 @@ const ClientContent = ({ data }) => {
                       </div>
                     </div>
                     <button
-                      onClick={() => toggleBooking(psy.did)}
                       type="button"
-                      className="rounded-xl text-white py-1 text-[12px] font-medium px-6 bg-teal hover:bg-indigo-500"
+                      className="rounded-xl text-white py-1 text-[12px] font-medium px-6 bg-teal"
                     >
                       Book Now
                     </button>
