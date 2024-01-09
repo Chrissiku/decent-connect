@@ -1,0 +1,19 @@
+{
+  "protocol": "protocolURL",
+  "published": true,
+  "types": {
+    "clientProfile": {
+      "schema": "https://schema.org/decentConnect/clientProfile",
+      "dataFormats": ["application/json"]
+    }
+  },
+  "structure": {
+    "clientProfile": {
+      "$actions": [
+        { "who": "anyone", "can": "write" },
+        { "who": "recipient", "of": "clientProfile", "can": "read" },
+        { "who": "author", "of": "clientProfile", "can": "read" }
+      ]
+    }
+  }
+}

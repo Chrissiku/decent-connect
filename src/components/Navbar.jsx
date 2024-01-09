@@ -1,6 +1,7 @@
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import logo from "../assets/logo.svg";
+import ConnectButton from "./common/ConnectButton";
 
 const navigation = [
   { name: "Home", href: "#", current: true },
@@ -50,12 +51,7 @@ export default function Navbar() {
               </div>
               <div className="inline-flex items-center justify-between">
                 <div className="hidden sm:block">
-                  <button
-                    type="button"
-                    className="bg-teal text-white text-center py-2 px-5 lg:py-3 lg:px-10 rounded-lg"
-                  >
-                    Connect
-                  </button>
+                  <ConnectButton text="Connect" start="Connect" />
                 </div>
                 <div className="flex sm:hidden items-center">
                   {/* Mobile menu button*/}
@@ -90,13 +86,8 @@ export default function Navbar() {
                 </Disclosure.Button>
               ))}
             </div>
-            <div className="w-full">
-              <button
-                type="button"
-                className="bg-teal w-full text-white text-center py-2 px-5 lg:py-3 lg:px-10 rounded-lg"
-              >
-                Connect
-              </button>
+            <div className="w-full border-2">
+              <ConnectButton text="Connect" start="Connect" />
             </div>
           </Disclosure.Panel>
         </>
