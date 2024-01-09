@@ -29,11 +29,10 @@ const Psychologist = () => {
     const fetchData = async () => {
       try {
         const response = await web5.dwn.records.query({
-          from: did,
           message: {
             filter: {
               protocol: protocolDefinition.protocol,
-              schema: protocolDefinition.types.clientProfile.schema,
+              schema: protocolDefinition.types.psychologistProfile.schema,
             },
           },
         });

@@ -37,7 +37,7 @@ const PsychologistRightBar = ({ data }) => {
           <div className="inline-flex items-center justify-between space-x-1 hover:bg-gray-300 py-2 px-3 rounded-lg">
             <div className="w-6 h-6 rounded-full overflow-hidden">
               <img
-                src={data?.picture}
+                src={data?.profile}
                 className="w-full h-full"
                 alt="profile picture"
               />

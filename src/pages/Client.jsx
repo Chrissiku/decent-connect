@@ -24,7 +24,6 @@ const Client = () => {
     const fetchData = async () => {
       try {
         const response = await web5.dwn.records.query({
-          from: did,
           message: {
             filter: {
               protocol: protocolDefinition.protocol,
@@ -34,19 +33,18 @@ const Client = () => {
         });
 
         if (response.status.code === 200) {
-          const clientData = await Promise.all(
+          const result = await Promise.all(
             response.records.map(async (record) => {
-              const data = await record.data.json();
-              return {
-                ...data,
-                recordId: record.id,
-              };
+              const { data } = record;
+              const responseData = await data.json();
+              return responseData;
             })
           );
-          setClientInfo(clientData[clientData.length - 1]);
-          return clientData;
+
+          setClientInfo(result[result.length - 1]);
+          return result;
         } else {
-          console.error("error fetching this profile", response.status);
+          console.error("Error fetching this profile", response.status);
           return [];
         }
       } catch (error) {
@@ -75,7 +73,7 @@ const Client = () => {
             </div>
             <div className="lg:col-span-7">
               {Object.keys(clientInfo).length === 0 ? (
-                <>No data on the DWN</>
+                <>Loading</>
               ) : pageView === "home" ? (
                 <ClientContent data={clientInfo} />
               ) : pageView === "psychologist" ? (
@@ -83,7 +81,7 @@ const Client = () => {
               ) : pageView === "appointment" ? (
                 <Appointments meetings={meetings} />
               ) : (
-                <>null page</>
+                <ClientContent data={clientInfo} />
               )}
             </div>
             <div className="lg:col-span-3">

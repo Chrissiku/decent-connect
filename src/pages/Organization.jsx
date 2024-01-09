@@ -10,7 +10,6 @@ const Organization = () => {
     const fetchData = async () => {
       try {
         const response = await web5.dwn.records.query({
-          from: did,
           message: {
             filter: {
               protocol: protocolDefinition.protocol,
@@ -18,8 +17,7 @@ const Organization = () => {
             },
           },
         });
-        console.log(response);
-        
+
         if (response.status.code == 200) {
           const result = await Promise.all(
             response.records.map(async (record) => {
