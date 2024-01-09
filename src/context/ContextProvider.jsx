@@ -146,7 +146,7 @@ const ContextProvider = ({ children }) => {
         if (response.status.code === 200) {
           const orgsData = await Promise.all(
             response.records.map(async (record) => {
-              const data = await record.data.json();
+              const data = await record;
               return {
                 ...data,
                 recordId: record.id,
@@ -180,7 +180,7 @@ const ContextProvider = ({ children }) => {
         if (response.status.code === 200) {
           const psyData = await Promise.all(
             response.records.map(async (record) => {
-              const data = await record.data.json();
+              const data = await record;
               return {
                 ...data,
                 recordId: record.id,
@@ -302,7 +302,7 @@ const ContextProvider = ({ children }) => {
     return psy;
   };
 
-  console.log("Meeting : ", meetings);
+  // console.log("Meeting : ", meetings);
 
   const values = {
     modalOpen,

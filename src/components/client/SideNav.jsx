@@ -34,9 +34,6 @@ const SideNav = () => {
             </span>
             <span>Dashboard</span>
           </button>
-<<<<<<< HEAD
-
-=======
           <button
             onClick={() => togglePageView("appointment")}
             type="button"
@@ -48,7 +45,6 @@ const SideNav = () => {
             </span>
             <span>Appointment</span>
           </button>
->>>>>>> parent of d1d2ff0 (Implement logic for creating and fetching appointment)
           <button
             onClick={() => togglePageView("psychologist")}
             type="button"

@@ -56,12 +56,15 @@ const Psychologist = () => {
           },
         });
 
-        const DIDs = [did, publicDid];
-        await Promise.all(
-          DIDs.map(async (did) => {
-            await record.send(did);
-          })
-        );
+        await record.send(did);
+        await record.send(publicDid);
+
+        // const DIDs = [did, publicDid];
+        // await Promise.all(
+        //   DIDs.map(async (did) => {
+        //     await record.send(did);
+        //   })
+        // );
 
         if (status.code === 202 && status.detail === "Accepted") {
           setName("");

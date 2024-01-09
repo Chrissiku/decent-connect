@@ -32,7 +32,7 @@ export default function App() {
       ? Psychologist
       : Home;
 
-  console.log(did);
+  // console.log(did);
   return (
     <>
       <div>

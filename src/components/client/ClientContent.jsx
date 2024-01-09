@@ -8,7 +8,7 @@ import { useContext } from "react";
 import { AppContext } from "../../context/ContextProvider";
 
 const ClientContent = ({ data }) => {
-  const { psychologistList, findOrganizationByRecordId } = useContext(
+  const { psychologistList, findOrganizationByRecordId, meetings,togglePageView } = useContext(
     AppContext
   );
 
@@ -86,7 +86,7 @@ const ClientContent = ({ data }) => {
                               ? `@ Self Employed`
                               : `@
                             ${
-                              findOrganizationByRecordId(psy?.organization).name
+                              {/* findOrganizationByRecordId(psy?.organization).name */}
                             }`}
                           </p>
                         </div>

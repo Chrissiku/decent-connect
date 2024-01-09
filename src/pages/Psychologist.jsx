@@ -21,37 +21,67 @@ const Psychologist = () => {
   };
 
   useEffect(() => {
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await web5.dwn.records.query({
+    //       from: did,
+    //       message: {
+    //         filter: {
+    //           protocolDefinition: protocolDefinition.protocolDefinition,
+    //           schema: protocolDefinition.types.psychologistProfile.schema,
+    //         },
+    //       },
+    //     });
+
+    //     if (response.status.code === 200) {
+    //       const psyData = await Promise.all(
+    //         response.records.map(async (record) => {
+    //           const data = await record.data.json();
+    //           return {
+    //             ...data,
+    //             recordId: record.id,
+    //           };
+    //         })
+    //       );
+    //       setPsychologistInfo(psyData[psyData.length - 1]);
+    //       selectOrg();
+    //       return psyData;
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching this profile : ", error);
+    //   }
+    // };
+
     const fetchData = async () => {
       try {
         const response = await web5.dwn.records.query({
           from: did,
           message: {
             filter: {
-              protocolDefinition: protocolDefinition.protocolDefinition,
-              schema: protocolDefinition.types.psychologistProfile.schema,
+              protocol: protocolDefinition.protocol,
+              schema: protocolDefinition.types.clientProfile.schema,
             },
           },
         });
 
-        if (response.status.code === 200) {
-          const psyData = await Promise.all(
+        if (response.status.code == 200) {
+          const result = await Promise.all(
             response.records.map(async (record) => {
-              const data = await record.data.json();
-              return {
-                ...data,
-                recordId: record.id,
-              };
+              const { data } = record;
+              const textData = await data.json();
+              return textData;
             })
           );
-          setPsychologistInfo(psyData[psyData.length - 1]);
+
+          console.log("Data : ", result);
+          setPsychologistInfo(result[result.length - 1]);
           selectOrg();
-          return psyData;
+          return result;
         }
       } catch (error) {
-        console.error("Error fetching this profile : ", error);
+        console.error("Error fetching data : ", error);
       }
     };
-
     const mounter = async () => {
       await fetchData();
       setTimeout(() => {
