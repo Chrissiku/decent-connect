@@ -6,11 +6,11 @@ import {
   ArrowLeftStartOnRectangleIcon,
 } from "@heroicons/react/24/solid";
 import logo from "../../assets/patient/logo.svg";
-import { AppContext } from "../../context/ContextProvider";
+import { useAppContext } from "../../context/ContextProvider";
 import { useContext } from "react";
 
 const PsychologistSideNav = () => {
-  const { logout } = useContext(AppContext);
+  const { logout } = useAppContext();
   return (
     <div className="w-full h-full bg-[#F7F6FE] border border-r-[#DBDAE5]">
       <nav className="w-full h-screen flex flex-col items-center justify-start space-y-[50px] py-14">

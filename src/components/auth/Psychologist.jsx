@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import psychologistImg from "../../assets/psychologistAuth.jpg";
-import { AppContext } from "../../context/ContextProvider";
+import { useAppContext } from "../../context/ContextProvider";
 import useImageUploader from "../../utils/imageUploader";
 import { v4 as uidv4 } from "uuid";
 
@@ -13,7 +13,7 @@ const Psychologist = () => {
     togglePsy,
     organizationList,
     publicDid,
-  } = useContext(AppContext);
+  } = useAppContext();
 
   const { picture: profile, handleImageChange } = useImageUploader();
   const [name, setName] = useState("");
@@ -21,6 +21,8 @@ const Psychologist = () => {
   const [gender, setGender] = useState("");
   const [specialization, setSpecialization] = useState("");
   const [organization, setOrganization] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [validationError, setValidationError] = useState(null);
 
   const formData = {
     id: uidv4(),
@@ -33,48 +35,66 @@ const Psychologist = () => {
     organization,
   };
 
-  const createPsy = async (event) => {
-    event.preventDefault();
-    if (
-      !formData.name ||
-      !formData.profile ||
-      !formData.experience ||
-      !formData.gender ||
-      !formData.specialization
-    ) {
-      alert("Please fill in all the required fields !");
+  const validateForm = () => {
+    const requiredFields = [
+      formData.name,
+      formData.profile,
+      formData.experience,
+      formData.gender,
+      formData.specialization,
+    ];
+    if (requiredFields.every((field) => !!field)) {
+      return true;
     } else {
-      try {
-        const { record, status } = await web5.dwn.records.create({
-          data: formData,
-          message: {
-            protocol: protocolDefinition.protocol,
-            protocolPath: "psychologistProfile",
-            schema: protocolDefinition.types.psychologistProfile.schema,
-            recipient: did,
-            published: true,
-          },
-        });
+      setValidationError("Please fill in all required fields.");
+      return false;
+    }
+  };
 
-        const DIDs = [did, publicDid];
-        await Promise.all(
-          DIDs.map(async (did) => {
-            await record.send(did);
-          })
-        );
+  const createPsy = async (event) => {
+    try {
+      event.preventDefault();
+      setLoading(true);
 
-        if (status.code === 202 && status.detail === "Accepted") {
-          setName("");
-          setGender("");
-          setExperience(1);
-          setOrganization("");
-          setOrganization("");
-          toggleUserType("psychologist");
-          togglePsy(true);
-        }
-      } catch (error) {
-        console.error("Error Creating this profile : ", error);
+      if (!validateForm()) {
+        setLoading(false);
+        return;
       }
+
+      const { record, status } = await web5.dwn.records.create({
+        data: formData,
+        message: {
+          protocol: protocolDefinition.protocol,
+          protocolPath: "psychologistProfile",
+          schema: protocolDefinition.types.psychologistProfile.schema,
+          recipient: did,
+          published: true,
+        },
+      });
+
+      await record.send(did);
+      await record.send(publicDid);
+
+      // const DIDs = [did, publicDid];
+      // await Promise.all(
+      //   DIDs.map(async (did) => {
+      //     await record.send(did);
+      //   })
+      // );
+
+      if (status.code === 202 && status.detail === "Accepted") {
+        setName("");
+        setGender("");
+        setExperience(1);
+        setOrganization("");
+        setOrganization("");
+        toggleUserType("psychologist");
+        togglePsy(true);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Error creating psychologist : ", error);
+      setValidationError("Error creating this account. Please try again.");
     }
   };
 
@@ -97,185 +117,206 @@ const Psychologist = () => {
               </div>
             </div>
           </div>
-          <div className="md:p-5 grid grid-cols-1 items-center justify-center space-y-5">
-            <h3 className="text-teal font-bold text-[20px]">
-              Join our mental health community to support and connect with those
-              in need.
-            </h3>
-            <form
-              className="space-y-4 md:space-y-6"
-              autoComplete="off"
-              onSubmit={createPsy}
-            >
-              {/* Name */}
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block mb-2 text-[16px] font-medium text-gray-900"
-                >
-                  Your Full Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-3"
-                  placeholder="eg. John Doe"
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-between gap-5">
-                {/* Profile */}
+          {loading ? (
+            <div className="w-full text-center text-gray-300 text-[20px]">
+              Connecting . . .
+            </div>
+          ) : (
+            <div className="md:p-5 grid grid-cols-1 items-center justify-center space-y-5">
+              <h3 className="text-teal font-bold text-[20px]">
+                Join our mental health community to support and connect with
+                those in need.
+              </h3>
+              <form
+                className="space-y-4 md:space-y-6"
+                autoComplete="off"
+                onSubmit={createPsy}
+              >
+                {/* Name */}
                 <div>
                   <label
-                    htmlFor="profile"
+                    htmlFor="name"
                     className="block mb-2 text-[16px] font-medium text-gray-900"
                   >
-                    Your profile picture <span className="text-red-500">*</span>
+                    Your Full Name <span className="text-red-500">*</span>
                   </label>
                   <input
-                    type="file"
-                    name="profile"
-                    id="profile"
-                    onChange={handleImageChange}
+                    type="text"
+                    name="name"
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-3"
                     placeholder="eg. John Doe"
                     required
+                    autoComplete="off"
                   />
                 </div>
-                {/* experience */}
-                <div>
-                  <label
-                    htmlFor="experience"
-                    className="block mb-2 text-[16px] font-medium text-gray-900"
-                  >
-                    Year(s) of experience{" "}
-                    <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    name="experience"
-                    id="experience"
-                    value={experience}
-                    onChange={(e) => setExperience(e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-3"
-                    placeholder="Your Date of birth here"
-                    required
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-between gap-5">
+                  {/* Profile */}
+                  <div>
+                    <label
+                      htmlFor="profile"
+                      className="block mb-2 text-[16px] font-medium text-gray-900"
+                    >
+                      Your profile picture{" "}
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="file"
+                      name="profile"
+                      id="profile"
+                      onChange={handleImageChange}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-3"
+                      placeholder="eg. John Doe"
+                      required
+                    />
+                  </div>
+                  {/* experience */}
+                  <div>
+                    <label
+                      htmlFor="experience"
+                      className="block mb-2 text-[16px] font-medium text-gray-900"
+                    >
+                      Year(s) of experience{" "}
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      name="experience"
+                      id="experience"
+                      value={experience}
+                      onChange={(e) => setExperience(e.target.value)}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-3"
+                      placeholder="Your Date of birth here"
+                      required
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-between gap-5">
-                {/* Gender */}
+                <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-between gap-5">
+                  {/* Gender */}
+                  <div>
+                    <label
+                      htmlFor="gender"
+                      className="block mb-2 text-[16px] font-medium text-gray-900"
+                    >
+                      Select Gender <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      id="gender"
+                      name="gender"
+                      value={gender}
+                      onChange={(e) => setGender(e.target.value)}
+                      required
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
+                    >
+                      <option defaultValue="">...</option>
+                      <option defaultValue="female">Female</option>
+                      <option value="male">Male</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                  {/* Specialization */}
+                  <div>
+                    <label
+                      htmlFor="specialization"
+                      className="block mb-2 text-[16px] font-medium text-gray-900"
+                    >
+                      Select Specialization{" "}
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      id="specialization"
+                      name="specialization"
+                      value={specialization}
+                      onChange={(e) => setSpecialization(e.target.value)}
+                      required
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
+                    >
+                      <option defaultValue="generalist">Generalist</option>
+                      <option value="Clinical">Clinical Psychologist</option>
+                      <option value="Counseling">
+                        Counseling Psychologist
+                      </option>
+                      <option value="School">School Psychologist</option>
+                      <option value="Forensic">Forensic Psychologist</option>
+                      <option value="Industrial-Organizational">
+                        Industrial-Organizational Psychologist
+                      </option>
+                      <option value="Neuropsychologist">
+                        Neuropsychologist
+                      </option>
+                      <option value="Sports">Sports Psychologist</option>
+                      <option value="Health">Health Psychologist</option>
+                      <option value="Developmental">
+                        Developmental Psychologist
+                      </option>
+                      <option value="Social">Social Psychologist</option>
+                      <option value="Experimental">
+                        Experimental Psychologist
+                      </option>
+                      <option value="Cognitive">Cognitive Psychologist</option>
+                      <option value="Educational">
+                        Educational Psychologist
+                      </option>
+                      <option value="Geriatric">Geriatric Psychologist</option>
+                      <option value="Child">Child Psychologist</option>
+                      <option value="Environmental">
+                        Environmental Psychologist
+                      </option>
+                      <option value="Rehabilitation">
+                        Rehabilitation Psychologist
+                      </option>
+                      <option value="Cross">Cross Psychologist-Cultural</option>
+                      <option value="Positive">Positive Psychologist</option>
+                      <option value="Media">Media Psychologist</option>
+                    </select>
+                  </div>
+                </div>
+                {/* Organization */}
                 <div>
                   <label
-                    htmlFor="gender"
+                    htmlFor="organization"
                     className="block mb-2 text-[16px] font-medium text-gray-900"
                   >
-                    Select Gender <span className="text-red-500">*</span>
+                    Select Your Organization{" "}
+                    <span className="text-red-300">(Optional)</span>
                   </label>
                   <select
-                    id="gender"
-                    name="gender"
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
-                    required
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
+                    id="organization"
+                    name="organization"
+                    value={organization}
+                    onChange={(e) => setOrganization(e.target.value)}
+                    autoComplete="off"
+                    className="capitalize bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
                   >
-                    <option defaultValue="">...</option>
-                    <option defaultValue="female">Female</option>
-                    <option value="male">Male</option>
-                    <option value="other">Other</option>
+                    <option defaultValue="self" value="self">
+                      Self Employed
+                    </option>
+                    {organizationList?.map((organization) => (
+                      <option
+                        key={organization.id}
+                        value={organization.recordId}
+                      >
+                        {organization.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
-                {/* Specialization */}
-                <div>
-                  <label
-                    htmlFor="specialization"
-                    className="block mb-2 text-[16px] font-medium text-gray-900"
-                  >
-                    Select Specialization{" "}
-                    <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    id="specialization"
-                    name="specialization"
-                    value={specialization}
-                    onChange={(e) => setSpecialization(e.target.value)}
-                    required
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
-                  >
-                    <option defaultValue="generalist">Generalist</option>
-                    <option value="Clinical">Clinical Psychologist</option>
-                    <option value="Counseling">Counseling Psychologist</option>
-                    <option value="School">School Psychologist</option>
-                    <option value="Forensic">Forensic Psychologist</option>
-                    <option value="Industrial-Organizational">
-                      Industrial-Organizational Psychologist
-                    </option>
-                    <option value="Neuropsychologist">Neuropsychologist</option>
-                    <option value="Sports">Sports Psychologist</option>
-                    <option value="Health">Health Psychologist</option>
-                    <option value="Developmental">
-                      Developmental Psychologist
-                    </option>
-                    <option value="Social">Social Psychologist</option>
-                    <option value="Experimental">
-                      Experimental Psychologist
-                    </option>
-                    <option value="Cognitive">Cognitive Psychologist</option>
-                    <option value="Educational">
-                      Educational Psychologist
-                    </option>
-                    <option value="Geriatric">Geriatric Psychologist</option>
-                    <option value="Child">Child Psychologist</option>
-                    <option value="Environmental">
-                      Environmental Psychologist
-                    </option>
-                    <option value="Rehabilitation">
-                      Rehabilitation Psychologist
-                    </option>
-                    <option value="Cross">Cross Psychologist-Cultural</option>
-                    <option value="Positive">Positive Psychologist</option>
-                    <option value="Media">Media Psychologist</option>
-                  </select>
+                <button
+                  type="submit"
+                  className="w-full text-white bg-teal hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                >
+                  Create an account
+                </button>
+              </form>
+              {validationError && (
+                <div className="text-red-500 text-sm mt-2">
+                  {validationError}
                 </div>
-              </div>
-              {/* Organization */}
-              <div>
-                <label
-                  htmlFor="organization"
-                  className="block mb-2 text-[16px] font-medium text-gray-900"
-                >
-                  Select Your Organization{" "}
-                  <span className="text-red-300">(Optional)</span>
-                </label>
-                <select
-                  id="organization"
-                  name="organization"
-                  value={organization}
-                  onChange={(e) => setOrganization(e.target.value)}
-                  className="capitalize bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
-                >
-                  <option defaultValue="self" value="self">
-                    Self Employed
-                  </option>
-                  {organizationList?.map((organization) => (
-                    <option key={organization.id} value={organization.recordId}>
-                      {organization.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <button
-                type="submit"
-                className="w-full text-white bg-teal hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              >
-                Create an account
-              </button>
-            </form>
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
     </>

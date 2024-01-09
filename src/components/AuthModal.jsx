@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
 import { Fragment, useContext, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { AppContext } from "../context/ContextProvider";
+import { useAppContext } from "../context/ContextProvider";
 import Client from "./auth/Client";
 import Organization from "./auth/Organization";
 import Psychologist from "./auth/Psychologist";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
 export default function AuthModal({ isOpen, closeModal }) {
-  const { authType, toggleUserType } = useContext(AppContext);
+  const { authType, toggleUserType } = useAppContext();
 
   const cancelButtonRef = useRef(null);
 

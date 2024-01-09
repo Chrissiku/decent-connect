@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../context/ContextProvider";
+import { useEffect, useState } from "react";
+import { useAppContext } from "../context/ContextProvider";
 import SideNav from "../components/client/SideNav";
 import ClientContent from "../components/client/ClientContent";
 import RightBar from "../components/client/RightBar";
@@ -16,7 +16,7 @@ const Client = () => {
     meetings,
     clientInfo,
     setClientInfo,
-  } = useContext(AppContext);
+  } = useAppContext();
   // const [clientInfo, setClientInfo] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -34,32 +34,38 @@ const Client = () => {
         });
 
         if (response.status.code === 200) {
-          const clientData = await Promise.all(
-            response.records.map(async (record) => {
-              const data = await record.data.json();
-              return {
-                ...data,
-                recordId: record.id,
-              };
-            })
+          const clientDataPromises = response.records.map(async (record) => {
+            const dataPromise = record.data.json();
+            return {
+              data: await dataPromise,
+              recordId: record.id,
+            };
+          });
+
+          const clientDataResults = await Promise.allSettled(
+            clientDataPromises
           );
-          setClientInfo(clientData[clientData.length - 1]);
-          return clientData;
-        } else {
-          console.error("error fetching this profile", response.status);
-          return [];
+
+          const fulfilledClientData = clientDataResults
+            .filter((result) => result.status === "fulfilled")
+            .map((result) => result.value.data);
+
+          if (fulfilledClientData.length > 0) {
+            setClientInfo(fulfilledClientData[fulfilledClientData.length - 1]);
+          } else {
+            console.error("No client data fulfilled");
+          }
         }
       } catch (error) {
-        console.error("Error fetching data : ", error);
+        console.error("Error fetching this profile", error);
+      } finally {
+        setLoading(false);
       }
     };
     if (web5 && did) {
       fetchData();
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
     }
-  }, [web5, did, protocolDefinition]);
+  }, [web5, did, protocolDefinition, setClientInfo]);
 
   return (
     <>
@@ -83,7 +89,7 @@ const Client = () => {
               ) : pageView === "appointment" ? (
                 <Appointments meetings={meetings} />
               ) : (
-                <>null page</>
+                <ClientContent data={clientInfo} />
               )}
             </div>
             <div className="lg:col-span-3">

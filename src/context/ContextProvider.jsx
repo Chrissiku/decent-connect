@@ -1,53 +1,46 @@
-/* eslint-disable react/prop-types */
 import { Web5 } from "@web5/api/browser";
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { publicDid } from "../utils/constant";
 
-export const AppContext = createContext();
+const AppContext = createContext();
 
-const ContextProvider = ({ children }) => {
+const getLocalStorageItem = (key) => {
+  return localStorage.getItem(key) || null;
+};
+
+const setLocalStorageItem = (key, value) => {
+  localStorage.setItem(key, value);
+};
+
+const ContextProvider = (props) => {
   const [web5, setWeb5] = useState(null);
   const [did, setDid] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [authType, setAuthType] = useState(null);
-  const [userType, setUserType] = useState(() => {
-    return localStorage.getItem("userType") || null;
-  });
+  const [userType, setUserType] = useState(() =>
+    getLocalStorageItem("userType")
+  );
+  // Stores
   const [clientInfo, setClientInfo] = useState([]);
+  const [organizationInfo, setOrganizationInfo] = useState([]);
   const [organizationList, setOrganizationList] = useState([]);
   const [psychologistList, setPsychologistList] = useState([]);
   const [meetings, setMeetings] = useState([]);
-  const [pageView, setPageView] = useState(() => {
-    return localStorage.getItem("pageView") || null;
-  });
+
+  const [pageView, setPageView] = useState(() =>
+    getLocalStorageItem("pageView")
+  );
   const [customModalOpen, setCustomModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const [selectedDid, setSelectedDid] = useState(null);
-  const [client, setClient] = useState(() => {
-    return localStorage.getItem("client") || null;
-  });
-
-  const [psychologist, setPsychologist] = useState(() => {
-    return localStorage.getItem("psychologist") || null;
-  });
-
-  const [organization, setOrganization] = useState(() => {
-    return localStorage.getItem("organization") || null;
-  });
-
-  // connect to Web5 on mount
-  useEffect(() => {
-    const connectToWeb5 = async () => {
-      try {
-        const { web5, did } = await Web5.connect();
-        setWeb5(web5);
-        setDid(did);
-      } catch (error) {
-        console.error("Error connecting to Web5 : ", error);
-      }
-    };
-    connectToWeb5();
-  }, []);
+  // Account Types
+  const [client, setClient] = useState(() => getLocalStorageItem("client"));
+  const [psychologist, setPsychologist] = useState(() =>
+    getLocalStorageItem("psychologist")
+  );
+  const [organization, setOrganization] = useState(() =>
+    getLocalStorageItem("organization")
+  );
 
   // Protocol definition
   const protocolDefinition = useMemo(() => {
@@ -112,25 +105,35 @@ const ContextProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    //install protocol
+    const connectToWeb5 = async () => {
+      try {
+        const { web5, did } = await Web5.connect();
+        setWeb5((prevWeb5) => (prevWeb5 === web5 ? prevWeb5 : web5));
+        setDid((prevDid) => (prevDid === did ? prevDid : did));
+      } catch (error) {
+        console.error("Error connecting to Web5 : ", error);
+      }
+    };
+    connectToWeb5();
+  }, []);
+
+  useEffect(() => {
     const installProtocol = async () => {
       try {
-        // console.log("Installing protocol ...");
         const { protocol, status } = await web5.dwn.protocols.configure({
           message: {
             definition: protocolDefinition,
           },
         });
         await protocol.send(did);
-        if ((status.code === 202) & (status.details === "Accepted")) {
-          console.log("... Welcome to decent connect ");
+        if (status.code === 202 && status.details === "Accepted") {
+          console.log("Welcome to decent-connect");
         }
       } catch (error) {
-        console.error("Error installing protocol : ", error);
+        console.error("Error installing protocol:", error);
       }
     };
 
-    // Fetch all organizations
     const fetchOrganizations = async () => {
       try {
         const response = await web5.dwn.records.query({
@@ -144,28 +147,34 @@ const ContextProvider = ({ children }) => {
         });
 
         if (response.status.code === 200) {
-          const orgsData = await Promise.all(
-            response.records.map(async (record) => {
-              const data = await record.data.json();
-              return {
-                ...data,
-                recordId: record.id,
-              };
-            })
-          );
-          setOrganizationList(orgsData);
-          return orgsData;
-        } else {
-          console.error("error fetching all organization", response.status);
-          return [];
+          const dataPromises = response.records.map(async (record) => {
+            const dataPromise = record.data.json();
+            return {
+              data: await dataPromise,
+              recordId: record.id,
+            };
+          });
+
+          const dataResults = await Promise.allSettled(dataPromises);
+
+          const fulfilledData = dataResults
+            .filter((result) => result.status === "fulfilled")
+            .map((result) => result.value.data);
+
+          console.log("full filed", fulfilledData);
+
+          if (fulfilledData.length > 0) {
+            setOrganizationList(fulfilledData);
+          } else {
+            console.error("No client data fulfilled");
+          }
         }
       } catch (error) {
-        console.error("Error Fetching all organizations : ", error);
+        console.error("Error fetching organizations", error);
       }
     };
 
-    // Fetch All Psychologists
-    const fetchPsychologists = async () => {
+    const fetchPsychologist = async () => {
       try {
         const response = await web5.dwn.records.query({
           from: publicDid,
@@ -178,65 +187,37 @@ const ContextProvider = ({ children }) => {
         });
 
         if (response.status.code === 200) {
-          const psyData = await Promise.all(
-            response.records.map(async (record) => {
-              const data = await record.data.json();
-              return {
-                ...data,
-                recordId: record.id,
-              };
-            })
-          );
-          setPsychologistList(psyData);
-          return psyData;
-        } else {
-          console.error("error fetching all organization", response.status);
-          return [];
+          const dataPromises = response.records.map(async (record) => {
+            const dataPromise = record.data.json();
+            return {
+              data: await dataPromise,
+              recordId: record.id,
+            };
+          });
+
+          const dataResults = await Promise.allSettled(dataPromises);
+
+          const fulfilledData = dataResults
+            .filter((result) => result.status === "fulfilled")
+            .map((result) => result.value.data);
+
+          console.log("full filed", fulfilledData);
+
+          if (fulfilledData.length > 0) {
+            setPsychologistList(fulfilledData);
+          } else {
+            console.error("No client data fulfilled");
+          }
         }
       } catch (error) {
-        console.error("Error Fetching all organizations : ", error);
-      }
-    };
-
-    // Fetch All meeting
-    const fetchMeetings = async () => {
-      try {
-        const response = await web5.dwn.records.query({
-          from: did,
-          message: {
-            filter: {
-              protocol: protocolDefinition.protocol,
-              schema: protocolDefinition.types.meetings.schema,
-            },
-          },
-        });
-
-        if (response.status.code === 200) {
-          const meetingData = await Promise.all(
-            response.records.map(async (record) => {
-              const data = await record.data.json();
-              return {
-                ...data,
-                recordId: record.id,
-              };
-            })
-          );
-          setMeetings(meetingData);
-          return meetingData;
-        } else {
-          console.error("error fetching meetings", response.status);
-          return [];
-        }
-      } catch (error) {
-        console.error("Error Fetching meetings : ", error);
+        console.error("Error fetching organizations", error);
       }
     };
 
     const mounter = async () => {
       await installProtocol();
       await fetchOrganizations();
-      await fetchPsychologists();
-      await fetchMeetings();
+      await fetchPsychologist();
     };
 
     if (web5 && did) {
@@ -253,32 +234,32 @@ const ContextProvider = ({ children }) => {
   };
 
   const toggleUserType = (value) => {
-    localStorage.setItem("userType", value);
+    setLocalStorageItem("userType", value);
     setUserType(value);
   };
 
   const togglePageView = (value) => {
-    localStorage.setItem("pageView", value);
+    setLocalStorageItem("pageView", value);
     setPageView(value);
   };
 
   const toggleClient = (value) => {
-    localStorage.setItem("client", value);
+    setLocalStorageItem("client", value);
     setClient(value);
   };
 
   const togglePsy = (value) => {
-    localStorage.setItem("psychologist", value);
+    setLocalStorageItem("psychologist", value);
     setPsychologist(value);
   };
 
   const toggleOrganization = (value) => {
-    localStorage.setItem("organization", value);
+    setLocalStorageItem("organization", value);
     setOrganization(value);
   };
 
   const logout = () => {
-    localStorage.setItem("userType", null);
+    setLocalStorageItem("userType", null);
     setAuthType(null);
     setUserType(null);
     togglePageView("home");
@@ -302,8 +283,6 @@ const ContextProvider = ({ children }) => {
     return psy;
   };
 
-  console.log("Meeting : ", meetings);
-
   const values = {
     modalOpen,
     authType,
@@ -323,22 +302,31 @@ const ContextProvider = ({ children }) => {
     selectedDid,
     meetings,
     clientInfo,
+    organizationInfo,
+    setOrganizationInfo,
     setClientInfo,
     setSelectedDid,
     setCustomModalOpen,
-    toggleModalContent,
     setModalOpen,
+    toggleModalContent,
     toggleAuthType,
     toggleUserType,
     toggleClient,
     togglePsy,
     toggleOrganization,
+    togglePageView,
     logout,
     findOrganizationByRecordId,
     findPsyByDid,
-    togglePageView,
   };
-  return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
+  return (
+    // eslint-disable-next-line react/prop-types
+    <AppContext.Provider value={values}>{props.children}</AppContext.Provider>
+  );
+};
+
+export const useAppContext = () => {
+  return useContext(AppContext);
 };
 
 export default ContextProvider;

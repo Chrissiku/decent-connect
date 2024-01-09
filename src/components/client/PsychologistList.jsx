@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useContext } from "react";
-import { AppContext } from "../../context/ContextProvider";
+import { useAppContext } from "../../context/ContextProvider";
 import { DocumentIcon } from "@heroicons/react/24/outline";
 
 const PsychologistList = ({ psy }) => {
@@ -9,7 +9,7 @@ const PsychologistList = ({ psy }) => {
     setCustomModalOpen,
     toggleModalContent,
     setSelectedDid,
-  } = useContext(AppContext);
+  } = useAppContext();
 
   const toggleBooking = (selectedDid) => {
     toggleModalContent("book-psychologist");
@@ -58,8 +58,8 @@ const PsychologistList = ({ psy }) => {
                       ? `@ Self Employed`
                       : `@
                             ${
-                              findOrganizationByRecordId(item?.organization)
-                                .name
+                              {/* findOrganizationByRecordId(item?.organization)
+                                .name */}
                             }`}
                   </span>
                 </div>

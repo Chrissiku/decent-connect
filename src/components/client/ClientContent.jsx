@@ -5,7 +5,7 @@ import call from "../../assets/patient/call.svg";
 import video from "../../assets/patient/video.svg";
 import { Calendar } from "../ui/calendar";
 import { useContext } from "react";
-import { AppContext } from "../../context/ContextProvider";
+import { useAppContext } from "../../context/ContextProvider";
 
 const ClientContent = ({ data }) => {
   const {
@@ -17,7 +17,7 @@ const ClientContent = ({ data }) => {
     meetings,
     findPsyByDid,
     togglePageView,
-  } = useContext(AppContext);
+  } = useAppContext();
 
   const toggleBooking = (selectedDid) => {
     toggleModalContent("book-psychologist");
@@ -99,12 +99,12 @@ const ClientContent = ({ data }) => {
                               ? `@ Self Employed`
                               : `@
                             ${
-                              findOrganizationByRecordId(psy?.organization).name
+                              {/* findOrganizationByRecordId(psy?.organization).name */}
                             }`}
                           </p>
                         </div>
                       </div>
-                    </div>
+                    </div>  
                     <button
                       onClick={() => toggleBooking(psy.did)}
                       type="button"

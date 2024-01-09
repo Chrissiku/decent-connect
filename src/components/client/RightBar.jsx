@@ -6,10 +6,10 @@ import {
 import { UserIcon, ArrowLongRightIcon } from "@heroicons/react/24/outline";
 import counselling from "../../assets/patient/Marriage counseling-bro.png";
 import { useContext } from "react";
-import { AppContext } from "../../context/ContextProvider";
+import { useAppContext } from "../../context/ContextProvider";
 
 const RightBar = ({ data }) => {
-  const { did } = useContext(AppContext);
+  const { did } = useAppContext();
   return (
     <div className="bg-[#F7F6FE] w-full h-full border border-[#DBDAE5] mx-auto p-5">
       <div className="flex flex-col space-y-10 items-center justify-start">

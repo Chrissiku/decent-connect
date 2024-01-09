@@ -1,24 +1,15 @@
-import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../context/ContextProvider";
+import { useEffect, useState } from "react";
 import PsychologistSideNav from "../components/psychologist/PsychologistSideNav";
 import PsychologistContent from "../components/psychologist/PsychologistContent";
 import PsychologistRightBar from "../components/psychologist/PsychologistRightBar";
+import { useAppContext } from "../context/ContextProvider";
 
 const Psychologist = () => {
-  const { web5, did, protocolDefinition, organizationList } = useContext(
-    AppContext
-  );
+  const { web5, did, protocolDefinition, organizationList } = useAppContext();
   const [psychologistInfo, setPsychologistInfo] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [org, setOrg] = useState("");
   const [loading, setLoading] = useState(true);
-
-  const selectOrg = () => {
-    const org = organizationList.find(
-      (organization) => organization.recordId === psychologistInfo.organization
-    );
-    setOrg(org);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,36 +18,49 @@ const Psychologist = () => {
           from: did,
           message: {
             filter: {
-              protocolDefinition: protocolDefinition.protocolDefinition,
+              protocol: protocolDefinition.protocol,
               schema: protocolDefinition.types.psychologistProfile.schema,
             },
           },
         });
 
         if (response.status.code === 200) {
-          const psyData = await Promise.all(
-            response.records.map(async (record) => {
-              const data = await record.data.json();
-              return {
-                ...data,
-                recordId: record.id,
-              };
-            })
+          const clientDataPromises = response.records.map(async (record) => {
+            const dataPromise = record.data.json();
+            return {
+              data: await dataPromise,
+              recordId: record.id,
+            };
+          });
+
+          const clientDataResults = await Promise.allSettled(
+            clientDataPromises
           );
-          setPsychologistInfo(psyData[psyData.length - 1]);
-          selectOrg();
-          return psyData;
+
+          const fulfilledClientData = clientDataResults
+            .filter((result) => result.status === "fulfilled")
+            .map((result) => result.value.data);
+
+          console.log("full filed", fulfilledClientData);
+
+          if (fulfilledClientData.length > 0) {
+            setPsychologistInfo(
+              fulfilledClientData[fulfilledClientData.length - 1]
+            );
+          } else {
+            console.error("No client data fulfilled");
+          }
         }
       } catch (error) {
-        console.error("Error fetching this profile : ", error);
+        console.error("Error fetching this profile", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     const mounter = async () => {
       await fetchData();
-      setTimeout(() => {
-        setLoading(false);
-      }, 200);
+      setLoading(false);
     };
 
     if (web5 && did) {

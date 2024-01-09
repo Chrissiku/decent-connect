@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { AppContext } from "../context/ContextProvider";
+import { useAppContext } from "../context/ContextProvider";
 import { getCurrentDateTime } from "../utils/constant";
 import useImageUploader from "../utils/imageUploader";
 import { v4 as meetingId } from "uuid";
@@ -11,7 +11,7 @@ const BookPsychologist = () => {
     protocolDefinition,
     selectedDid,
     setCustomModalOpen,
-  } = useContext(AppContext);
+  } = useAppContext();
   const { picture: medicalRecord, handleImageChange } = useImageUploader();
   const [reason, setReason] = useState("");
   const [meetingTime, setMeetingTime] = useState("");

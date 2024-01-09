@@ -3,20 +3,18 @@ import Home from "./pages/Home";
 import Client from "./pages/Client";
 import Organization from "./pages/Organization";
 import Psychologist from "./pages/Psychologist";
-import { useContext } from "react";
-import { AppContext } from "./context/ContextProvider";
 import Modal from "./components/Modal";
 import JoinAppointment from "./pages/JoinAppointment";
+import { useAppContext } from "./context/ContextProvider";
 
 export default function App() {
   const {
     userType,
-    did,
     toggleModalContent,
     customModalOpen,
     setCustomModalOpen,
     setSelectedDid,
-  } = useContext(AppContext);
+  } = useAppContext();
 
   const closeModal = () => {
     setCustomModalOpen(false);
@@ -32,7 +30,8 @@ export default function App() {
       ? Psychologist
       : Home;
 
-  console.log(did);
+  // console.log(did);
+
   return (
     <>
       <div>

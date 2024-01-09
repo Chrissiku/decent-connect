@@ -1,10 +1,17 @@
-import { useContext, useState } from "react";
-import { AppContext } from "../context/ContextProvider";
+import { useState } from "react";
+import { useAppContext } from "../context/ContextProvider";
 
 const Organization = () => {
-  const { web5, did, logout, protocolDefinition } = useContext(AppContext);
-  const [organizationInfo, setOrganizationInfo] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    web5,
+    did,
+    logout,
+    protocolDefinition,
+    organizationInfo,
+    setOrganizationInfo,
+  } = useAppContext();
+  // const [organizationInfo, setOrganizationInfo] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useState(() => {
     const fetchData = async () => {
@@ -20,33 +27,46 @@ const Organization = () => {
         });
 
         if (response.status.code === 200) {
-          const orgData = await Promise.all(
-            response.records.map(async (record) => {
-              const data = await record.data.json();
-              return {
-                ...data,
-                recordId: record.id,
-              };
-            })
+          const clientDataPromises = response.records.map(async (record) => {
+            const dataPromise = record.data.json();
+            return {
+              data: await dataPromise,
+              recordId: record.id,
+            };
+          });
+
+          const clientDataResults = await Promise.allSettled(
+            clientDataPromises
           );
-          setOrganizationInfo(orgData[orgData.length - 1]);
-          return orgData;
-        } else {
-          console.error("error fetching this profile", response.status);
-          return [];
+
+          const fulfilledClientData = clientDataResults
+            .filter((result) => result.status === "fulfilled")
+            .map((result) => result.value.data);
+
+          console.log("full filed", fulfilledClientData);
+
+          if (fulfilledClientData.length > 0) {
+            setOrganizationInfo(
+              fulfilledClientData[fulfilledClientData.length - 1]
+            );
+          } else {
+            console.error("No client data fulfilled");
+          }
         }
       } catch (error) {
-        console.error("Error fetching organization : ", error);
+        console.error("Error fetching this profile", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     if (web5 && did) {
       fetchData();
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
+      setLoading(false);
     }
   }, [web5, did, protocolDefinition]);
+
+  console.log(organizationInfo);
 
   return (
     <>
@@ -67,6 +87,9 @@ const Organization = () => {
             src={organizationInfo.logo}
             alt={organizationInfo.name}
           />
+          <button type="button" className="border" onClick={() => fetch()}>
+            Fetch
+          </button>
 
           <button type="button" className="border" onClick={logout}>
             logout

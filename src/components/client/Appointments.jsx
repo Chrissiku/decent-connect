@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useContext } from "react";
-import { AppContext } from "../../context/ContextProvider";
+import { useAppContext } from "../../context/ContextProvider";
 import { DocumentArrowDownIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 
 const Appointments = ({ meetings }) => {
-  const { findPsyByDid, clientInfo } = useContext(AppContext);
+  const { findPsyByDid, clientInfo } = useAppContext();
   console.log(meetings);
   return (
     <div className="w-full mx-auto px-5 md:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">

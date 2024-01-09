@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Fragment, useContext } from "react";
+import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import {
   ChevronDownIcon,
@@ -7,7 +7,7 @@ import {
   HomeModernIcon,
   HeartIcon,
 } from "@heroicons/react/24/solid";
-import { AppContext } from "../../context/ContextProvider";
+import { useAppContext } from "../../context/ContextProvider";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -40,7 +40,7 @@ const ConnectButton = ({ text, start }) => {
     client,
     psychologist,
     organization,
-  } = useContext(AppContext);
+  } = useAppContext();
 
   const handleButtonClick = (userTypeVal) => {
     switch (userTypeVal) {

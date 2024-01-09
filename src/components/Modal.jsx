@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
-import { Fragment, useContext, useRef } from "react";
+import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { AppContext } from "../context/ContextProvider";
+import { useAppContext } from "../context/ContextProvider";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import BookPsychologist from "../dashBoardsUi/BookPsychologist";
 
 const Modal = ({ isOpen, closeModal }) => {
-  const { modalContent, toggleModalContent } = useContext(AppContext);
+  const { modalContent, toggleModalContent } = useAppContext();
 
   const cancelButtonRef = useRef(null);
 
