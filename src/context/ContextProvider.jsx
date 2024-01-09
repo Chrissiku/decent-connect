@@ -11,7 +11,7 @@ const ContextProvider = ({ children }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [authType, setAuthType] = useState(null);
   const [userType, setUserType] = useState(() => {
-    return localStorage.getItem("userType") || null;
+    return localStorage.getItem("userType") || "null";
   });
   const [clientInfo, setClientInfo] = useState([]);
   const [organizationList, setOrganizationList] = useState([]);
@@ -280,7 +280,7 @@ const ContextProvider = ({ children }) => {
   const logout = () => {
     localStorage.setItem("userType", null);
     setAuthType(null);
-    setUserType(null);
+    setUserType("null");
     togglePageView("home");
   };
 
@@ -301,8 +301,6 @@ const ContextProvider = ({ children }) => {
     const psy = psychologistList?.find((psy) => psy?.did === recordIdToFind);
     return psy;
   };
-
-  console.log("Meeting : ", meetings);
 
   const values = {
     modalOpen,

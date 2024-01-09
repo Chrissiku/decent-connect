@@ -49,6 +49,7 @@ const Client = () => {
         });
 
         await record.send(did);
+
         if (status.code === 202 && status.detail === "Accepted") {
           setName("");
           setDob("");

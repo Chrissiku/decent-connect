@@ -14,10 +14,10 @@ const Client = () => {
     pageView,
     psychologistList,
     meetings,
-    clientInfo,
-    setClientInfo,
+    // clientInfo,
+    // setClientInfo,
   } = useContext(AppContext);
-  // const [clientInfo, setClientInfo] = useState([]);
+  const [clientInfo, setClientInfo] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,33 +33,64 @@ const Client = () => {
           },
         });
 
+        console.log(response.records);
+
         if (response.status.code === 200) {
-          const clientData = await Promise.all(
+          const res = await Promise.all(
             response.records.map(async (record) => {
-              const data = await record.data.json();
-              return {
-                ...data,
-                recordId: record.id,
-              };
+              const data = await web5.dwn.records.read({
+                from: did,
+                message: {
+                  filter: {
+                    recordId: record.id,
+                  },
+                },
+              });
+              console.log(data)
+              // const data = await record;
+              // return {
+              //   ...data,
+              //   recordId: record.id,
+              // };
             })
           );
-          setClientInfo(clientData[clientData.length - 1]);
-          return clientData;
+          setClientInfo(res);
+          // setLoadingDoctor(false);
+          return res;
         } else {
           console.error("error fetching this profile", response.status);
           return [];
         }
       } catch (error) {
-        console.error("Error fetching data : ", error);
+        console.error("error fetching client profile :", error);
       }
     };
+
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await web5.dwn.records.query({
+    //       from: did,
+    //       message: {
+    //         filter: {
+    //           protocol: protocolDefinition.protocol,
+    //           schema: protocolDefinition.types.clientProfile.schema,
+    //         },
+    //       },
+    //     });
+
+    //     console.log(response);
+
+    //   } catch (error) {
+    //     console.error("Error fetching client data : ", error);
+    //   }
+    // };
     if (web5 && did) {
       fetchData();
       setTimeout(() => {
         setLoading(false);
       }, 2000);
     }
-  }, [web5, did, protocolDefinition]);
+  }, [web5, did, protocolDefinition, setClientInfo]);
 
   return (
     <>
@@ -75,7 +106,7 @@ const Client = () => {
             </div>
             <div className="lg:col-span-7">
               {Object.keys(clientInfo).length === 0 ? (
-                <>No data on the DWN</>
+                <>Loading Data</>
               ) : pageView === "home" ? (
                 <ClientContent data={clientInfo} />
               ) : pageView === "psychologist" ? (
@@ -83,11 +114,16 @@ const Client = () => {
               ) : pageView === "appointment" ? (
                 <Appointments meetings={meetings} />
               ) : (
-                <>null page</>
+                <>Null Page</>
               )}
             </div>
+
             <div className="lg:col-span-3">
-              <RightBar data={clientInfo} />
+              {Object.keys(clientInfo).length === 0 ? (
+                <>Loading data</>
+              ) : (
+                <RightBar data={clientInfo} />
+              )}
             </div>
           </div>
         </>
