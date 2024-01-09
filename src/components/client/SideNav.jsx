@@ -34,7 +34,21 @@ const SideNav = () => {
             </span>
             <span>Dashboard</span>
           </button>
+<<<<<<< HEAD
 
+=======
+          <button
+            onClick={() => togglePageView("appointment")}
+            type="button"
+            className="py-5 px-10 w-full text-shade inline-flex items-center justify-start space-x-4 
+            hover:bg-white"
+          >
+            <span>
+              <CalendarDaysIcon className="w-[20px] h-[20px]" />
+            </span>
+            <span>Appointment</span>
+          </button>
+>>>>>>> parent of d1d2ff0 (Implement logic for creating and fetching appointment)
           <button
             onClick={() => togglePageView("psychologist")}
             type="button"

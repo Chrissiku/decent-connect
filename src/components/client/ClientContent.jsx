@@ -8,22 +8,9 @@ import { useContext } from "react";
 import { AppContext } from "../../context/ContextProvider";
 
 const ClientContent = ({ data }) => {
-  const {
-    psychologistList,
-    findOrganizationByRecordId,
-    setCustomModalOpen,
-    toggleModalContent,
-    setSelectedDid,
-    meetings,
-    findPsyByDid,
-    togglePageView,
-  } = useContext(AppContext);
-
-  const toggleBooking = (selectedDid) => {
-    toggleModalContent("book-psychologist");
-    setCustomModalOpen(true);
-    setSelectedDid(selectedDid);
-  };
+  const { psychologistList, findOrganizationByRecordId } = useContext(
+    AppContext
+  );
 
   const upcomingAppointment = meetings.sort(
     (a, b) => new Date(a.meetingTime) - new Date(b.meetingTime)
