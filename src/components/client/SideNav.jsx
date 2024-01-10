@@ -18,7 +18,7 @@ const SideNav = () => {
         <div className="w-[150px] md:w-full h-16 px-10">
           <img
             src={logo}
-            className="w-full h-full object-contain"
+            className="w-[150px] md:w-full h-full object-contain"
             alt="Decent connect"
           />
         </div>
