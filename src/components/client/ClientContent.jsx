@@ -40,8 +40,8 @@ const ClientContent = ({ data }) => {
       <h1 className="text-[20px] font-bold">
         Welcome <span className="text-teal">{data?.name}!</span>
       </h1>
-       <div className="flex w-full md:hidden items-center justify-between text-gray-400 space-x-4">
-          <div className="bg-white hover:bg-gray-200 px-5 py-2 font-medium text-[14px] inline-flex items-center justify-between w-full">
+       <div className="flex w-full lg:hidden items-center justify-between text-gray-400 space-x-4">
+          <div className="bg-slate-200 rounded-[8px] w-[250px] hover:bg-gray-200 px-5 py-2 font-medium text-[14px] inline-flex items-center gap-2">
             <p>{did.slice(0, 10) + "..." + did.slice(-10)}</p>
             <span>
               <DocumentDuplicateIcon className="w-[20px] h-[20px]" />
