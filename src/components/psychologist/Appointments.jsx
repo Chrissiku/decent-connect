@@ -28,7 +28,7 @@ const Appointments = ({ meetings }) => {
       {Object.keys(meetings).length === 0 ? (
         <div className="w-full flex flex-col flex-wrap items-center justify-between space-y-3 bg-red-200">
           <div className="w-full h-[100%] p-20 text-center text-[20px] text-dark-gray">
-            Currently, there are no therapists available ! come back later
+            Currently, there are no appointments available ! come back later
           </div>
         </div>
       ) : (

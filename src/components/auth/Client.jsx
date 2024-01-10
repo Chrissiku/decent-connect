@@ -6,7 +6,6 @@ import { AppContext } from "../../context/ContextProvider";
 import { v4 as uidv4 } from "uuid";
 import Process from "../common/Process";
 
-
 const Client = () => {
   const {
     web5,
@@ -39,6 +38,7 @@ const Client = () => {
       !formData.gender
     ) {
       alert("Please Fill all required fields !!");
+      setLoading(false);
       return;
     } else {
       try {

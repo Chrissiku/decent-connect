@@ -46,6 +46,7 @@ const Psychologist = () => {
       !formData.specialization
     ) {
       alert("Please fill in all the required fields !");
+      setLoading(false);
     } else {
       try {
         const { record, status } = await web5.dwn.records.create({
@@ -217,7 +218,9 @@ const Psychologist = () => {
                       required
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-3 "
                     >
-                      <option defaultValue="generalist" value="Generalist">Generalist</option>
+                      <option defaultValue="generalist" value="Generalist">
+                        Generalist
+                      </option>
                       <option value="Clinical">Clinical Psychologist</option>
                       <option value="Counseling">
                         Counseling Psychologist

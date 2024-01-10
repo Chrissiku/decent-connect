@@ -42,6 +42,7 @@ const Organization = () => {
       !formData.address
     ) {
       alert("Please Fill all required fields !!");
+      setLoading(false);
       return;
     } else {
       try {
