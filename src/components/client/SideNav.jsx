@@ -28,10 +28,10 @@ const SideNav = () => {
         <Bars4Icon className="w-10 m-3 rounded-[8px] cursor-pointer h-10 text-[#8B7EF8] border border-gray-400"/>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='!bg-[#F7F6FE] !border !border-[#DBDAE5]'>
-        <DropdownMenuItem className="w-[150px] md:w-full h-16 px-10">
+        <DropdownMenuItem className="w-[150px] lg:w-full h-16 px-10">
           <img
             src={logo}
-            className="w-[150px] md:w-full h-full object-contain"
+            className="w-[150px] lg:w-full h-full object-contain"
             alt="Decent connect"
           />
         </DropdownMenuItem>
