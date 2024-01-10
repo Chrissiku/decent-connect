@@ -15,7 +15,7 @@ const SideNav = () => {
   return (
     <div className="w-full h-full bg-[#F7F6FE] border border-r-[#DBDAE5]">
       <nav className="w-full h-screen flex flex-col items-center justify-start space-y-[50px] py-14">
-        <div className="w-full h-16 px-10">
+        <div className="w-[150px] md:w-full h-16 px-10">
           <img
             src={logo}
             className="w-full h-full object-contain"
