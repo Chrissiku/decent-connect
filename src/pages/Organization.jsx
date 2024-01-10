@@ -48,9 +48,10 @@ const Organization = () => {
           Loading . . .
         </div>
       ) : (
-          <div className="flex justify-between p-4">
+          <div className="flex justify-between p-4 bg-[#F7F6FE] h-screen">
             {/* <div>{organizationInfo.id}</div> */}
             <div className="flex flex-col gap-4">
+            <div className="bg-white p-4 w-80 h-80 border flex flex-col shadow-md gap-10 rounded-[8px]">
             <div className="flex flex-col">
               <h3 className="font-semibold text-base">Organization Name</h3>
               <span className="text-[#9C9A9A] text-sm">
@@ -67,20 +68,19 @@ const Organization = () => {
               </div>
             <div>{organizationInfo.description}</div>
             </div>
-            <div className="font-semibold text-base">List of accredited therapists</div>
-            <div className="self-end flex-col gap-4">
+             <button type="button" className="bg-[#8B7EF8] text-white w-[100px] font-semibold h-8 mt-40 rounded-[8px]" onClick={logout}>
+                Logout
+              </button>
+            </div>
+            <div className="font-semibold text-base">List of Accredited Therapists <span className="bg-[#8B7EF8] h-10 w-16 p-1 rounded-[8px] text-white">00</span></div>
               <div>
                 <img
                   className="h-10 w-10 rounded-full"
                   src={organizationInfo.logo}
                   alt={organizationInfo.name}
                 />
-              </div>
-              <button type="button" className="border" onClick={logout}>
-                logout
-              </button>
+              </div>            
             </div>
-          </div>
       )}
     </>
   );
