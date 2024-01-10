@@ -14,7 +14,7 @@ const RightBar = ({ data }) => {
     <div className="bg-[#F7F6FE] w-full h-full border border-[#DBDAE5] mx-auto p-5">
       <div className="flex flex-col space-y-10 items-center justify-start">
         {/* Profile */}
-        <div className="hidden w-full md:flex items-center justify-between text-gray-400 space-x-4">
+        <div className="hidden w-full lg:flex items-center justify-between text-gray-400 space-x-4">
           <div className="bg-white hover:bg-gray-200 px-5 py-2 font-medium text-[14px] inline-flex items-center justify-between w-full">
             <p>{did.slice(0, 10) + "..." + did.slice(-10)}</p>
             <span>
