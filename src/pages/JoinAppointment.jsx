@@ -20,7 +20,7 @@ const JoinAppointment = () => {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
-    navigate(-1); // This will navigate back to the previous page
+    window.close();
   };
 
   const myMeeting = async (element) => {
@@ -30,7 +30,6 @@ const JoinAppointment = () => {
       params.id,
       user ? user : uid(),
       userName ? userName : "Your Name"
-      // user?.displayName ? user.displayName : generateMeetingID()
     );
     const zp = ZegoUIKitPrebuilt.create(kitToken);
 
@@ -55,7 +54,7 @@ const JoinAppointment = () => {
         style={{
           height: "100vh",
         }}
-        className="grid grid-cols-1 items-center justify-center border border-red-100"
+        className="grid grid-cols-1 items-center justify-center border"
       >
         <div className="mx-auto w-[200px]">
           <button
@@ -63,10 +62,10 @@ const JoinAppointment = () => {
             className="bg-teal px-5 py-3 text-white self-center w-full rounded-lg"
             onClick={handleGoBack}
           >
-            Go Back
+            Close
           </button>
         </div>
-        <div className="myCallContainer" ref={myMeeting}></div>
+        <div className="myCallContainer w-full h-full" ref={myMeeting}></div>
       </div>
     </div>
   );
