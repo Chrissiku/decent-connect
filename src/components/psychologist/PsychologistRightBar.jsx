@@ -27,7 +27,7 @@ const PsychologistRightBar = ({ data }) => {
     <div className="bg-[#F7F6FE] w-full h-full border border-[#DBDAE5] mx-auto p-5">
       <div className="flex flex-col space-y-10 items-center justify-start">
         {/* Profile */}
-        <div className="w-full flex items-center justify-between text-gray-400 space-x-4">
+        <div className="hidden w-full lg:flex items-center justify-between text-gray-400 space-x-4">
           <div className="bg-white hover:bg-gray-200 px-5 py-2 font-medium text-[14px] inline-flex items-center justify-between w-full">
             <p>{did?.slice(0, 10) + "..." + did?.slice(-10)}</p>
             <span>
@@ -49,10 +49,10 @@ const PsychologistRightBar = ({ data }) => {
               <DropdownMenuContent className="!text-black !rounded-lg !border !border-teal p-5 absolute -right-2 !bg-slate-300 min-w-[200px]">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
-                <DropdownMenuItem>Team</DropdownMenuItem>
-                <DropdownMenuItem>Subscription</DropdownMenuItem>
+                <DropdownMenuItem>Appointments</DropdownMenuItem>
+                <DropdownMenuItem>Edit</DropdownMenuItem>
+                <DropdownMenuItem>Meetings</DropdownMenuItem>
+                <DropdownMenuItem>Logout</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -89,11 +89,11 @@ const PsychologistRightBar = ({ data }) => {
           </button>
         </div>
         {/* Image */}
-        <div className="w-full h-[300px]">
+         <div className="w-full">
           <img
             src={counselling}
             alt="Counselling demo"
-            className="w-full h-full object-fill"
+            className="w-[350px] sm:w-[600px] lg:w-full h-full object-fill"
           />
         </div>
         {/* Notifications */}

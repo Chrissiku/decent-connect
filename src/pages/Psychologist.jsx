@@ -3,6 +3,7 @@ import { AppContext } from "../context/ContextProvider";
 import PsychologistSideNav from "../components/psychologist/PsychologistSideNav";
 import PsychologistContent from "../components/psychologist/PsychologistContent";
 import PsychologistRightBar from "../components/psychologist/PsychologistRightBar";
+import Appointments from "../components/psychologist/Appointments";
 
 const Psychologist = () => {
   const {
@@ -12,6 +13,8 @@ const Psychologist = () => {
     organizationList,
     psychologistInfo,
     setPsychologistInfo,
+    pageView,
+    meetings,
   } = useContext(AppContext);
   // const [psychologistInfo, setPsychologistInfo] = useState([]);
   // eslint-disable-next-line no-unused-vars
@@ -79,8 +82,19 @@ const Psychologist = () => {
             <div className="lg:col-span-2">
               <PsychologistSideNav />
             </div>
+
             <div className="lg:col-span-7">
-              <PsychologistContent data={psychologistInfo} />
+              {Object.keys(psychologistInfo).length === 0 ? (
+                <div className="text-teal text-[40px] w-full block items-center justify-center text-center">
+                  Loading . . .
+                </div>
+              ) : pageView === "home" ? (
+                <PsychologistContent data={psychologistInfo} />
+              ) : pageView === "psy-appointment" ? (
+                <Appointments meetings={meetings} />
+              ) : (
+                <PsychologistContent data={psychologistInfo} />
+              )}
             </div>
             <div className="lg:col-span-3">
               <PsychologistRightBar data={psychologistInfo} />

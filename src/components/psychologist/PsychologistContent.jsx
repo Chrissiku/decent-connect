@@ -1,5 +1,17 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
+import {
+  DocumentDuplicateIcon,
+  ChevronDownIcon,
+} from "@heroicons/react/24/solid";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import femaleProfile from "../../assets/patient/female.svg";
 import call from "../../assets/patient/call.svg";
 import video from "../../assets/patient/video.svg";
@@ -12,7 +24,8 @@ import { useContext } from "react";
 import { AppContext } from "../../context/ContextProvider";
 
 const PsychologistContent = ({ data }) => {
-  const { meetings, findPsyByDid } = useContext(AppContext);
+  const { meetings, did, findPsyByDid } = useContext(AppContext);
+  // console.log(meetings);
   const upcomingAppointment = meetings.sort(
     (a, b) => new Date(a.meetingTime) - new Date(b.meetingTime)
   );
@@ -24,6 +37,37 @@ const PsychologistContent = ({ data }) => {
             Welcome <span className="text-teal">{data?.name}</span>
           </h1>
           <p className="text-[12px] text-gray-500">{data?.specialization}</p>
+          {/* profile */}
+          <div className="w-full flex items-center justify-between text-gray-400 space-x-4">
+          <div className="bg-slate-200 rounded-[8px] w-[250px] hover:bg-gray-200 px-5 py-2 font-medium text-[14px] inline-flex items-center justify-between lg:w-full">
+            <p>{did?.slice(0, 10) + "..." + did?.slice(-10)}</p>
+            <span>
+              <DocumentDuplicateIcon className="w-[20px] h-[20px]" />
+            </span>
+          </div>
+          <div className="inline-flex items-center justify-between space-x-1 hover:bg-gray-300 py-2 px-3 rounded-lg">
+            <div className="w-6 h-6 rounded-full overflow-hidden">
+              <img
+                src={data?.profile}
+                className="w-full h-full"
+                alt="profile picture"
+              />
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="outline-none cursor-pointer">
+                <ChevronDownIcon className="w-5 h-5" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="!text-black !rounded-lg !border !border-teal p-5 absolute -right-2 !bg-slate-300 min-w-[200px]">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Appointments</DropdownMenuItem>
+                <DropdownMenuItem>Edit</DropdownMenuItem>
+                <DropdownMenuItem>Meetings</DropdownMenuItem>
+                <DropdownMenuItem>Logout</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
         </div>
         <div>
           <h1 className="text-[20px] font-bold text-teal">Overview</h1>
@@ -238,7 +282,7 @@ const PsychologistContent = ({ data }) => {
             <h3 className="text-[15px] font-bold text-teal">My schedule</h3>
             <Calendar />
           </div>
-          <div className="w-full md:w-3/6 flex flex-col items-center justify-end mt-auto space-y-8">
+          <div className="w-full md:w-3/6 mt-16 flex flex-col md:items-center justify-end md:mt-auto space-y-8">
             <div className="grid grid-cols-2 gap-5">
               <div className="border w-[130px] h-[130px] items-center justify-center flex flex-col gap-6 rounded-[8px] p-2 border-[#EBEBEB]">
                 <div className="flex gap-1">

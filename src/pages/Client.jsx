@@ -5,6 +5,7 @@ import ClientContent from "../components/client/ClientContent";
 import RightBar from "../components/client/RightBar";
 import PsychologistList from "../components/client/PsychologistList";
 import Appointments from "../components/client/Appointments";
+import Records from "../components/client/Records";
 
 const Client = () => {
   const {
@@ -16,6 +17,7 @@ const Client = () => {
     meetings,
     clientInfo,
     setClientInfo,
+    medicalRecords,
   } = useContext(AppContext);
   // const [clientInfo, setClientInfo] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,6 +61,8 @@ const Client = () => {
     }
   }, [web5, did, protocolDefinition]);
 
+  console.log(medicalRecords)
+
   return (
     <>
       {loading ? (
@@ -73,13 +77,17 @@ const Client = () => {
             </div>
             <div className="lg:col-span-7">
               {Object.keys(clientInfo).length === 0 ? (
-                <>Loading</>
+                <div className="text-teal text-[40px] w-full block items-center justify-center text-center">
+                  Loading . . .
+                </div>
               ) : pageView === "home" ? (
                 <ClientContent data={clientInfo} />
               ) : pageView === "psychologist" ? (
                 <PsychologistList psy={psychologistList} />
               ) : pageView === "appointment" ? (
                 <Appointments meetings={meetings} />
+              ) : pageView === "records" ? (
+                <Records records={medicalRecords} />
               ) : (
                 <ClientContent data={clientInfo} />
               )}

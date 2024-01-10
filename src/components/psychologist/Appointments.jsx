@@ -1,11 +1,23 @@
 /* eslint-disable react/prop-types */
 import { useContext } from "react";
 import { AppContext } from "../../context/ContextProvider";
-import { DocumentArrowDownIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 
 const Appointments = ({ meetings }) => {
-  const { findPsyByDid, clientInfo } = useContext(AppContext);
+  const {
+    findPsyByDid,
+    clientInfo,
+    toggleModalContent,
+    setCustomModalOpen,
+    setSelectedDid,
+  } = useContext(AppContext);
+
+  const handleIssueRecord = (selectedDid) => {
+    toggleModalContent("issue-record");
+    setCustomModalOpen(true);
+    setSelectedDid(selectedDid);
+  };
+
   return (
     <div className="w-full mx-auto px-5 md:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">
       <h1 className="text-[20px] font-bold">All Appointment</h1>
@@ -84,25 +96,31 @@ const Appointments = ({ meetings }) => {
                       <span> - </span>
                     )}
                   </td>
-                  <td>
-                    {item.medicalRecord !== null ? (
+                  <td className="flex flex-col item-center justify-center space-y-2 py-2 max-w-[100px] mx-auto">
+                    <button
+                      type="button"
+                      onClick={() => handleIssueRecord(item.clientDid)}
+                      className="px-4 py-2 bg-indigo-400 hover:bg-indigo-500 text-black rounded-lg text-[13px]"
+                    >
+                      Issue new Record
+                    </button>
+
+                    {item.medicalRecord && (
                       <a
                         href={item.medicalRecord}
                         download={"Previous Medical Record-" + item.reason}
-                        className="text-[10px] flex flex-col items-center justify-center group"
+                        className="flex flex-col items-center justify-center bg-shade px-4 py-2 rounded-lg text-[13px]"
                         type="button"
                       >
-                        <DocumentArrowDownIcon className="w-8 h-8 group-hover:text-green-500" />
+                        Previous Record
                       </a>
-                    ) : (
-                      <span> - </span>
                     )}
                   </td>
                   <td>
                     <Link
                       to={`/join/${item.id}`}
                       target="_blank"
-                      className="px-4 py-1 bg-green-400 hover:bg-green-500 text-black rounded-lg text-[13px]"
+                      className="px-4 py-2 bg-green-400 hover:bg-green-500 text-black rounded-lg text-[13px]"
                     >
                       Join now
                     </Link>

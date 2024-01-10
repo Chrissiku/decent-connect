@@ -4,6 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { AppContext } from "../context/ContextProvider";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import BookPsychologist from "../dashBoardsUi/BookPsychologist";
+import IssueRecord from "../dashBoardsUi/IssueRecord";
 
 const Modal = ({ isOpen, closeModal }) => {
   const { modalContent, toggleModalContent } = useContext(AppContext);
@@ -62,9 +63,9 @@ const Modal = ({ isOpen, closeModal }) => {
                     <div className="w-full" ref={cancelButtonRef}>
                       {modalContent === "book-psychologist" ? (
                         <BookPsychologist />
-                      ) : (
-                        <div>Null</div>
-                      )}
+                      ) : modalContent === "issue-record" ? (
+                        <IssueRecord />
+                      ) : null}
                     </div>
                   </div>
                 </div>
