@@ -116,7 +116,6 @@ const ContextProvider = ({ children }) => {
     //install protocol
     const installProtocol = async () => {
       try {
-        // console.log("Installing protocol ...");
         const { protocol, status } = await web5.dwn.protocols.configure({
           message: {
             definition: protocolDefinition,
@@ -124,7 +123,7 @@ const ContextProvider = ({ children }) => {
         });
         await protocol.send(did);
         if ((status.code === 202) & (status.details === "Accepted")) {
-          console.log("... Welcome to decent connect ");
+          console.log("Welcome to decent connect.");
         }
       } catch (error) {
         console.error("Error installing protocol : ", error);
@@ -292,8 +291,6 @@ const ContextProvider = ({ children }) => {
     const psy = psychologistList?.find((psy) => psy?.did === recordIdToFind);
     return psy;
   };
-
-  // console.log("Meeting : ", meetings);
 
   const values = {
     modalOpen,

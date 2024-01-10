@@ -97,9 +97,7 @@ const ClientContent = ({ data }) => {
                             psy.organization === ""
                               ? `@ Self Employed`
                               : `@
-                            ${
-                              findOrganizationByRecordId(psy?.organization).name
-                            }`}
+                            ${findOrganizationByRecordId(psy?.recordId).name}`}
                           </p>
                         </div>
                       </div>

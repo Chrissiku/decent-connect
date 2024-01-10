@@ -45,7 +45,7 @@ const Psychologist = () => {
               return { ...textData, recordId: record.id };
             })
           );
-          console.log(result);
+          // console.log(result);
           setPsychologistInfo(result[result.length - 1]);
           selectOrg();
           return result;

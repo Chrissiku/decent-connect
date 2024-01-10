@@ -51,7 +51,6 @@ const BookPsychologist = () => {
         await Promise.all(
           DIDs.map(async (did) => {
             await record.send(did);
-            console.log("meeting created");
           })
         );
 

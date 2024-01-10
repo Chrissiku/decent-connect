@@ -57,10 +57,7 @@ const PsychologistList = ({ psy }) => {
                     {item?.organization === "self" || item?.organization === ""
                       ? `@ Self Employed`
                       : `@
-                            ${
-                              findOrganizationByRecordId(item?.organization)
-                                .name
-                            }`}
+                            ${findOrganizationByRecordId(item?.recordId).name}`}
                   </span>
                 </div>
               </div>

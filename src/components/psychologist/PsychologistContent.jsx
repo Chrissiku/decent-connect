@@ -13,7 +13,6 @@ import { AppContext } from "../../context/ContextProvider";
 
 const PsychologistContent = ({ data }) => {
   const { meetings, findPsyByDid } = useContext(AppContext);
-  console.log(meetings);
   const upcomingAppointment = meetings.sort(
     (a, b) => new Date(a.meetingTime) - new Date(b.meetingTime)
   );

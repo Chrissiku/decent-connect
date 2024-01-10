@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 const Appointments = ({ meetings }) => {
   const { findPsyByDid, clientInfo } = useContext(AppContext);
-  console.log(meetings);
   return (
     <div className="w-full mx-auto px-5 md:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">
       <h1 className="text-[20px] font-bold">All Appointment</h1>

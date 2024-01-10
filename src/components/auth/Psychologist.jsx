@@ -58,13 +58,11 @@ const Psychologist = () => {
 
         // await record.send(publicDid);
         const DIDs = [did, publicDid];
-        console.log(" . . .")
         await Promise.all(
           DIDs.map(async (did) => {
             await record.send(did);
           })
         );
-        console.log(" . . . sent")
 
         if (status.code === 202 && status.detail === "Accepted") {
           setName("");

@@ -15,8 +15,6 @@ const Modal = ({ isOpen, closeModal }) => {
     toggleModalContent(null);
   };
 
-  console.log(modalContent);
-
   return (
     <Transition.Root appear show={isOpen} as={Fragment}>
       <Dialog
