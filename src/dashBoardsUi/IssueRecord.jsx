@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { AppContext } from "../context/ContextProvider";
 import useImageUploader from "../utils/imageUploader";
 import { v4 as meetingId } from "uuid";
+import Process from "../components/common/Process";
 
 const IssueRecord = () => {
   const {
@@ -68,7 +69,7 @@ const IssueRecord = () => {
     <div>
       <div className="md:p-5 grid grid-cols-1 items-center justify-center space-y-5">
         {loading ? (
-          <div className="w-full h-full text-gray-500">Creating Record</div>
+          <Process />
         ) : (
           <>
             <h3 className="text-teal font-bold text-[20px]">

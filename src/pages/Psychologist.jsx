@@ -4,6 +4,7 @@ import PsychologistSideNav from "../components/psychologist/PsychologistSideNav"
 import PsychologistContent from "../components/psychologist/PsychologistContent";
 import PsychologistRightBar from "../components/psychologist/PsychologistRightBar";
 import Appointments from "../components/psychologist/Appointments";
+import Loader from "../components/common/Loader";
 
 const Psychologist = () => {
   const {
@@ -73,9 +74,7 @@ const Psychologist = () => {
   return (
     <>
       {loading ? (
-        <div className="text-teal text-[40px] w-full block items-center justify-center text-center">
-          Loading . . .
-        </div>
+        <Loader />
       ) : (
         <>
           <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12">
@@ -85,9 +84,7 @@ const Psychologist = () => {
 
             <div className="lg:col-span-7">
               {Object.keys(psychologistInfo).length === 0 ? (
-                <div className="text-teal text-[40px] w-full block items-center justify-center text-center">
-                  Loading . . .
-                </div>
+                <Loader />
               ) : pageView === "home" ? (
                 <PsychologistContent data={psychologistInfo} />
               ) : pageView === "psy-appointment" ? (

@@ -7,11 +7,11 @@ import { useContext } from "react";
 import { AppContext } from "./context/ContextProvider";
 import Modal from "./components/Modal";
 import JoinAppointment from "./pages/JoinAppointment";
+import Loader from "./components/common/Loader";
 
 export default function App() {
   const {
     userType,
-    did,
     toggleModalContent,
     customModalOpen,
     setCustomModalOpen,
