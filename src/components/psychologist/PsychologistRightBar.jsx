@@ -89,11 +89,11 @@ const PsychologistRightBar = ({ data }) => {
           </button>
         </div>
         {/* Image */}
-        <div className="w-full h-[300px]">
+         <div className="w-full">
           <img
             src={counselling}
             alt="Counselling demo"
-            className="w-full h-full object-fill"
+            className="w-[350px] sm:w-[600px] lg:w-full h-full object-fill"
           />
         </div>
         {/* Notifications */}
