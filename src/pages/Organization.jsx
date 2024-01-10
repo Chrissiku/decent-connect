@@ -42,29 +42,32 @@ const Organization = () => {
   }, [web5, did, protocolDefinition]);
   // console.log(organizationInfo);
   return (
-    <div>
+    <>
       {loading ? (
         <div className="text-teal text-[40px] w-full block items-center justify-center text-center">
           Loading . . .
         </div>
       ) : (
-        <div>
           <div className="flex justify-between p-4">
             {/* <div>{organizationInfo.id}</div> */}
+            <div className="flex flex-col gap-4">
             <div className="flex flex-col">
-              <h3>Organization Name</h3>
-              <span>
+              <h3 className="font-semibold text-base">Organization Name</h3>
+              <span className="text-[#9C9A9A] text-sm">
                 {organizationInfo.name}
               </span>
             </div>
             <div className="flex flex-col">
-              <h3>Established Date</h3>
-              <span>{organizationInfo.creationDate}</span>
+              <h3 className="font-semibold text-base">Established Date</h3>
+              <span className="text-[#9C9A9A] text-sm">{organizationInfo.creationDate}</span>
             </div>
             <div className="flex flex-col">
-              <h3>Street Address</h3>
-              <span>{organizationInfo.address}</span></div>
+              <h3 className="font-semibold text-base">Street Address</h3>
+              <span className="text-[#9C9A9A] text-sm">{organizationInfo.address}</span>
+              </div>
             <div>{organizationInfo.description}</div>
+            </div>
+            <div className="font-semibold text-base">List of accredited therapists</div>
             <div className="self-end flex-col gap-4">
               <div>
                 <img
@@ -78,10 +81,8 @@ const Organization = () => {
               </button>
             </div>
           </div>
-
-        </div>
       )}
-    </div>
+    </>
   );
 };
 
