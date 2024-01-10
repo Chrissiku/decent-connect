@@ -20,7 +20,6 @@ const Psychologist = () => {
   // const [psychologistInfo, setPsychologistInfo] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [org, setOrg] = useState("");
-  const [loading, setLoading] = useState(true);
 
   const selectOrg = () => {
     const org = organizationList.find(
@@ -73,32 +72,26 @@ const Psychologist = () => {
 
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12">
-            <div className="lg:col-span-2">
-              <PsychologistSideNav />
-            </div>
+      <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12">
+        <div className="lg:col-span-2">
+          <PsychologistSideNav />
+        </div>
 
-            <div className="lg:col-span-7">
-              {Object.keys(psychologistInfo).length === 0 ? (
-                <Loader />
-              ) : pageView === "home" ? (
-                <PsychologistContent data={psychologistInfo} />
-              ) : pageView === "psy-appointment" ? (
-                <Appointments meetings={meetings} />
-              ) : (
-                <PsychologistContent data={psychologistInfo} />
-              )}
-            </div>
-            <div className="lg:col-span-3">
-              <PsychologistRightBar data={psychologistInfo} />
-            </div>
-          </div>
-        </>
-      )}
+        <div className="lg:col-span-7">
+          {Object.keys(psychologistInfo).length === 0 ? (
+            <Loader />
+          ) : pageView === "home" ? (
+            <PsychologistContent data={psychologistInfo} />
+          ) : pageView === "psy-appointment" ? (
+            <Appointments meetings={meetings} />
+          ) : (
+            <PsychologistContent data={psychologistInfo} />
+          )}
+        </div>
+        <div className="lg:col-span-3">
+          <PsychologistRightBar data={psychologistInfo} />
+        </div>
+      </div>
     </>
   );
 };

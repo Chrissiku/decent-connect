@@ -5,6 +5,7 @@ import { AppContext } from "../context/ContextProvider";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import BookPsychologist from "../dashBoardsUi/BookPsychologist";
 import IssueRecord from "../dashBoardsUi/IssueRecord";
+import IssueVC from "../dashBoardsUi/IssueVC";
 
 const Modal = ({ isOpen, closeModal }) => {
   const { modalContent, toggleModalContent } = useContext(AppContext);
@@ -65,6 +66,8 @@ const Modal = ({ isOpen, closeModal }) => {
                         <BookPsychologist />
                       ) : modalContent === "issue-record" ? (
                         <IssueRecord />
+                      ) : modalContent === "issue-vc" ? (
+                        <IssueVC />
                       ) : null}
                     </div>
                   </div>

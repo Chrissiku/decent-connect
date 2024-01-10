@@ -64,35 +64,29 @@ const Client = () => {
 
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12">
-            <div className="lg:col-span-2">
-              <SideNav />
-            </div>
-            <div className="lg:col-span-7">
-              {Object.keys(clientInfo).length === 0 ? (
-                <Loader />
-              ) : pageView === "home" ? (
-                <ClientContent data={clientInfo} />
-              ) : pageView === "psychologist" ? (
-                <PsychologistList psy={psychologistList} />
-              ) : pageView === "appointment" ? (
-                <Appointments meetings={meetings} />
-              ) : pageView === "records" ? (
-                <Records records={medicalRecords} />
-              ) : (
-                <ClientContent data={clientInfo} />
-              )}
-            </div>
-            <div className="lg:col-span-3">
-              <RightBar data={clientInfo} />
-            </div>
-          </div>
-        </>
-      )}
+      <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12">
+        <div className="lg:col-span-2">
+          <SideNav />
+        </div>
+        <div className="lg:col-span-7">
+          {Object.keys(clientInfo).length === 0 ? (
+            <Loader />
+          ) : pageView === "home" ? (
+            <ClientContent data={clientInfo} />
+          ) : pageView === "psychologist" ? (
+            <PsychologistList psy={psychologistList} />
+          ) : pageView === "appointment" ? (
+            <Appointments meetings={meetings} />
+          ) : pageView === "records" ? (
+            <Records records={medicalRecords} />
+          ) : (
+            <ClientContent data={clientInfo} />
+          )}
+        </div>
+        <div className="lg:col-span-3">
+          <RightBar data={clientInfo} />
+        </div>
+      </div>
     </>
   );
 };
