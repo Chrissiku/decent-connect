@@ -5,7 +5,7 @@ import { AppContext } from "../context/ContextProvider";
 import { v4 as uid } from "uuid";
 
 const JoinAppointment = () => {
-  const { meetings, did } = useContext(AppContext);
+  const { did } = useContext(AppContext);
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState("");
 
