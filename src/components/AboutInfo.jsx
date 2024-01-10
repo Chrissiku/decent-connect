@@ -2,15 +2,18 @@ const AboutInfo = () => {
   const aboutCards = [
     {
       title: "Mission",
-      text: "Unite mentors and mentees for transformative connections.",
+      text:
+        "Unite individuals on a journey toward mental wellness for transformative connections.",
     },
     {
       title: "Vision",
-      text: "Foster growth through dynamic mentorship.",
+      text:
+        "Foster personal growth through empathetic therapeutic connections.",
     },
     {
       title: "Benefits",
-      text: "Elevate careers with personalized guidance and shared expertise.",
+      text:
+        "Enhance well-being through personalized support and shared therapeutic insights.",
     },
   ];
 

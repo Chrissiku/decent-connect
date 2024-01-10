@@ -59,41 +59,43 @@ const Organization = () => {
   // console.log(psychologistList);
   return (
     <>
-      {Object.keys(organizationInfo).length === 0 ? (
-        <Loader />
-      ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-9 gap-3 justify-between p-4 bg-[#F7F6FE] h-screen">
-          <div className="lg:col-span-2 flex flex-col gap-4">
-            <div className="w-full bg-white p-4 h-[300px] flex flex-col shadow-md gap-10 rounded-[8px]">
-              <div className="flex flex-col">
-                <h3 className="font-semibold text-base">Organization Name</h3>
-                <span className="text-[#9C9A9A] text-sm">
-                  {organizationInfo.name}
-                </span>
-              </div>
-              <div className="flex flex-col">
-                <h3 className="font-semibold text-base">Established Date</h3>
-                <span className="text-[#9C9A9A] text-sm">
-                  {organizationInfo.creationDate}
-                </span>
-              </div>
-              <div className="flex flex-col">
-                <h3 className="font-semibold text-base">Street Address</h3>
-                <span className="text-[#9C9A9A] text-sm">
-                  {organizationInfo.address}
-                </span>
-              </div>
-              <div>{organizationInfo.description}</div>
+      <div className="grid grid-cols-1 lg:grid-cols-9 gap-3 justify-between p-4 bg-[#F7F6FE] h-screen">
+        <div className="lg:col-span-2 flex flex-col gap-4">
+          <div className="w-full bg-white p-4 h-[300px] flex flex-col shadow-md gap-10 rounded-[8px]">
+            <div className="flex flex-col">
+              <h3 className="font-semibold text-base">Organization Name</h3>
+              <span className="text-[#9C9A9A] text-sm">
+                {organizationInfo.name}
+              </span>
             </div>
-            <button
-              type="button"
-              className="bg-[#8B7EF8] text-white w-[100px] font-semibold h-8 mt-40 rounded-[8px]"
-              onClick={logout}
-            >
-              Logout
-            </button>
+            <div className="flex flex-col">
+              <h3 className="font-semibold text-base">Established Date</h3>
+              <span className="text-[#9C9A9A] text-sm">
+                {organizationInfo.creationDate}
+              </span>
+            </div>
+            <div className="flex flex-col">
+              <h3 className="font-semibold text-base">Street Address</h3>
+              <span className="text-[#9C9A9A] text-sm">
+                {organizationInfo.address}
+              </span>
+            </div>
+            <div>{organizationInfo.description}</div>
           </div>
-          {/* Content */}
+          <button
+            type="button"
+            className="bg-[#8B7EF8] text-white w-[100px] font-semibold h-8 mt-40 rounded-[8px]"
+            onClick={logout}
+          >
+            Logout
+          </button>
+        </div>
+        {/* Content */}
+        {Object.keys(psychologistList).length === 0 ? (
+          <div className="lg:col-span-7 w-full flex flex-col items-start justify-start">
+            <Loader />
+          </div>
+        ) : (
           <div className="lg:col-span-7 w-full flex flex-col items-start justify-start">
             <div className="mx-auto text-center font-semibold text-base">
               List of Accredited Therapists{" "}
@@ -111,7 +113,7 @@ const Organization = () => {
                   >
                     <div className="w-full h-[150px]">
                       <img
-                        src="https://img.freepik.com/free-photo/mental-health-care-sketch-diagram_53876-121351.jpg?w=1480&t=st=1703803875~exp=1703804475~hmac=887fb9b2d5b127a8e87c4594fbe547e97cd1154944437727ad132b75f00e0d77"
+                        src={item.profile}
                         alt="therapist Profile"
                         className="w-full h-full object-cover"
                       />
@@ -122,17 +124,19 @@ const Organization = () => {
                     >
                       <table className="w-full text-left">
                         <tr>
-                          <th className="text-gray-500">Name : </th>
-                          <td>{item.name} </td>
+                          <th className="text-gray-500">Name</th>
+                          <td>: {item.name} </td>
                         </tr>
                         <tr>
-                          <th className="text-gray-500">Spec : </th>
-                          <td>{item.specialization}</td>
+                          <th className="text-gray-500">Specialization</th>
+                          <td className="text-shade">
+                            : {item.specialization}
+                          </td>
                         </tr>
                         <tr>
-                          <th className="text-gray-500">Experience : </th>
+                          <th className="text-gray-500">Experience</th>
                           <td>
-                            {item.experience} year
+                            : {item.experience} year
                             {item.experience > 1 && "s"}
                           </td>
                         </tr>
@@ -149,8 +153,8 @@ const Organization = () => {
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };

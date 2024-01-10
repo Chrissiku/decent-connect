@@ -1,4 +1,4 @@
-import hero from "../assets/hero.jpg";
+import hero from "/hero.jpg";
 import ConnectButton from "./common/ConnectButton";
 
 const Hero = () => {
