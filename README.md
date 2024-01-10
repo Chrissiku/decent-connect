@@ -1,6 +1,6 @@
 ![DECENT CONNECT](./public/hero.png)
 
-# 🩺 Decent Connect
+# 🏥 Decent Connect
 > Decent Connect is a groundbreaking online therapy platform that meticulously verifies and onboards qualified therapists. It provides a trusted space for patients seeking mental health services. The platform ensures patient confidentiality, with only therapists having access to their data. Our mission is to facilitate a seamless and secure connection between therapists and individuals in need.
 
 ## 🪧 Problem statement
