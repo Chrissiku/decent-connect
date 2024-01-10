@@ -42,31 +42,46 @@ const Organization = () => {
   }, [web5, did, protocolDefinition]);
   // console.log(organizationInfo);
   return (
-    <>
+    <div>
       {loading ? (
         <div className="text-teal text-[40px] w-full block items-center justify-center text-center">
           Loading . . .
         </div>
       ) : (
-        <>
-          <div>Organization dashboard</div>
-          <div>{organizationInfo.id}</div>
-          <div>{organizationInfo.name}</div>
-          <div>{organizationInfo.creationDate}</div>
-          <div>{organizationInfo.address}</div>
-          <div>{organizationInfo.description}</div>
-          <img
-            className="h-10 w-10"
-            src={organizationInfo.logo}
-            alt={organizationInfo.name}
-          />
+        <div>
+          <div className="flex justify-between p-4">
+            {/* <div>{organizationInfo.id}</div> */}
+            <div className="flex flex-col">
+              <h3>Organization Name</h3>
+              <span>
+                {organizationInfo.name}
+              </span>
+            </div>
+            <div className="flex flex-col">
+              <h3>Established Date</h3>
+              <span>{organizationInfo.creationDate}</span>
+            </div>
+            <div className="flex flex-col">
+              <h3>Street Address</h3>
+              <span>{organizationInfo.address}</span></div>
+            <div>{organizationInfo.description}</div>
+            <div className="self-end flex-col gap-4">
+              <div>
+                <img
+                  className="h-10 w-10 rounded-full"
+                  src={organizationInfo.logo}
+                  alt={organizationInfo.name}
+                />
+              </div>
+              <button type="button" className="border" onClick={logout}>
+                logout
+              </button>
+            </div>
+          </div>
 
-          <button type="button" className="border" onClick={logout}>
-            logout
-          </button>
-        </>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 
