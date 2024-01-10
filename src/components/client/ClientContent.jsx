@@ -1,4 +1,8 @@
 /* eslint-disable react/prop-types */
+import {
+  DocumentDuplicateIcon,
+  ChevronDownIcon,
+} from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import hero from "../../assets/patient/hero-img.png";
 import call from "../../assets/patient/call.svg";
@@ -12,6 +16,7 @@ const ClientContent = ({ data }) => {
     psychologistList,
     findOrganizationByRecordId,
     meetings,
+    did,
     togglePageView,
     setCustomModalOpen,
     toggleModalContent,
@@ -35,6 +40,26 @@ const ClientContent = ({ data }) => {
       <h1 className="text-[20px] font-bold">
         Welcome <span className="text-teal">{data?.name}!</span>
       </h1>
+       <div className="flex w-full md:hidden items-center justify-between text-gray-400 space-x-4">
+          <div className="bg-white hover:bg-gray-200 px-5 py-2 font-medium text-[14px] inline-flex items-center justify-between w-full">
+            <p>{did.slice(0, 10) + "..." + did.slice(-10)}</p>
+            <span>
+              <DocumentDuplicateIcon className="w-[20px] h-[20px]" />
+            </span>
+          </div>
+          <div className="inline-flex items-center justify-between space-x-1 hover:bg-gray-300 py-2 px-3 rounded-lg">
+            <div className="w-6 h-6 rounded-full overflow-hidden">
+              <img
+                src={data.picture}
+                className="w-full h-full"
+                alt="profile picture"
+              />
+            </div>
+            <button className="text-gray-400">
+              <ChevronDownIcon className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
       <p className="text-[15px] text-gray-500">
         Search for the best therapists to attend to you! our therapists are
         qualified and certified to give you the best service
