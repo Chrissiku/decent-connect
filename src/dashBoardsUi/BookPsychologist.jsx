@@ -93,7 +93,7 @@ const BookPsychologist = () => {
                   htmlFor="reason"
                   className="block mb-2 text-[14px] font-medium text-gray-900"
                 >
-                  Reason of this meeting <span className="text-red-500">*</span>
+                  Reason for this meeting <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
