@@ -79,7 +79,7 @@ const BookPsychologist = () => {
       ) : (
         <div className="md:p-5 grid grid-cols-1 items-center justify-center space-y-5">
           <h3 className="text-teal font-bold text-[20px]">
-            Complete this form to schedule an Meeting.
+            Complete this form to schedule a Meeting.
           </h3>
           <form
             className="space-y-3 md:space-y-4"
