@@ -94,4 +94,6 @@ To run the application in a production environment, you can access the live vers
 - **👤 Christian Siku**
 
 ## 🪪 License
+
 This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
+
