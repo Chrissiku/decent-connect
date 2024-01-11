@@ -16,7 +16,7 @@ const RightBar = ({ data }) => {
         {/* Profile */}
         <div className="hidden w-full lg:flex items-center justify-between text-gray-400 space-x-4">
           <div className="bg-white hover:bg-gray-200 px-5 py-2 font-medium text-[14px] inline-flex items-center justify-between w-full">
-            <p>{did.slice(0, 10) + "..." + did.slice(-10)}</p>
+            <p>{did?.slice(0, 10) + "..." + did?.slice(-10)}</p>
             <span>
               <DocumentDuplicateIcon className="w-[20px] h-[20px]" />
             </span>
@@ -24,7 +24,7 @@ const RightBar = ({ data }) => {
           <div className="inline-flex items-center justify-between space-x-1 hover:bg-gray-300 py-2 px-3 rounded-lg">
             <div className="w-6 h-6 rounded-full overflow-hidden">
               <img
-                src={data.picture}
+                src={data?.picture}
                 className="w-full h-full"
                 alt="profile picture"
               />

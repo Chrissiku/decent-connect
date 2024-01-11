@@ -37,6 +37,131 @@ const ContextProvider = ({ children }) => {
     return localStorage.getItem("organization") || null;
   });
 
+  // // Fetch all organizations
+  // const fetchOrganizations = async () => {
+  //   try {
+  //     const response = await web5.dwn.records.query({
+  //       // from: did,
+  //       message: {
+  //         filter: {
+  //           protocol: protocolDefinition.protocol,
+  //           schema: protocolDefinition.types.organizationProfile.schema,
+  //         },
+  //       },
+  //     });
+
+  //     if (response.status.code == 200) {
+  //       const result = await Promise.all(
+  //         response.records.map(async (record) => {
+  //           if (record && record.data) {
+  //             const { data } = record;
+  //             const textData = await data.json();
+  //             return textData;
+  //           }
+  //           return null;
+  //         })
+  //       );
+
+  //       const filteredResult = result.filter((item) => item !== null);
+
+  //       setOrganizationList(filteredResult);
+  //       return filteredResult;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching data : ", error);
+  //   }
+  // };
+
+  // // Fetch All Psychologists
+  // const fetchPsychologists = async () => {
+  //   try {
+  //     const response = await web5.dwn.records.query({
+  //       // from: did,
+  //       message: {
+  //         filter: {
+  //           protocol: protocolDefinition.protocol,
+  //           schema: protocolDefinition.types.psychologistProfile.schema,
+  //         },
+  //       },
+  //     });
+
+  //     if (response.status.code == 200) {
+  //       const result = await Promise.all(
+  //         response.records.map(async (record) => {
+  //           const { data } = record;
+  //           const textData = await data.json();
+  //           return textData;
+  //         })
+  //       );
+
+  //       setPsychologistList(result);
+  //       return result;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching data : ", error);
+  //   }
+  // };
+
+  // // Fetch All meeting
+  // const fetchMeetings = async () => {
+  //   try {
+  //     const response = await web5.dwn.records.query({
+  //       // from: did,
+  //       message: {
+  //         filter: {
+  //           protocol: protocolDefinition.protocol,
+  //           schema: protocolDefinition.types.meetings.schema,
+  //         },
+  //       },
+  //     });
+
+  //     if (response.status.code == 200) {
+  //       const result = await Promise.all(
+  //         response.records.map(async (record) => {
+  //           const { data } = record;
+  //           const textData = await data.json();
+  //           return textData;
+  //         })
+  //       );
+
+  //       setMeetings(result);
+  //       return result;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching data : ", error);
+  //   }
+  // };
+
+  // // Fetch All meeting
+  // const fetchMedicalRecords = async () => {
+  //   try {
+  //     const response = await web5.dwn.records.query({
+  //       // from: did,
+  //       message: {
+  //         filter: {
+  //           protocol: protocolDefinition.protocol,
+  //           schema: protocolDefinition.types.medicalRecord.schema,
+  //         },
+  //       },
+  //     });
+
+  //     if (response.status.code == 200) {
+  //       const result = await Promise.all(
+  //         response.records.map(async (record) => {
+  //           const { data } = record;
+  //           const textData = await data.json();
+  //           return textData;
+  //         })
+  //       );
+
+  //       setMedicalRecords(result);
+  //       return result;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching data : ", error);
+  //   }
+  // };
+
   // connect to Web5 on mount
   useEffect(() => {
     const connectToWeb5 = async () => {
@@ -142,7 +267,7 @@ const ContextProvider = ({ children }) => {
       }
     };
 
-    // Fetch all organizations
+    // // Fetch all organizations
     const fetchOrganizations = async () => {
       try {
         const response = await web5.dwn.records.query({
@@ -178,7 +303,6 @@ const ContextProvider = ({ children }) => {
     };
 
     // Fetch All Psychologists
-
     const fetchPsychologists = async () => {
       try {
         const response = await web5.dwn.records.query({
@@ -371,6 +495,10 @@ const ContextProvider = ({ children }) => {
     togglePageView,
     psychologistInfo,
     setPsychologistInfo,
+    // fetchOrganizations,
+    // fetchPsychologists,
+    // fetchMeetings,
+    // fetchMedicalRecords,
   };
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
 };
