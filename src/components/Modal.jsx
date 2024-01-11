@@ -4,6 +4,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { AppContext } from "../context/ContextProvider";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import BookPsychologist from "../dashBoardsUi/BookPsychologist";
+import IssueRecord from "../dashBoardsUi/IssueRecord";
+import IssueVC from "../dashBoardsUi/IssueVC";
 
 const Modal = ({ isOpen, closeModal }) => {
   const { modalContent, toggleModalContent } = useContext(AppContext);
@@ -14,8 +16,6 @@ const Modal = ({ isOpen, closeModal }) => {
     closeModal();
     toggleModalContent(null);
   };
-
-  console.log(modalContent);
 
   return (
     <Transition.Root appear show={isOpen} as={Fragment}>
@@ -64,9 +64,11 @@ const Modal = ({ isOpen, closeModal }) => {
                     <div className="w-full" ref={cancelButtonRef}>
                       {modalContent === "book-psychologist" ? (
                         <BookPsychologist />
-                      ) : (
-                        <div>Null</div>
-                      )}
+                      ) : modalContent === "issue-record" ? (
+                        <IssueRecord />
+                      ) : modalContent === "issue-vc" ? (
+                        <IssueVC />
+                      ) : null}
                     </div>
                   </div>
                 </div>

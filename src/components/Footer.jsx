@@ -4,7 +4,9 @@ const Footer = () => {
     <div className='bg-[#F3F2FE] p-8'>
         <div className="flex flex-col mx-auto w-[75%]">
         <div className="flex flex-col gap-5 justify-between md:flex-row">
+          <div>
             <img className='w-[150px] md:w-[200px]' src={logo} alt='company logo' />
+          </div>
             <div className='flex gap-y-4 flex-col'>
                 <h4 className="text-lg md:text-2xl font-semibold">Quick Links</h4>
                 <a href='/'>Home</a>

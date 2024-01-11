@@ -57,12 +57,12 @@ const PsychologistList = ({ psy }) => {
                     {item?.organization === "self" || item?.organization === ""
                       ? `@ Self Employed`
                       : `@
-                            ${
-                              findOrganizationByRecordId(item?.organization)
-                                .name
-                            }`}
+                            ${findOrganizationByRecordId(item?.recordId).name}`}
                   </span>
                 </div>
+                <p className="text-center w-full text-[15px] font-bold text-black">
+                  {item?.experience} year{item?.experience > 1 && "s"} experience
+                </p>
               </div>
               <button
                 onClick={() => toggleBooking(item.did)}

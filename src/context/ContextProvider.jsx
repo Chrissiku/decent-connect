@@ -18,6 +18,7 @@ const ContextProvider = ({ children }) => {
   const [organizationList, setOrganizationList] = useState([]);
   const [psychologistList, setPsychologistList] = useState([]);
   const [meetings, setMeetings] = useState([]);
+  const [medicalRecords, setMedicalRecords] = useState([]);
   const [pageView, setPageView] = useState(() => {
     return localStorage.getItem("pageView") || null;
   });
@@ -35,6 +36,131 @@ const ContextProvider = ({ children }) => {
   const [organization, setOrganization] = useState(() => {
     return localStorage.getItem("organization") || null;
   });
+
+  // // Fetch all organizations
+  // const fetchOrganizations = async () => {
+  //   try {
+  //     const response = await web5.dwn.records.query({
+  //       // from: did,
+  //       message: {
+  //         filter: {
+  //           protocol: protocolDefinition.protocol,
+  //           schema: protocolDefinition.types.organizationProfile.schema,
+  //         },
+  //       },
+  //     });
+
+  //     if (response.status.code == 200) {
+  //       const result = await Promise.all(
+  //         response.records.map(async (record) => {
+  //           if (record && record.data) {
+  //             const { data } = record;
+  //             const textData = await data.json();
+  //             return textData;
+  //           }
+  //           return null;
+  //         })
+  //       );
+
+  //       const filteredResult = result.filter((item) => item !== null);
+
+  //       setOrganizationList(filteredResult);
+  //       return filteredResult;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching data : ", error);
+  //   }
+  // };
+
+  // // Fetch All Psychologists
+  // const fetchPsychologists = async () => {
+  //   try {
+  //     const response = await web5.dwn.records.query({
+  //       // from: did,
+  //       message: {
+  //         filter: {
+  //           protocol: protocolDefinition.protocol,
+  //           schema: protocolDefinition.types.psychologistProfile.schema,
+  //         },
+  //       },
+  //     });
+
+  //     if (response.status.code == 200) {
+  //       const result = await Promise.all(
+  //         response.records.map(async (record) => {
+  //           const { data } = record;
+  //           const textData = await data.json();
+  //           return textData;
+  //         })
+  //       );
+
+  //       setPsychologistList(result);
+  //       return result;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching data : ", error);
+  //   }
+  // };
+
+  // // Fetch All meeting
+  // const fetchMeetings = async () => {
+  //   try {
+  //     const response = await web5.dwn.records.query({
+  //       // from: did,
+  //       message: {
+  //         filter: {
+  //           protocol: protocolDefinition.protocol,
+  //           schema: protocolDefinition.types.meetings.schema,
+  //         },
+  //       },
+  //     });
+
+  //     if (response.status.code == 200) {
+  //       const result = await Promise.all(
+  //         response.records.map(async (record) => {
+  //           const { data } = record;
+  //           const textData = await data.json();
+  //           return textData;
+  //         })
+  //       );
+
+  //       setMeetings(result);
+  //       return result;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching data : ", error);
+  //   }
+  // };
+
+  // // Fetch All meeting
+  // const fetchMedicalRecords = async () => {
+  //   try {
+  //     const response = await web5.dwn.records.query({
+  //       // from: did,
+  //       message: {
+  //         filter: {
+  //           protocol: protocolDefinition.protocol,
+  //           schema: protocolDefinition.types.medicalRecord.schema,
+  //         },
+  //       },
+  //     });
+
+  //     if (response.status.code == 200) {
+  //       const result = await Promise.all(
+  //         response.records.map(async (record) => {
+  //           const { data } = record;
+  //           const textData = await data.json();
+  //           return textData;
+  //         })
+  //       );
+
+  //       setMedicalRecords(result);
+  //       return result;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching data : ", error);
+  //   }
+  // };
 
   // connect to Web5 on mount
   useEffect(() => {
@@ -80,6 +206,10 @@ const ContextProvider = ({ children }) => {
           schema: schema.uri + "/meetings",
           dataFormats: ["application/json"],
         },
+        medicalRecord: {
+          schema: schema.uri + "/medicalRecord",
+          dataFormats: ["application/json"],
+        },
       },
       structure: {
         clientProfile: {
@@ -108,6 +238,13 @@ const ContextProvider = ({ children }) => {
             { who: "author", of: "meetings", can: "read" },
           ],
         },
+        medicalRecord: {
+          $actions: [
+            { who: "anyone", can: "write" },
+            { who: "recipient", of: "medicalRecord", can: "read" },
+            { who: "author", of: "medicalRecord", can: "read" },
+          ],
+        },
       },
     };
   }, []);
@@ -116,7 +253,6 @@ const ContextProvider = ({ children }) => {
     //install protocol
     const installProtocol = async () => {
       try {
-        // console.log("Installing protocol ...");
         const { protocol, status } = await web5.dwn.protocols.configure({
           message: {
             definition: protocolDefinition,
@@ -124,14 +260,14 @@ const ContextProvider = ({ children }) => {
         });
         await protocol.send(did);
         if ((status.code === 202) & (status.details === "Accepted")) {
-          console.log("... Welcome to decent connect ");
+          console.log("Welcome to decent connect.");
         }
       } catch (error) {
         console.error("Error installing protocol : ", error);
       }
     };
 
-    // Fetch all organizations
+    // // Fetch all organizations
     const fetchOrganizations = async () => {
       try {
         const response = await web5.dwn.records.query({
@@ -167,7 +303,6 @@ const ContextProvider = ({ children }) => {
     };
 
     // Fetch All Psychologists
-
     const fetchPsychologists = async () => {
       try {
         const response = await web5.dwn.records.query({
@@ -227,11 +362,42 @@ const ContextProvider = ({ children }) => {
       }
     };
 
+    // Fetch All meeting
+    const fetchMedicalRecords = async () => {
+      try {
+        const response = await web5.dwn.records.query({
+          // from: did,
+          message: {
+            filter: {
+              protocol: protocolDefinition.protocol,
+              schema: protocolDefinition.types.medicalRecord.schema,
+            },
+          },
+        });
+
+        if (response.status.code == 200) {
+          const result = await Promise.all(
+            response.records.map(async (record) => {
+              const { data } = record;
+              const textData = await data.json();
+              return textData;
+            })
+          );
+
+          setMedicalRecords(result);
+          return result;
+        }
+      } catch (error) {
+        console.error("Error fetching data : ", error);
+      }
+    };
+
     if (web5 && did) {
       installProtocol();
       fetchOrganizations();
       fetchPsychologists();
       fetchMeetings();
+      fetchMedicalRecords();
     }
   }, [web5, did, protocolDefinition]);
 
@@ -293,8 +459,6 @@ const ContextProvider = ({ children }) => {
     return psy;
   };
 
-  // console.log("Meeting : ", meetings);
-
   const values = {
     modalOpen,
     authType,
@@ -314,6 +478,7 @@ const ContextProvider = ({ children }) => {
     selectedDid,
     meetings,
     clientInfo,
+    medicalRecords,
     setClientInfo,
     setSelectedDid,
     setCustomModalOpen,
@@ -330,6 +495,10 @@ const ContextProvider = ({ children }) => {
     togglePageView,
     psychologistInfo,
     setPsychologistInfo,
+    // fetchOrganizations,
+    // fetchPsychologists,
+    // fetchMeetings,
+    // fetchMedicalRecords,
   };
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;
 };

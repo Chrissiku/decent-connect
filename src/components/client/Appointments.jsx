@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 const Appointments = ({ meetings }) => {
   const { findPsyByDid, clientInfo } = useContext(AppContext);
-  console.log(meetings);
   return (
     <div className="w-full mx-auto px-5 md:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">
       <h1 className="text-[20px] font-bold">All Appointment</h1>
@@ -17,7 +16,7 @@ const Appointments = ({ meetings }) => {
       {Object.keys(meetings).length === 0 ? (
         <div className="w-full flex flex-col flex-wrap items-center justify-between space-y-3 bg-red-200">
           <div className="w-full h-[100%] p-20 text-center text-[20px] text-dark-gray">
-            Currently, there are no therapists available ! come back later
+            Currently, there are no appointment available ! come back later
           </div>
         </div>
       ) : (
@@ -87,9 +86,14 @@ const Appointments = ({ meetings }) => {
                   </td>
                   <td>
                     {item.medicalRecord !== null ? (
-                      <div className="text-[10px] flex flex-col items-center justify-center group ">
+                      <a
+                        href={item.medicalRecord}
+                        download={"Previous Medical Record-" + item.reason}
+                        className="text-[10px] flex flex-col items-center justify-center group"
+                        type="button"
+                      >
                         <DocumentArrowDownIcon className="w-8 h-8 group-hover:text-green-500" />
-                      </div>
+                      </a>
                     ) : (
                       <span> - </span>
                     )}

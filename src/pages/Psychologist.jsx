@@ -3,6 +3,8 @@ import { AppContext } from "../context/ContextProvider";
 import PsychologistSideNav from "../components/psychologist/PsychologistSideNav";
 import PsychologistContent from "../components/psychologist/PsychologistContent";
 import PsychologistRightBar from "../components/psychologist/PsychologistRightBar";
+import Appointments from "../components/psychologist/Appointments";
+import Loader from "../components/common/Loader";
 
 const Psychologist = () => {
   const {
@@ -12,11 +14,12 @@ const Psychologist = () => {
     organizationList,
     psychologistInfo,
     setPsychologistInfo,
+    pageView,
+    meetings,
   } = useContext(AppContext);
   // const [psychologistInfo, setPsychologistInfo] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [org, setOrg] = useState("");
-  const [loading, setLoading] = useState(true);
 
   const selectOrg = () => {
     const org = organizationList.find(
@@ -45,7 +48,7 @@ const Psychologist = () => {
               return { ...textData, recordId: record.id };
             })
           );
-          console.log(result);
+          // console.log(result);
           setPsychologistInfo(result[result.length - 1]);
           selectOrg();
           return result;
@@ -69,25 +72,26 @@ const Psychologist = () => {
 
   return (
     <>
-      {loading ? (
-        <div className="text-teal text-[40px] w-full block items-center justify-center text-center">
-          Loading . . .
+      <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12">
+        <div className="lg:col-span-2">
+          <PsychologistSideNav />
         </div>
-      ) : (
-        <>
-          <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12">
-            <div className="lg:col-span-2">
-              <PsychologistSideNav />
-            </div>
-            <div className="lg:col-span-7">
-              <PsychologistContent data={psychologistInfo} />
-            </div>
-            <div className="lg:col-span-3">
-              <PsychologistRightBar data={psychologistInfo} />
-            </div>
-          </div>
-        </>
-      )}
+
+        <div className="lg:col-span-7">
+          {Object.keys(psychologistInfo).length === 0 ? (
+            <Loader />
+          ) : pageView === "home" ? (
+            <PsychologistContent data={psychologistInfo} />
+          ) : pageView === "psy-appointment" ? (
+            <Appointments meetings={meetings} />
+          ) : (
+            <PsychologistContent data={psychologistInfo} />
+          )}
+        </div>
+        <div className="lg:col-span-3">
+          <PsychologistRightBar data={psychologistInfo} />
+        </div>
+      </div>
     </>
   );
 };

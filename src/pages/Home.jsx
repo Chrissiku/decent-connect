@@ -20,7 +20,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log("Welcome to Decent connect");
+    // console.log("Welcome to Decent connect");
   }, [userType]);
 
   return (

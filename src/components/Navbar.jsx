@@ -6,7 +6,7 @@ import ConnectButton from "./common/ConnectButton";
 const navigation = [
   { name: "Home", href: "#", current: true },
   { name: "About Us", href: "#", current: false },
-  { name: "Mentor", href: "#", current: false },
+  { name: "Therapist", href: "#", current: false },
   { name: "Features", href: "#", current: false },
 ];
 

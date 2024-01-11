@@ -5,6 +5,8 @@ import ClientContent from "../components/client/ClientContent";
 import RightBar from "../components/client/RightBar";
 import PsychologistList from "../components/client/PsychologistList";
 import Appointments from "../components/client/Appointments";
+import Records from "../components/client/Records";
+import Loader from "../components/common/Loader";
 
 const Client = () => {
   const {
@@ -16,6 +18,7 @@ const Client = () => {
     meetings,
     clientInfo,
     setClientInfo,
+    medicalRecords,
   } = useContext(AppContext);
   // const [clientInfo, setClientInfo] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -61,35 +64,29 @@ const Client = () => {
 
   return (
     <>
-      {loading ? (
-        <div className="text-teal text-[40px] w-full block items-center justify-center text-center">
-          Loading . . .
+      <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12">
+        <div className="lg:col-span-2">
+          <SideNav />
         </div>
-      ) : (
-        <>
-          <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12">
-            <div className="lg:col-span-2">
-              <SideNav />
-            </div>
-            <div className="lg:col-span-7">
-              {Object.keys(clientInfo).length === 0 ? (
-                <>Loading</>
-              ) : pageView === "home" ? (
-                <ClientContent data={clientInfo} />
-              ) : pageView === "psychologist" ? (
-                <PsychologistList psy={psychologistList} />
-              ) : pageView === "appointment" ? (
-                <Appointments meetings={meetings} />
-              ) : (
-                <ClientContent data={clientInfo} />
-              )}
-            </div>
-            <div className="lg:col-span-3">
-              <RightBar data={clientInfo} />
-            </div>
-          </div>
-        </>
-      )}
+        <div className="lg:col-span-7">
+          {Object.keys(clientInfo).length === 0 ? (
+            <Loader />
+          ) : pageView === "home" ? (
+            <ClientContent data={clientInfo} />
+          ) : pageView === "psychologist" ? (
+            <PsychologistList psy={psychologistList} />
+          ) : pageView === "appointment" ? (
+            <Appointments meetings={meetings} />
+          ) : pageView === "records" ? (
+            <Records records={medicalRecords} />
+          ) : (
+            <ClientContent data={clientInfo} />
+          )}
+        </div>
+        <div className="lg:col-span-3">
+          <RightBar data={clientInfo} />
+        </div>
+      </div>
     </>
   );
 };
