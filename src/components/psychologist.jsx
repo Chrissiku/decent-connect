@@ -15,7 +15,7 @@ const Psychologist = () => {
       </h3>
       {Object.keys(psychologistList).length === 0 ? (
         <div className="text-center w-full p-10 bg-red-200 text-black">
-          Not Therapists, comme back later
+          Not Therapists, come back later
         </div>
       ) : (
         <div>

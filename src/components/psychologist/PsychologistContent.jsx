@@ -38,7 +38,7 @@ const PsychologistContent = ({ data }) => {
           </h1>
           <p className="text-[12px] text-gray-500">{data?.specialization}</p>
           {/* profile */}
-          <div className="w-full flex items-center justify-between text-gray-400 space-x-4">
+          <div className="w-full flex lg:hidden items-center justify-between text-gray-400 space-x-4">
           <div className="bg-slate-200 rounded-[8px] w-[250px] hover:bg-gray-200 px-5 py-2 font-medium text-[14px] inline-flex items-center justify-between lg:w-full">
             <p>{did?.slice(0, 10) + "..." + did?.slice(-10)}</p>
             <span>

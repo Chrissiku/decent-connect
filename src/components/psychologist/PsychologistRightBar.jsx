@@ -22,7 +22,7 @@ import { useContext } from "react";
 import { AppContext } from "../../context/ContextProvider";
 
 const PsychologistRightBar = ({ data }) => {
-  const { did } = useContext(AppContext);
+  const { did, togglePageView } = useContext(AppContext);
   return (
     <div className="bg-[#F7F6FE] w-full h-full border border-[#DBDAE5] mx-auto p-5">
       <div className="flex flex-col space-y-10 items-center justify-start">
@@ -65,14 +65,14 @@ const PsychologistRightBar = ({ data }) => {
           <div className="inline-flex space-x-2 items-center justify-center">
             <div className="bg-teal inline-flex items-center justify-between space-x-1 text-white py-2 px-4 rounded-lg">
               <UserIcon className="w-5 h-5" />
-              <button type="button" className="text-[12px]">
+              <button type="button" className="text-[12px]" disabled>
                 One-on-One
               </button>
             </div>
             <span className="text-[12px]">or</span>
             <div className="bg-teal inline-flex items-center justify-between space-x-1 text-white py-2 px-4 rounded-lg">
               <UserGroupIcon className="w-5 h-5" />
-              <button type="button" className="text-[12px]">
+              <button type="button" className="text-[12px]" disabled>
                 Conference
               </button>
             </div>
@@ -83,9 +83,9 @@ const PsychologistRightBar = ({ data }) => {
           <h3 className="text-teal font-medium text-[15px]">
             Create Medical Report
           </h3>
-          <button className="bg-teal text-white inline-flex items-center justify-between space-x-2 py-2 px-5 rounded-lg">
+          <button onClick={() => togglePageView("psy-appointment")} className="bg-teal text-white inline-flex items-center justify-between space-x-2 py-2 px-5 rounded-lg">
             <PlusIcon className="w-4 h-4" />
-            <span className="tex-[12px]">Issue Report</span>
+            <span  className="tex-[12px]">Issue Report</span>
           </button>
         </div>
         {/* Image */}
