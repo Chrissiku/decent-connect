@@ -134,7 +134,7 @@ const BookPsychologist = () => {
                 htmlFor="symptom"
                 className="block mb-2 text-[14px] font-medium text-gray-900"
               >
-                What are you symptoms <span className="text-red-500">*</span>
+                What are your symptoms <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
