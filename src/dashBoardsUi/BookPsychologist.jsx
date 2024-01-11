@@ -79,7 +79,7 @@ const BookPsychologist = () => {
       ) : (
         <div className="md:p-5 grid grid-cols-1 items-center justify-center space-y-5">
           <h3 className="text-teal font-bold text-[20px]">
-            Complete this form to schedule an Meeting.
+            Complete this form to schedule a Meeting.
           </h3>
           <form
             className="space-y-3 md:space-y-4"
@@ -93,7 +93,7 @@ const BookPsychologist = () => {
                   htmlFor="reason"
                   className="block mb-2 text-[14px] font-medium text-gray-900"
                 >
-                  Reason of this meeting <span className="text-red-500">*</span>
+                  Reason for this meeting <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -134,7 +134,7 @@ const BookPsychologist = () => {
                 htmlFor="symptom"
                 className="block mb-2 text-[14px] font-medium text-gray-900"
               >
-                What are you symptoms <span className="text-red-500">*</span>
+                What are your symptoms <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
