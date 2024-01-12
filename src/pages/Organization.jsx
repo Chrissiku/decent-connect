@@ -14,14 +14,20 @@ const Organization = () => {
     setCustomModalOpen,
     setSelectedDid,
     fetchOrganizations,
+    fetchPsychologists,
   } = useContext(AppContext);
   const [organizationInfo, setOrganizationInfo] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
   const handleRefresh = async () => {
     setRefresh(true);
-    await fetchOrganizations();
+    await fetchPsychologists();
     setRefresh(false);
+  };
+
+  const handleLogout = async () => {
+    logout();
+    await fetchOrganizations();
   };
 
   useState(() => {
@@ -95,7 +101,7 @@ const Organization = () => {
           <button
             type="button"
             className="w-full bg-[#8B7EF8] text-[14px] text-white font-semibold p-3 rounded-lg"
-            onClick={logout}
+            onClick={() => handleLogout()}
           >
             Logout
           </button>
