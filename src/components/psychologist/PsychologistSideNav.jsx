@@ -57,16 +57,6 @@ const PsychologistSideNav = () => {
                 </span>
                 <span>Appointment</span>
               </DropdownMenuItem>
-              <DropdownMenuItem
-                type="button"
-                className="py-5 px-10 w-full text-shade inline-flex items-center justify-start space-x-4 
-            hover:bg-white"
-              >
-                <span>
-                  <VideoCameraIcon className="w-[20px] h-[20px]" />
-                </span>
-                <span>Meetings</span>
-              </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuGroup className="w-full flex flex-col items-center justify-center">
               <DropdownMenuItem
@@ -105,7 +95,7 @@ const PsychologistSideNav = () => {
           </div>
           <div className="w-full flex flex-col items-center justify-center">
             <button
-            onClick={() => togglePageView("home")}
+              onClick={() => togglePageView("home")}
               type="button"
               className="py-5 px-10 w-full text-shade inline-flex items-center justify-start space-x-4 
               hover:bg-white"
@@ -125,16 +115,6 @@ const PsychologistSideNav = () => {
                 <CalendarDaysIcon className="w-[20px] h-[20px]" />
               </span>
               <span>Appointment</span>
-            </button>
-            <button
-              type="button"
-              className="py-5 px-10 w-full text-shade inline-flex items-center justify-start space-x-4 
-              hover:bg-white"
-            >
-              <span>
-                <VideoCameraIcon className="w-[20px] h-[20px]" />
-              </span>
-              <span>Meetings</span>
             </button>
           </div>
           <div className="w-full flex flex-col items-center justify-center">

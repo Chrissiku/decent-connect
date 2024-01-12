@@ -3,16 +3,29 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../context/ContextProvider";
+import RefreshButton from "./common/RefreshButton";
 
 const Psychologist = () => {
-  const { psychologistList } = useContext(AppContext);
+  const { psychologistList, fetchPsychologists } = useContext(AppContext);
+  const [refresh, setRefresh] = useState(false);
+
+  const handleRefresh = async () => {
+    setRefresh(true);
+    await fetchPsychologists();
+    setRefresh(false);
+  };
+
   return (
     <div className="mb-12">
       <h3 className="text-center font-semibold text-2xl md:text-3xl mb-12 mt-[110px]">
         Our Therapist
       </h3>
+      <div className="max-w-[200px] mx-auto mb-2">
+        <RefreshButton onClick={handleRefresh} refresh={refresh} />
+      </div>
+
       {Object.keys(psychologistList).length === 0 ? (
         <div className="text-center w-full p-10 bg-red-200 text-black">
           Not Therapists, come back later

@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../../context/ContextProvider";
 import { Link } from "react-router-dom";
+import RefreshButton from "../common/RefreshButton";
 
 const Appointments = ({ meetings }) => {
   const {
@@ -10,12 +11,20 @@ const Appointments = ({ meetings }) => {
     toggleModalContent,
     setCustomModalOpen,
     setSelectedDid,
+    fetchMeetings,
   } = useContext(AppContext);
+  const [refresh, setRefresh] = useState(false);
 
   const handleIssueRecord = (selectedDid) => {
     toggleModalContent("issue-record");
     setCustomModalOpen(true);
     setSelectedDid(selectedDid);
+  };
+
+  const handleRefresh = async () => {
+    setRefresh(true);
+    await fetchMeetings();
+    setRefresh(false);
   };
 
   return (
@@ -25,6 +34,7 @@ const Appointments = ({ meetings }) => {
         Search for the best therapists to attend to you! our therapists are
         qualified and certified to give you the best service
       </p>
+      <RefreshButton onClick={handleRefresh} refresh={refresh} />
       {Object.keys(meetings).length === 0 ? (
         <div className="w-full flex flex-col flex-wrap items-center justify-between space-y-3 bg-red-200">
           <div className="w-full h-[100%] p-20 text-center text-[20px] text-dark-gray">

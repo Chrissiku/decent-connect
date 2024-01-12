@@ -1,11 +1,20 @@
 /* eslint-disable react/prop-types */
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../../context/ContextProvider";
 import { DocumentArrowDownIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
+import RefreshButton from "../common/RefreshButton";
 
 const Appointments = ({ meetings }) => {
-  const { findPsyByDid, clientInfo } = useContext(AppContext);
+  const { findPsyByDid, clientInfo, fetchMeetings } = useContext(AppContext);
+  const [refresh, setRefresh] = useState(false);
+
+  const handleRefresh = async () => {
+    setRefresh(true);
+    await fetchMeetings();
+    setRefresh(false);
+  };
+
   return (
     <div className="w-full mx-auto px-5 md:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">
       <h1 className="text-[20px] font-bold">All Appointment</h1>
@@ -13,6 +22,7 @@ const Appointments = ({ meetings }) => {
         Search for the best therapists to attend to you! our therapists are
         qualified and certified to give you the best service
       </p>
+      <RefreshButton onClick={handleRefresh} refresh={refresh} />
       {Object.keys(meetings).length === 0 ? (
         <div className="w-full flex flex-col flex-wrap items-center justify-between space-y-3 bg-red-200">
           <div className="w-full h-[100%] p-20 text-center text-[20px] text-dark-gray">
