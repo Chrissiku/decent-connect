@@ -8,8 +8,9 @@ import hero from "../../assets/patient/hero-img.png";
 import call from "../../assets/patient/call.svg";
 import video from "../../assets/patient/video.svg";
 import { Calendar } from "../ui/calendar";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../../context/ContextProvider";
+import RefreshButton from "../common/RefreshButton";
 
 const ClientContent = ({ data }) => {
   const {
@@ -22,12 +23,15 @@ const ClientContent = ({ data }) => {
     toggleModalContent,
     setSelectedDid,
     findPsyByDid,
+    fetchPsychologists,
+    fetchMeetings,
   } = useContext(AppContext);
 
   const upcomingAppointment = meetings.sort(
     (a, b) => new Date(a.meetingTime) - new Date(b.meetingTime)
   );
   const recentScheduled = upcomingAppointment.slice(0, 3);
+  const [refresh, setRefresh] = useState(false);
 
   const toggleBooking = (selectedDid) => {
     toggleModalContent("book-psychologist");
@@ -35,31 +39,38 @@ const ClientContent = ({ data }) => {
     setSelectedDid(selectedDid);
   };
 
+  const handleRefresh = async () => {
+    setRefresh(true);
+    await fetchPsychologists();
+    await fetchMeetings();
+    setRefresh(false);
+  };
+
   return (
     <div className="w-full mx-auto px-5 md:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">
       <h1 className="text-[20px] font-bold">
         Welcome <span className="text-teal">{data?.name}!</span>
       </h1>
-       <div className="flex w-full lg:hidden items-center justify-between text-gray-400 space-x-4">
-          <div className="bg-slate-200 rounded-[8px] w-[250px] hover:bg-gray-200 px-5 py-2 font-medium text-[14px] inline-flex items-center gap-2">
-            <p>{did.slice(0, 10) + "..." + did.slice(-10)}</p>
-            <span>
-              <DocumentDuplicateIcon className="w-[20px] h-[20px]" />
-            </span>
-          </div>
-          <div className="inline-flex items-center justify-between space-x-1 hover:bg-gray-300 py-2 px-3 rounded-lg">
-            <div className="w-6 h-6 rounded-full overflow-hidden">
-              <img
-                src={data.picture}
-                className="w-full h-full"
-                alt="profile picture"
-              />
-            </div>
-            <button className="text-gray-400">
-              <ChevronDownIcon className="w-4 h-4" />
-            </button>
-          </div>
+      <div className="flex w-full lg:hidden items-center justify-between text-gray-400 space-x-4">
+        <div className="bg-slate-200 rounded-[8px] w-[250px] hover:bg-gray-200 px-5 py-2 font-medium text-[14px] inline-flex items-center gap-2">
+          <p>{did.slice(0, 10) + "..." + did.slice(-10)}</p>
+          <span>
+            <DocumentDuplicateIcon className="w-[20px] h-[20px]" />
+          </span>
         </div>
+        <div className="inline-flex items-center justify-between space-x-1 hover:bg-gray-300 py-2 px-3 rounded-lg">
+          <div className="w-6 h-6 rounded-full overflow-hidden">
+            <img
+              src={data.picture}
+              className="w-full h-full"
+              alt="profile picture"
+            />
+          </div>
+          <button className="text-gray-400">
+            <ChevronDownIcon className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
       <p className="text-[15px] text-gray-500">
         Search for the best therapists to attend to you! our therapists are
         qualified and certified to give you the best service
@@ -67,6 +78,7 @@ const ClientContent = ({ data }) => {
       <div className="w-full">
         <img src={hero} className="w-full h-full" alt="Hero image" />
       </div>
+      <RefreshButton onClick={handleRefresh} refresh={refresh} />
       <div className="w-full flex flex-col md:flex-row items-center justify-center md:justify-between space-x-8 space-y-5">
         {Object.keys(psychologistList).length === 0 ? (
           <div className="w-full md:w-3/5 flex flex-col flex-wrap items-center justify-between space-y-3 bg-red-200">
@@ -76,8 +88,8 @@ const ClientContent = ({ data }) => {
           </div>
         ) : (
           <div className="w-full md:w-3/5 flex flex-col flex-wrap items-center justify-between space-y-3">
-            <div className="w-full flex items-center justify-between text-[15px]">
-              <h2 className="text-teal font-bold">Therapists Onboard</h2>
+            <div className="w-full flex items-center justify-between space-x-3 text-[15px]">
+              <h2 className="text-teal font-bold">Therapists Onboard</h2>{" "}
               <Link
                 onClick={() => togglePageView("psychologist")}
                 className="underline font-semibold py-2 px-3 hover:bg-slate-100"

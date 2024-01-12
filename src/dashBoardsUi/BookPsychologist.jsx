@@ -12,6 +12,7 @@ const BookPsychologist = () => {
     protocolDefinition,
     selectedDid,
     setCustomModalOpen,
+    fetchMeetings,
   } = useContext(AppContext);
   const { picture: medicalRecord, handleImageChange } = useImageUploader();
   const [reason, setReason] = useState("");
@@ -63,6 +64,7 @@ const BookPsychologist = () => {
           setSymptom("");
           setMoreInfo("client");
           setCustomModalOpen(false);
+          fetchMeetings();
           setLoading(false);
         }
       } catch (error) {
@@ -93,7 +95,8 @@ const BookPsychologist = () => {
                   htmlFor="reason"
                   className="block mb-2 text-[14px] font-medium text-gray-900"
                 >
-                  Reason for this meeting <span className="text-red-500">*</span>
+                  Reason for this meeting{" "}
+                  <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"

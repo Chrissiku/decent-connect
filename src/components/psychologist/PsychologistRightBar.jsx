@@ -22,7 +22,7 @@ import { useContext } from "react";
 import { AppContext } from "../../context/ContextProvider";
 
 const PsychologistRightBar = ({ data }) => {
-  const { did, togglePageView } = useContext(AppContext);
+  const { did, togglePageView, logout } = useContext(AppContext);
   return (
     <div className="bg-[#F7F6FE] w-full h-full border border-[#DBDAE5] mx-auto p-5">
       <div className="flex flex-col space-y-10 items-center justify-start">
@@ -49,10 +49,13 @@ const PsychologistRightBar = ({ data }) => {
               <DropdownMenuContent className="!text-black !rounded-lg !border !border-teal p-5 absolute -right-2 !bg-slate-300 min-w-[200px]">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Appointments</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => togglePageView("psy-appointment")}
+                >
+                  Appointments
+                </DropdownMenuItem>
                 <DropdownMenuItem>Edit</DropdownMenuItem>
-                <DropdownMenuItem>Meetings</DropdownMenuItem>
-                <DropdownMenuItem>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -83,13 +86,16 @@ const PsychologistRightBar = ({ data }) => {
           <h3 className="text-teal font-medium text-[15px]">
             Create Medical Report
           </h3>
-          <button onClick={() => togglePageView("psy-appointment")} className="bg-teal text-white inline-flex items-center justify-between space-x-2 py-2 px-5 rounded-lg">
+          <button
+            onClick={() => togglePageView("psy-appointment")}
+            className="bg-teal text-white inline-flex items-center justify-between space-x-2 py-2 px-5 rounded-lg"
+          >
             <PlusIcon className="w-4 h-4" />
-            <span  className="tex-[12px]">Issue Report</span>
+            <span className="tex-[12px]">Issue Report</span>
           </button>
         </div>
         {/* Image */}
-         <div className="w-full">
+        <div className="w-full">
           <img
             src={counselling}
             alt="Counselling demo"

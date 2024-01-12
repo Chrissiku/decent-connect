@@ -1,28 +1,24 @@
 /* eslint-disable react/prop-types */
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../../context/ContextProvider";
 import { DocumentIcon } from "@heroicons/react/24/outline";
+import RefreshButton from "../common/RefreshButton";
 
 const Records = ({ records }) => {
-  const {
-    findOrganizationByRecordId,
-    setCustomModalOpen,
-    toggleModalContent,
-    setSelectedDid,
-  } = useContext(AppContext);
+  const { fetchMedicalRecords } = useContext(AppContext);
 
-  const toggleBooking = (selectedDid) => {
-    toggleModalContent("book-psychologist");
-    setCustomModalOpen(true);
-    setSelectedDid(selectedDid);
+  const [refresh, setRefresh] = useState(false);
+
+  const handleRefresh = async () => {
+    setRefresh(true);
+    await fetchMedicalRecords();
+    setRefresh(false);
   };
-
-  //   console.log("Records : ", records);
 
   return (
     <div className="w-full mx-auto px-5 md:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">
       <h1 className="text-[20px] font-bold">All your medical Records</h1>
-
+      <RefreshButton onClick={handleRefresh} refresh={refresh} />
       {Object.keys(records).length === 0 ? (
         <div className="w-full flex flex-col flex-wrap items-center justify-between space-y-3 bg-red-200">
           <div className="w-full h-[100%] p-20 text-center text-[20px] text-dark-gray">

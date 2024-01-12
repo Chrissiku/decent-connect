@@ -20,15 +20,24 @@ import patient from "../../assets/therapist/patient.svg";
 import report from "../../assets/therapist/report.svg";
 import consultation from "../../assets/therapist/consultation.svg";
 import repeat from "../../assets/therapist/repeat.svg";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../../context/ContextProvider";
+import RefreshButton from "../common/RefreshButton";
 
 const PsychologistContent = ({ data }) => {
-  const { meetings, did, findPsyByDid } = useContext(AppContext);
+  const { meetings, did, findPsyByDid, fetchMeetings } = useContext(AppContext);
   // console.log(meetings);
   const upcomingAppointment = meetings.sort(
     (a, b) => new Date(a.meetingTime) - new Date(b.meetingTime)
   );
+
+  const [refresh, setRefresh] = useState(false);
+
+  const handleRefresh = async () => {
+    setRefresh(true);
+    await fetchMeetings();
+    setRefresh(false);
+  };
   return (
     <>
       <div className="w-full mx-auto px-5 md:px-10 py-14 flex flex-col flex-wrap space-y-5 items-start justify-between">
@@ -39,35 +48,35 @@ const PsychologistContent = ({ data }) => {
           <p className="text-[12px] text-gray-500">{data?.specialization}</p>
           {/* profile */}
           <div className="w-full flex lg:hidden items-center justify-between text-gray-400 space-x-4">
-          <div className="bg-slate-200 rounded-[8px] w-[250px] hover:bg-gray-200 px-5 py-2 font-medium text-[14px] inline-flex items-center justify-between lg:w-full">
-            <p>{did?.slice(0, 10) + "..." + did?.slice(-10)}</p>
-            <span>
-              <DocumentDuplicateIcon className="w-[20px] h-[20px]" />
-            </span>
-          </div>
-          <div className="inline-flex items-center justify-between space-x-1 hover:bg-gray-300 py-2 px-3 rounded-lg">
-            <div className="w-6 h-6 rounded-full overflow-hidden">
-              <img
-                src={data?.profile}
-                className="w-full h-full"
-                alt="profile picture"
-              />
+            <div className="bg-slate-200 rounded-[8px] w-[250px] hover:bg-gray-200 px-5 py-2 font-medium text-[14px] inline-flex items-center justify-between lg:w-full">
+              <p>{did?.slice(0, 10) + "..." + did?.slice(-10)}</p>
+              <span>
+                <DocumentDuplicateIcon className="w-[20px] h-[20px]" />
+              </span>
             </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger className="outline-none cursor-pointer">
-                <ChevronDownIcon className="w-5 h-5" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="!text-black !rounded-lg !border !border-teal p-5 absolute -right-2 !bg-slate-300 min-w-[200px]">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Appointments</DropdownMenuItem>
-                <DropdownMenuItem>Edit</DropdownMenuItem>
-                <DropdownMenuItem>Meetings</DropdownMenuItem>
-                <DropdownMenuItem>Logout</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="inline-flex items-center justify-between space-x-1 hover:bg-gray-300 py-2 px-3 rounded-lg">
+              <div className="w-6 h-6 rounded-full overflow-hidden">
+                <img
+                  src={data?.profile}
+                  className="w-full h-full"
+                  alt="profile picture"
+                />
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="outline-none cursor-pointer">
+                  <ChevronDownIcon className="w-5 h-5" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="!text-black !rounded-lg !border !border-teal p-5 absolute -right-2 !bg-slate-300 min-w-[200px]">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Appointments</DropdownMenuItem>
+                  <DropdownMenuItem>Edit</DropdownMenuItem>
+                  <DropdownMenuItem>Meetings</DropdownMenuItem>
+                  <DropdownMenuItem>Logout</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
-        </div>
         </div>
         <div>
           <h1 className="text-[20px] font-bold text-teal">Overview</h1>
@@ -75,6 +84,7 @@ const PsychologistContent = ({ data }) => {
             Today is a great day to serve our patients
           </p>
         </div>
+        <RefreshButton onClick={handleRefresh} refresh={refresh}/>
         {Object.keys(meetings).length === 0 ? (
           <div className="w-full flex flex-col flex-wrap items-center justify-between space-y-3 bg-red-200">
             <div className="w-full h-[100%] p-20 text-center text-[20px] text-dark-gray">
@@ -124,7 +134,10 @@ const PsychologistContent = ({ data }) => {
                                 {findPsyByDid(item.psychologistDid).name}
                               </h4>
                               <p className="text-xs">
-                                {findPsyByDid(item.psychologistDid).specialization}
+                                {
+                                  findPsyByDid(item.psychologistDid)
+                                    .specialization
+                                }
                               </p>
                             </div>
                           </div>

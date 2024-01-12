@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { AppContext } from "../context/ContextProvider";
 import Loader from "../components/common/Loader";
+import RefreshButton from "../components/common/RefreshButton";
 
 const Organization = () => {
   const {
@@ -12,8 +13,16 @@ const Organization = () => {
     toggleModalContent,
     setCustomModalOpen,
     setSelectedDid,
+    fetchOrganizations,
   } = useContext(AppContext);
   const [organizationInfo, setOrganizationInfo] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+
+  const handleRefresh = async () => {
+    setRefresh(true);
+    await fetchOrganizations();
+    setRefresh(false);
+  };
 
   useState(() => {
     const fetchData = async () => {
@@ -82,9 +91,10 @@ const Organization = () => {
             </div>
             <div>{organizationInfo.description}</div>
           </div>
+          <RefreshButton onClick={handleRefresh} refresh={refresh} />
           <button
             type="button"
-            className="bg-[#8B7EF8] text-white w-[100px] font-semibold h-8 mt-40 rounded-[8px]"
+            className="w-full bg-[#8B7EF8] text-[14px] text-white font-semibold p-3 rounded-lg"
             onClick={logout}
           >
             Logout
@@ -107,7 +117,7 @@ const Organization = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                 {psychologistList.map((item, index) => (
                   <div
-                    key={index}
+                    key={index + "Organization"}
                     className="h-auto flex flex-col items-start justify-between space-y-3 pb-2 
                         rounded-xl drop-shadow bg-slate-200 hover:bg-slate-300 scale-95 transition-all duration-300 hover:scale-100 overflow-hidden"
                   >
@@ -123,23 +133,25 @@ const Organization = () => {
                         p-2 text-[12px] capitalize"
                     >
                       <table className="w-full text-left">
-                        <tr>
-                          <th className="text-gray-500">Name</th>
-                          <td>: {item.name} </td>
-                        </tr>
-                        <tr>
-                          <th className="text-gray-500">Specialization</th>
-                          <td className="text-shade">
-                            : {item.specialization}
-                          </td>
-                        </tr>
-                        <tr>
-                          <th className="text-gray-500">Experience</th>
-                          <td>
-                            : {item.experience} year
-                            {item.experience > 1 && "s"}
-                          </td>
-                        </tr>
+                        <tbody className="w-full text-left">
+                          <tr>
+                            <th className="text-gray-500">Name</th>
+                            <td>: {item.name} </td>
+                          </tr>
+                          <tr>
+                            <th className="text-gray-500">Specialization</th>
+                            <td className="text-shade">
+                              : {item.specialization}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th className="text-gray-500">Experience</th>
+                            <td>
+                              : {item.experience} year
+                              {item.experience > 1 && "s"}
+                            </td>
+                          </tr>
+                        </tbody>
                       </table>
                       <button
                         onClick={() => handleIssueVC(item.did)}

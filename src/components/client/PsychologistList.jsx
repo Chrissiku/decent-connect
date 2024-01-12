@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../../context/ContextProvider";
 import { DocumentIcon } from "@heroicons/react/24/outline";
+import RefreshButton from "../common/RefreshButton";
 
 const PsychologistList = ({ psy }) => {
   const {
@@ -9,12 +10,21 @@ const PsychologistList = ({ psy }) => {
     setCustomModalOpen,
     toggleModalContent,
     setSelectedDid,
+    fetchPsychologists,
   } = useContext(AppContext);
+
+  const [refresh, setRefresh] = useState(false);
 
   const toggleBooking = (selectedDid) => {
     toggleModalContent("book-psychologist");
     setCustomModalOpen(true);
     setSelectedDid(selectedDid);
+  };
+
+  const handleRefresh = async () => {
+    setRefresh(true);
+    await fetchPsychologists();
+    setRefresh(false);
   };
 
   return (
@@ -24,6 +34,7 @@ const PsychologistList = ({ psy }) => {
         Search for the best therapists to attend to you! our therapists are
         qualified and certified to give you the best service
       </p>
+      <RefreshButton onClick={handleRefresh} refresh={refresh} />
       {Object.keys(psy).length === 0 ? (
         <div className="w-full flex flex-col flex-wrap items-center justify-between space-y-3 bg-red-200">
           <div className="w-full h-[100%] p-20 text-center text-[20px] text-dark-gray">
@@ -61,7 +72,8 @@ const PsychologistList = ({ psy }) => {
                   </span>
                 </div>
                 <p className="text-center w-full text-[15px] font-bold text-black">
-                  {item?.experience} year{item?.experience > 1 && "s"} experience
+                  {item?.experience} year{item?.experience > 1 && "s"}{" "}
+                  experience
                 </p>
               </div>
               <button
